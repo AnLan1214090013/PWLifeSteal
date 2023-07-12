@@ -1,0 +1,12 @@
+players: 0
+maxHeartsCouldGet: 40
+warps:
+  spawn: world;-1431.18;162.0;-227.52;88.34;-6.29
+  coal:
+  iron:
+  lapis:
+  redstone:
+  gold:
+  diamond:
+  emerald:
+
