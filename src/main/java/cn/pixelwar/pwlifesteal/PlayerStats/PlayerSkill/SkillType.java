@@ -27,7 +27,8 @@ public enum SkillType {
             0.1,
             10,
             120,
-            10
+            10,
+            39
     ),
     DODGE_DAMAGE_FROM_MOB(
             asList(
@@ -39,10 +40,11 @@ public enum SkillType {
             ),
             "PVE闪避",
             0.8,
-            0.15,
+            0.1,
             10,
             120,
-            10
+            10,
+            41
     ),
 
     LESS_DAMAGE_FROM_PLAYER(
@@ -59,7 +61,8 @@ public enum SkillType {
             0.2,
             5,
             80,
-            10
+            10,
+            40
     ),
     LESS_DAMAGE_FROM_MOB(
             asList(
@@ -73,7 +76,8 @@ public enum SkillType {
             0.2,
             5,
             80,
-            10
+            10,
+            49
     ),
 
     DODGE_FALL_DAMAGE(
@@ -89,7 +93,8 @@ public enum SkillType {
             0.5,
             10,
             140,
-            10
+            10,
+            31
     ),
 
     DOUBLE_DAMAGE_FOR_PLAYER(
@@ -106,7 +111,8 @@ public enum SkillType {
             0.1,
             10,
             160,
-            10
+            10,
+            29
     ),
     TRIPLE_DAMAGE_FOR_MOB(
             asList(
@@ -122,7 +128,8 @@ public enum SkillType {
             0.2,
             10,
             160,
-            10
+            10,
+            33
     ),
 
     DOUBLE_EXP_FROM_KILL_MOB(
@@ -137,7 +144,8 @@ public enum SkillType {
             0.5,
             10,
             180,
-            20
+            20,
+            24
     ),
     DOUBLE_MONEY_FROM_KILL_PLAYER(
             asList(
@@ -153,6 +161,7 @@ public enum SkillType {
             0.5,
             10,
             180,
+            20,
             20
     ),
     DOUBLE_HEARTS_FROM_KILL_PLAYER(
@@ -168,7 +177,8 @@ public enum SkillType {
             0.5,
             10,
             220,
-            25
+            25,
+            11
     ),
     TRIPLE_EXP_FROM_KILL_PLAYER(
             asList(
@@ -184,16 +194,108 @@ public enum SkillType {
             0.5,
             10,
             200,
-            20
+            20,
+            18
     ),
 
-    LOW_HEALTH_RESISTANCE,
-    LOW_HEALTH_JUMP,
-    LOW_HEALTH_STRENGTH,
-    LOW_HEALTH_SPEED,
+    LOW_HEALTH_RESISTANCE(
+            asList(
+                    "DODGE_FALL_DAMAGE",
+                    "LOW_HEALTH_JUMP"
+            ),
+            asList(
+                    ChatColorCast.format("&7有几率在只剩下&61/5&7血量时,"),
+                    ChatColorCast.format("&7获得&b抗性提升 II&7效果")
+            ),
+            "抗性提升 II",
+            0.4,
+            0.2,
+            10,
+            200,
+            20,
+            22
+    ),
+    LOW_HEALTH_JUMP(
+            asList(
+                    "LOW_HEALTH_RESISTANCE",
+                    "LOW_HEALTH_STRENGTH"
+            ),
+            asList(
+                    ChatColorCast.format("&7有几率在只剩下&61/5&7血量时,"),
+                    ChatColorCast.format("&7获得&b跳跃提升 III&7效果")
+            ),
+            "跳跃提升 III",
+            0.4,
+            0.2,
+            10,
+            220,
+            25,
+            13
+    ),
+    LOW_HEALTH_STRENGTH(
+            asList(
+                    "LOW_HEALTH_SPEED",
+                    "LOW_HEALTH_JUMP"
+            ),
+            asList(
+                    ChatColorCast.format("&7有几率在只剩下&61/5&7血量时,"),
+                    ChatColorCast.format("&7获得&b力量 II&7效果")
+            ),
+            "力量 II",
+            0.4,
+            0.2,
+            10,
+            220,
+            25,
+            4
+    ),
+    LOW_HEALTH_SPEED(
+            asList(
+                    "LOW_HEALTH_STRENGTH"
+            ),
+            asList(
+                    ChatColorCast.format("&7有几率在只剩下&61/5&7血量时,"),
+                    ChatColorCast.format("&7获得&b速度 IV&7效果")
+            ),
+            "速度 IV",
+            0.4,
+            0.2,
+            10,
+            240,
+            30,
+            5
+    ),
 
-    KNOCKBACK_PLAYER,
-    KNOCKBACK_MOB,
+    KNOCKBACK_PLAYER(
+            asList(
+                    "DOUBLE_DAMAGE_FOR_PLAYER"
+            ),
+            asList(
+                    ChatColorCast.format("&7有几率在攻击玩家时将其击退5格")
+            ),
+            "PVP击退",
+            0.3,
+            0.2,
+            10,
+            160,
+            15,
+            28
+    ),
+    KNOCKBACK_MOB(
+            asList(
+                    "TRIPLE_DAMAGE_FOR_MOB"
+            ),
+            asList(
+                    ChatColorCast.format("&7有几率在攻击怪物时将其击退5格")
+            ),
+            "PVE击退",
+            0.3,
+            0.2,
+            10,
+            160,
+            15,
+            34
+    ),
 
     KILLSTREAK_GET_HEAL(
             asList(
@@ -207,7 +309,8 @@ public enum SkillType {
             0.5,
             10,
             220,
-            25
+            25,
+            2
     ),
 
 
@@ -220,11 +323,10 @@ public enum SkillType {
     private int maxLevel;
     private int unlockPrize;
     private int eachLevelAddPrize;
+    private int menuSlot;
 
 
-
-
-    SkillType(List<String> connectedSkills, List<String> description, String displayName, double defaultChance, double eachLevelChance, int maxLevel, int unlockPrize, int eachLevelAddPrize) {
+    SkillType(List<String> connectedSkills, List<String> description, String displayName, double defaultChance, double eachLevelChance, int maxLevel, int unlockPrize, int eachLevelAddPrize, int menuSlot) {
         this.connectedSkills = connectedSkills;
         this.description = description;
         this.displayName = displayName;
@@ -233,6 +335,11 @@ public enum SkillType {
         this.maxLevel = maxLevel;
         this.unlockPrize = unlockPrize;
         this.eachLevelAddPrize = eachLevelAddPrize;
+        this.menuSlot = menuSlot;
+    }
+
+    public int getMenuSlot() {
+        return menuSlot;
     }
 
     public List<String> getConnectedSkills() {
@@ -265,5 +372,14 @@ public enum SkillType {
 
     public int getEachLevelAddPrize() {
         return eachLevelAddPrize;
+    }
+
+    public static SkillType getSkillType(String s){
+        for(SkillType skillType : SkillType.values()){
+            if (skillType.toString().equals(s)){
+                return skillType;
+            }
+        }
+        return null;
     }
 }

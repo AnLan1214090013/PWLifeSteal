@@ -1,12 +1,10 @@
 package cn.pixelwar.pwlifesteal.PlayerStats;
 
-import cn.pixelwar.pwlifesteal.PlayerStats.PlayerSkill.PlayerSkill;
 import cn.pixelwar.pwlifesteal.PlayerStats.PlayerSkill.SkillType;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 
 public class PlayerStat {
@@ -23,9 +21,11 @@ public class PlayerStat {
 
     //小时
     private int banTime;
-    private HashMap<SkillType, PlayerSkill> skillStat;
 
-    public PlayerStat(UUID uuid, double hearts, double maxHearts, int kill, int killStreak, int death, HashMap<String, Location> homes, int maxHome, int tpTime, int banTime, HashMap<SkillType, PlayerSkill> skillStat) {
+    //<类型，等级>
+    private HashMap<SkillType, Integer> skillStat;
+
+    public PlayerStat(UUID uuid, double hearts, double maxHearts, int kill, int killStreak, int death, HashMap<String, Location> homes, int maxHome, int tpTime, int banTime, HashMap<SkillType, Integer> skillStat) {
         this.uuid = uuid;
         this.hearts = hearts;
         this.maxHearts = maxHearts;
@@ -66,11 +66,11 @@ public class PlayerStat {
         return banTime;
     }
 
-    public void setSkillStat(HashMap<SkillType, PlayerSkill> skillStat) {
+    public void setSkillStat(HashMap<SkillType, Integer> skillStat) {
         this.skillStat = skillStat;
     }
 
-    public HashMap<SkillType, PlayerSkill> getSkillStat() {
+    public HashMap<SkillType, Integer> getSkillStat() {
         return skillStat;
     }
 

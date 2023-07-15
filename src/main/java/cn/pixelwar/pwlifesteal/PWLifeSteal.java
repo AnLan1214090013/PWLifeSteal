@@ -1,8 +1,11 @@
 package cn.pixelwar.pwlifesteal;
 
+import ch.njol.skript.Skript;
+import ch.njol.skript.SkriptAddon;
 import cn.pixelwar.pwlifesteal.File.YamlStorage;
 import cn.pixelwar.pwlifesteal.Listeners.LifeStealListener;
 import cn.pixelwar.pwlifesteal.Listeners.SpawnListener;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -17,6 +20,7 @@ import java.io.InputStreamReader;
 
 public final class PWLifeSteal extends JavaPlugin {
     static PWLifeSteal instance;
+    SkriptAddon addon;
 
     private static Plugin plugin;
     public static int totalPlayerAmount;
@@ -26,6 +30,7 @@ public final class PWLifeSteal extends JavaPlugin {
         plugin = this;
         registerEvents();
         setupConfig();
+        setupSK();
     }
 
     @Override
@@ -63,6 +68,15 @@ public final class PWLifeSteal extends JavaPlugin {
             config2.save(configFile);}catch (IOException ex){
             System.out.println("config信息保存出错");
         }
+    }
+    public void setupSK(){
+        this.addon = Skript.registerAddon(this);
+        try {
+            addon.loadClasses("cn.pixelwar.pwlifesteal");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Bukkit.getLogger().info("[PWLifeSteal-skript] 已经成功启动!");
     }
 
 }

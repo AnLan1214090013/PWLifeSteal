@@ -1,6 +1,5 @@
 package cn.pixelwar.pwlifesteal.File;
 
-import cn.pixelwar.pwlifesteal.PlayerStats.PlayerSkill.PlayerSkill;
 import cn.pixelwar.pwlifesteal.PlayerStats.PlayerSkill.SkillType;
 import cn.pixelwar.pwlifesteal.PlayerStats.PlayerStat;
 import cn.pixelwar.pwlifesteal.PlayerStats.PlayerStatsManager;
@@ -89,7 +88,15 @@ public class YamlStorage {
             }
 
             //技能数据
-            HashMap<SkillType, PlayerSkill> skillStat = new HashMap<>();
+            HashMap<SkillType, Integer> skillStat = new HashMap<>();
+            if(config.contains("skills")){
+                ConfigurationSection skillss = config.getConfigurationSection("skills");
+                for (String skillName : skillss.getKeys(false)) {
+                    int level = config.getInt("skills."+skillName);
+                    SkillType skillType = SkillType.getSkillType(skillName);
+                    skillStat.put(skillType, level);
+                }
+            }
 
             PlayerStat playerStat = new PlayerStat(
                     UUID.fromString(config.getString("uuid")),
@@ -190,6 +197,13 @@ public class YamlStorage {
         }
         //保存技能
         config.set("skills", null);
+        HashMap<SkillType, Integer> skillStat = PlayerStatsManager.playerStatMap.get(playerName).getSkillStat();
+        if (skillStat!=null) {
+            skillStat.forEach(
+                    (skillType, level) -> {
+                        config.set("skills." + skillType.toString(), level);
+                    });
+        }
 
         //保存其他
         config.set("uuid", PlayerStatsManager.playerStatMap.get(playerName).getUUID().toString());
@@ -230,6 +244,13 @@ public class YamlStorage {
         }
         //保存技能
         config.set("skills", null);
+        HashMap<SkillType, Integer> skillStat = PlayerStatsManager.playerStatMap.get(playerName).getSkillStat();
+        if (skillStat!=null) {
+            skillStat.forEach(
+                    (skillType, level) -> {
+                        config.set("skills." + skillType.toString(), level);
+                    });
+        }
 
         //保存其他
         config.set("uuid", PlayerStatsManager.playerStatMap.get(playerName).getUUID().toString());
