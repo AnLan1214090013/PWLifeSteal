@@ -4,6 +4,7 @@ import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptAddon;
 import cn.pixelwar.pwlifesteal.File.YamlStorage;
 import cn.pixelwar.pwlifesteal.Listeners.LifeStealListener;
+import cn.pixelwar.pwlifesteal.Listeners.MenuListener;
 import cn.pixelwar.pwlifesteal.Listeners.SpawnListener;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -48,6 +49,7 @@ public final class PWLifeSteal extends JavaPlugin {
     public void registerEvents(){
         getServer().getPluginManager().registerEvents((Listener) new SpawnListener(), (Plugin)this);
         getServer().getPluginManager().registerEvents((Listener) new LifeStealListener(), (Plugin)this);
+        getServer().getPluginManager().registerEvents((Listener) new MenuListener(), (Plugin)this);
     }
 
     public void setupConfig(){

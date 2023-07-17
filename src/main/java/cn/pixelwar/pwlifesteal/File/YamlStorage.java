@@ -98,79 +98,67 @@ public class YamlStorage {
                 }
             }
 
+            UUID uuid = null;
+            double hearts = 0;
+            double maxHearts = 0;
+            int kill = 0;
+            int killStreak = 0;
+            int ruby = 0;
+            int death = 0;
+            int maxHome = 0;
+            int tpTime = 0;
+            int banTime = 0;
+            if (config.contains("uuid")){
+                uuid = UUID.fromString(config.getString("uuid"));
+            }
+            if (config.contains("hearts")){
+                hearts = config.getDouble("hearts");
+            }
+            if (config.contains("maxHearts")){
+                maxHearts = config.getDouble("maxHearts");
+            }
+            if (config.contains("kill")){
+                kill = config.getInt("kill");
+            }
+            if (config.contains("killStreak")){
+                killStreak = config.getInt("killStreak");
+            }
+            if (config.contains("ruby")){
+                ruby = config.getInt("ruby");
+            }
+            if (config.contains("death")){
+                death = config.getInt("death");
+            }
+            if (config.contains("maxHome")){
+                maxHome = config.getInt("maxHome");
+            }
+            if (config.contains("tpTime")){
+                tpTime = config.getInt("tpTime");
+            }
+            if (config.contains("banTime")){
+                maxHome = config.getInt("banTime");
+            }
+
+
+
             PlayerStat playerStat = new PlayerStat(
-                    UUID.fromString(config.getString("uuid")),
-                    config.getDouble("hearts"),
-                    config.getDouble("maxHearts"),
-                    config.getInt("kill"),
-                    config.getInt("killStreak"),
-                    config.getInt("death"),
+                    uuid,
+                    hearts,
+                    maxHearts,
+                    kill,
+                    killStreak,
+                    ruby,
+                    death,
                     homes,
-                    config.getInt("maxHome"),
-                    config.getInt("tpTime"),
-                    config.getInt("banTime"),
+                    maxHome,
+                    tpTime,
+                    banTime,
                     skillStat
             );
             PlayerStatsManager.playerStatMap.put(player.getName(), playerStat);
 
         }
-//
-//        //加载intdata
-//        IntDataType[] intDataTypes = IntDataType.values();
-//        IntData digData = new IntData();
-//        for (IntDataType intDataType : intDataTypes){
-//            if (config.contains("intData."+intDataType.toString())){
-//                int num = config.getInt("intData."+intDataType.toString());
-//                digData.singleMap.put(intDataType, num);
-//            }else{
-//                digData.singleMap.put(intDataType, intDataType.getDefaultNum());
-//            }
-//        }
-//        IntDataManager.IntDataMap.put(player.getName(), digData);
-//
-//        //加载doubledata
-//        DoubleDataType[] doubleDataTypes = DoubleDataType.values();
-//        DoubleData doubleData = new DoubleData();
-//        for (DoubleDataType doubleDataType : doubleDataTypes){
-//            if (config.contains("doubleData."+doubleDataType.toString())){
-//                double num = config.getDouble("doubleData."+doubleDataType.toString());
-//                doubleData.singleMap.put(doubleDataType, num);
-////                Bukkit.broadcastMessage("存在且加载"+doubleDataType.toString()+": "+num);
-//            }else{
-//                doubleData.singleMap.put(doubleDataType, doubleDataType.getDefaultNum());
-////                Bukkit.broadcastMessage("不存在且加载"+doubleDataType.toString()+": "+doubleDataType.getDefaultNum());
-//            }
-//        }
-//        DoubleDataManager.DoubleDataMap.put(player.getName(), doubleData);
-//
-//
-//
-//
-//
-//        //加载home
-//        if(config.contains("homes")){
-//            ConfigurationSection homes = config.getConfigurationSection("homes");
-//            HomeData homeData = new HomeData();
-//
-//            for (String homeName : homes.getKeys(false)) {
-//                String[] locStr = config.getString("homes."+homeName).split(";");
-//                Location loc = new Location(
-//                        Bukkit.getWorld(locStr[0]),
-//                        Double.valueOf(locStr[1]),
-//                        Double.valueOf(locStr[2]),
-//                        Double.valueOf(locStr[3]),
-//                        Float.valueOf(locStr[4]),
-//                        Float.valueOf(locStr[5])
-//                );
-//                homeData.addHome(homeName, loc);
-//            }
-//            HomeManager.playerHomeMap.put(player.getName(), homeData);
-//        }else{
-//            HomeData homeData = new HomeData();
-//            HomeManager.playerHomeMap.put(player.getName(), homeData);
-//        }
-//
-//    }
+
 
     public void savePlayerData(Player player){
         String playerName = player.getName();;
@@ -211,6 +199,7 @@ public class YamlStorage {
         config.set("maxHearts", PlayerStatsManager.playerStatMap.get(playerName).getMaxHearts());
         config.set("kill", PlayerStatsManager.playerStatMap.get(playerName).getKill());
         config.set("killStreak", PlayerStatsManager.playerStatMap.get(playerName).getKillStreak());
+        config.set("ruby", PlayerStatsManager.playerStatMap.get(playerName).getRuby());
         config.set("death", PlayerStatsManager.playerStatMap.get(playerName).getDeath());
         config.set("tpTime", PlayerStatsManager.playerStatMap.get(playerName).getTpTime());
         config.set("maxHome", PlayerStatsManager.playerStatMap.get(playerName).getMaxHome());
@@ -257,8 +246,10 @@ public class YamlStorage {
         config.set("maxHearts", PlayerStatsManager.playerStatMap.get(playerName).getMaxHearts());
         config.set("kill", PlayerStatsManager.playerStatMap.get(playerName).getKill());
         config.set("killStreak", PlayerStatsManager.playerStatMap.get(playerName).getKillStreak());
+        config.set("tpTime", PlayerStatsManager.playerStatMap.get(playerName).getTpTime());
         config.set("death", PlayerStatsManager.playerStatMap.get(playerName).getDeath());
         config.set("tpTime", PlayerStatsManager.playerStatMap.get(playerName).getTpTime());
+        config.set("ruby", PlayerStatsManager.playerStatMap.get(playerName).getRuby());
         config.set("maxHome", PlayerStatsManager.playerStatMap.get(playerName).getMaxHome());
         config.set("banTime", PlayerStatsManager.playerStatMap.get(playerName).getBanTime());
         try{

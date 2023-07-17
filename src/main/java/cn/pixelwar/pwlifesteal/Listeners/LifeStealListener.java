@@ -11,6 +11,7 @@ import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -47,7 +48,8 @@ public class LifeStealListener implements Listener {
                     @Override
                     public void run() {
                         p.setMaxHealth(maxHearts*2);
-                        p.setHealth(hearts*2);
+                        p.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(maxHearts*2);
+//                        p.setHealth(hearts*2);
                         if (isFirst){
                             doFirstJoin(p);
                         }
@@ -86,6 +88,11 @@ public class LifeStealListener implements Listener {
         //玩家死亡
         if (dead.getType().equals(EntityType.PLAYER)){
             Player victim = (Player) dead;
+            ApplicableRegionSet playerRegions = GetWGRegion.getWGRegion(victim);
+            //先检查是不是在spawn中
+            if (GetWGRegion.checkIfInRegion(playerRegions, "spawn")){
+                return;
+            }
             double nowMaxHearts = PlayerStatsManager.playerStatMap.get(victim.getName()).getMaxHearts();
             double aimMaxHearts = nowMaxHearts-1;
             //玩家已经没有生命了，ban

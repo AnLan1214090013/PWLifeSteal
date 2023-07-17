@@ -1,6 +1,7 @@
 package cn.pixelwar.pwlifesteal.PlayerStats;
 
 import cn.pixelwar.pwlifesteal.PlayerStats.PlayerSkill.SkillType;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -15,6 +16,7 @@ public class PlayerStatsManager {
         PlayerStat playerStat = playerStatMap.get(player.getName());
         playerStat.setMaxHearts(amount);
         playerStatMap.put(player.getName(), playerStat);
+        player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(amount*2);
     }
     public static void addPlayerKills(Player player){
         PlayerStat playerStat = playerStatMap.get(player.getName());
@@ -29,6 +31,20 @@ public class PlayerStatsManager {
     public static void addPlayerKillStreak(Player player){
         PlayerStat playerStat = playerStatMap.get(player.getName());
         playerStat.setKillStreak(playerStat.getKillStreak()+1);
+        playerStatMap.put(player.getName(), playerStat);
+    }
+    public static void givePlayerRuby(Player player, int amount){
+        PlayerStat playerStat = playerStatMap.get(player.getName());
+        playerStat.setRuby(playerStat.getRuby()+amount);
+        playerStatMap.put(player.getName(), playerStat);
+    }
+    public static void removePlayerRuby(Player player, int amount){
+        PlayerStat playerStat = playerStatMap.get(player.getName());
+        int nowAmount = playerStat.getRuby()-amount;
+        if (nowAmount<0){
+            nowAmount = 0;
+        }
+        playerStat.setRuby(nowAmount);
         playerStatMap.put(player.getName(), playerStat);
     }
 

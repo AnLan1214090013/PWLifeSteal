@@ -4,6 +4,7 @@ import cn.pixelwar.pwlifesteal.PlayerStats.PlayerSkill.SkillType;
 import cn.pixelwar.pwlifesteal.PlayerStats.PlayerStatsManager;
 import cn.pixelwar.pwlifesteal.Utils.ChatColorCast;
 import cn.pixelwar.pwlifesteal.Utils.NumberFormat;
+import de.tr7zw.nbtapi.NBTItem;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -19,7 +20,7 @@ public class SkillTreeMenu {
 
 
     public void openSkillTreeMenu(Player player){
-        Inventory gui = Bukkit.createInventory(player, 54, ChatColorCast.format("&8技能树"));
+        Inventory gui = Bukkit.createInventory(player, 54, ChatColorCast.format("&8技能树     当前红宝石: &c&l"+PlayerStatsManager.playerStatMap.get(player.getName()).getRuby()));
         for (SkillType skillType : SkillType.values()){
             ItemStack item = getSkillItem(skillType, player);
             gui.setItem(skillType.getMenuSlot(), item);
@@ -51,6 +52,10 @@ public class SkillTreeMenu {
                 itemMeta.setDisplayName(displayName);
                 itemMeta.setLore(lore);
                 item.setItemMeta(itemMeta);
+                NBTItem nbtItem = new NBTItem(item);
+                nbtItem.setString("skill", skillType.toString());
+                nbtItem.setInteger("cost", (skillType.getUnlockPrize() + skillType.getEachLevelAddPrize() * skillStat.get(skillType)));
+                item = nbtItem.getItem();
             }else{
                 String chance = numberFormat.getDoubleFormat(skillType.getDefaultChance() + (double) (skillStat.get(skillType) * skillType.getEachLevelChance())) ;
                 item = new ItemStack(Material.ORANGE_DYE);
@@ -95,6 +100,10 @@ public class SkillTreeMenu {
                 itemMeta.setDisplayName(displayName);
                 itemMeta.setLore(lore);
                 item.setItemMeta(itemMeta);
+                NBTItem nbtItem = new NBTItem(item);
+                nbtItem.setString("skill", skillType.toString());
+                nbtItem.setInteger("cost", skillType.getUnlockPrize());
+                item = nbtItem.getItem();
             }
             //如果不能解锁
             else{
@@ -115,6 +124,7 @@ public class SkillTreeMenu {
                 item.setItemMeta(itemMeta);
             }
         }
+
         return item;
 
 

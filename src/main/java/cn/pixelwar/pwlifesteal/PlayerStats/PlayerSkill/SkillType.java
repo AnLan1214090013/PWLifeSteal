@@ -26,7 +26,7 @@ public enum SkillType {
             0.5,
             0.1,
             10,
-            120,
+            100,
             10,
             39
     ),
@@ -42,7 +42,7 @@ public enum SkillType {
             0.8,
             0.1,
             10,
-            120,
+            100,
             10,
             41
     ),
@@ -60,7 +60,7 @@ public enum SkillType {
             1,
             0.2,
             5,
-            80,
+            100,
             10,
             40
     ),
@@ -76,7 +76,7 @@ public enum SkillType {
             0.2,
             5,
             80,
-            10,
+            5,
             49
     ),
 
@@ -92,8 +92,8 @@ public enum SkillType {
             2,
             0.5,
             10,
-            140,
-            10,
+            120,
+            15,
             31
     ),
 
@@ -110,8 +110,8 @@ public enum SkillType {
             0.1,
             0.1,
             10,
-            160,
-            10,
+            120,
+            15,
             29
     ),
     TRIPLE_DAMAGE_FOR_MOB(
@@ -127,8 +127,8 @@ public enum SkillType {
             0.2,
             0.2,
             10,
-            160,
-            10,
+            120,
+            15,
             33
     ),
 
@@ -143,7 +143,7 @@ public enum SkillType {
             0.5,
             0.5,
             10,
-            180,
+            140,
             20,
             24
     ),
@@ -160,7 +160,7 @@ public enum SkillType {
             0.5,
             0.5,
             10,
-            180,
+            140,
             20,
             20
     ),
@@ -176,7 +176,7 @@ public enum SkillType {
             0.5,
             0.5,
             10,
-            220,
+            160,
             25,
             11
     ),
@@ -193,7 +193,7 @@ public enum SkillType {
             0.5,
             0.5,
             10,
-            200,
+            140,
             20,
             18
     ),
@@ -211,7 +211,7 @@ public enum SkillType {
             0.4,
             0.2,
             10,
-            200,
+            140,
             20,
             22
     ),
@@ -228,7 +228,7 @@ public enum SkillType {
             0.4,
             0.2,
             10,
-            220,
+            160,
             25,
             13
     ),
@@ -245,8 +245,8 @@ public enum SkillType {
             0.4,
             0.2,
             10,
-            220,
-            25,
+            180,
+            30,
             4
     ),
     LOW_HEALTH_SPEED(
@@ -261,7 +261,7 @@ public enum SkillType {
             0.4,
             0.2,
             10,
-            240,
+            200,
             30,
             5
     ),
@@ -277,7 +277,7 @@ public enum SkillType {
             0.3,
             0.2,
             10,
-            160,
+            120,
             15,
             28
     ),
@@ -292,7 +292,7 @@ public enum SkillType {
             0.3,
             0.2,
             10,
-            160,
+            120,
             15,
             34
     ),
@@ -308,8 +308,8 @@ public enum SkillType {
             1,
             0.5,
             10,
-            220,
-            25,
+            200,
+            30,
             2
     ),
 

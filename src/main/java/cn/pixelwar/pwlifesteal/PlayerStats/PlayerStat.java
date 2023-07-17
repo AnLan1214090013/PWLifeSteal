@@ -14,6 +14,7 @@ public class PlayerStat {
     private double maxHearts;
     private int kill;
     private int killStreak;
+    private int ruby;
     private int death;
     private HashMap<String, Location> homes;
     private int maxHome;
@@ -25,12 +26,13 @@ public class PlayerStat {
     //<类型，等级>
     private HashMap<SkillType, Integer> skillStat;
 
-    public PlayerStat(UUID uuid, double hearts, double maxHearts, int kill, int killStreak, int death, HashMap<String, Location> homes, int maxHome, int tpTime, int banTime, HashMap<SkillType, Integer> skillStat) {
+    public PlayerStat(UUID uuid, double hearts, double maxHearts, int kill, int killStreak, int ruby, int death, HashMap<String, Location> homes, int maxHome, int tpTime, int banTime, HashMap<SkillType, Integer> skillStat) {
         this.uuid = uuid;
         this.hearts = hearts;
         this.maxHearts = maxHearts;
         this.kill = kill;
         this.killStreak = killStreak;
+        this.ruby = ruby;
         this.death = death;
         this.homes = homes;
         this.maxHome = maxHome;
@@ -46,16 +48,25 @@ public class PlayerStat {
         this.hearts = 20;
         this.maxHearts = 20;
         this.kill = 0;
+        this.ruby = 0;
         this.killStreak = 0;
         this.death = 0;
-        this.homes = null;
+        this.homes = new HashMap<>();
         //默认最多1个家
         this.maxHome = 1;
         //默认10s的传送时间
         this.tpTime = 10;
         //默认ban2天
         this.banTime = 48;
-        this.skillStat = null;
+        this.skillStat = new HashMap<>();
+    }
+
+    public int getRuby() {
+        return ruby;
+    }
+
+    public void setRuby(int ruby) {
+        this.ruby = ruby;
     }
 
     public void setBanTime(int banTime) {
