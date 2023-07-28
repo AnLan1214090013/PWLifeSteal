@@ -39,8 +39,8 @@ public enum SkillType {
                     ChatColorCast.format("&7有几率躲避一次怪物的攻击")
             ),
             "PVE闪避",
-            0.8,
-            0.1,
+            3,
+            0.5,
             10,
             100,
             10,
@@ -72,8 +72,8 @@ public enum SkillType {
                     ChatColorCast.format("&7有几率减少&6一半&7受到来自怪物的伤害")
             ),
             "PVE防御",
-            1.5,
-            0.2,
+            5,
+            0.8,
             5,
             80,
             5,
@@ -89,8 +89,8 @@ public enum SkillType {
                     ChatColorCast.format("&7有几率坠落时不受伤害")
             ),
             "轻功",
-            2,
-            0.5,
+            10,
+            1.5,
             10,
             120,
             15,
@@ -124,8 +124,8 @@ public enum SkillType {
                     ChatColorCast.format("&7有几率对怪物造成三倍伤害")
             ),
             "PVE三倍伤害",
-            0.2,
-            0.2,
+            2,
+            0.5,
             10,
             120,
             15,
@@ -140,8 +140,8 @@ public enum SkillType {
                     ChatColorCast.format("&7有几率击杀怪物时获得双倍经验")
             ),
             "PVE双倍经验",
-            0.5,
-            0.5,
+            3.5,
+            0.7,
             10,
             140,
             20,
@@ -182,9 +182,7 @@ public enum SkillType {
     ),
     TRIPLE_EXP_FROM_KILL_PLAYER(
             asList(
-                    "DOUBLE_DAMAGE_FOR_PLAYER",
-                    "DOUBLE_HEARTS_FROM_KILL_PLAYER",
-                    "TRIPLE_EXP_FROM_KILL_PLAYER"
+                    "KNOCKBACK_PLAYER"
             ),
             asList(
                     ChatColorCast.format("&7有几率击杀玩家时获得三倍经验")
@@ -205,11 +203,11 @@ public enum SkillType {
             ),
             asList(
                     ChatColorCast.format("&7有几率在只剩下&61/5&7血量时,"),
-                    ChatColorCast.format("&7获得&b抗性提升 II&7效果")
+                    ChatColorCast.format("&7获得&b抗性提升 II&7效果30s")
             ),
             "抗性提升 II",
-            0.4,
-            0.2,
+            2,
+            0.3,
             10,
             140,
             20,
@@ -218,32 +216,32 @@ public enum SkillType {
     LOW_HEALTH_JUMP(
             asList(
                     "LOW_HEALTH_RESISTANCE",
-                    "LOW_HEALTH_STRENGTH"
+                    "LOW_HEALTH_REGENERATION"
             ),
             asList(
                     ChatColorCast.format("&7有几率在只剩下&61/5&7血量时,"),
-                    ChatColorCast.format("&7获得&b跳跃提升 III&7效果")
+                    ChatColorCast.format("&7获得&b跳跃提升 III&7效果30s")
             ),
             "跳跃提升 III",
-            0.4,
-            0.2,
+            2,
+            0.3,
             10,
             160,
             25,
             13
     ),
-    LOW_HEALTH_STRENGTH(
+    LOW_HEALTH_REGENERATION(
             asList(
                     "LOW_HEALTH_SPEED",
                     "LOW_HEALTH_JUMP"
             ),
             asList(
                     ChatColorCast.format("&7有几率在只剩下&61/5&7血量时,"),
-                    ChatColorCast.format("&7获得&b力量 II&7效果")
+                    ChatColorCast.format("&7获得&b生命恢复 III&7效果10s")
             ),
-            "力量 II",
-            0.4,
-            0.2,
+            "生命恢复 III",
+            2,
+            0.3,
             10,
             180,
             30,
@@ -251,15 +249,15 @@ public enum SkillType {
     ),
     LOW_HEALTH_SPEED(
             asList(
-                    "LOW_HEALTH_STRENGTH"
+                    "LOW_HEALTH_REGENERATION"
             ),
             asList(
                     ChatColorCast.format("&7有几率在只剩下&61/5&7血量时,"),
-                    ChatColorCast.format("&7获得&b速度 IV&7效果")
+                    ChatColorCast.format("&7获得&b速度 IV&7效果30s")
             ),
             "速度 IV",
-            0.4,
-            0.2,
+            2,
+            0.3,
             10,
             200,
             30,
@@ -268,7 +266,8 @@ public enum SkillType {
 
     KNOCKBACK_PLAYER(
             asList(
-                    "DOUBLE_DAMAGE_FOR_PLAYER"
+                    "DOUBLE_DAMAGE_FOR_PLAYER",
+                    "TRIPLE_EXP_FROM_KILL_PLAYER"
             ),
             asList(
                     ChatColorCast.format("&7有几率在攻击玩家时将其击退5格")
@@ -308,9 +307,24 @@ public enum SkillType {
             1,
             0.5,
             10,
-            200,
+            180,
             30,
             2
+    ),
+    DEATH_NO_HEART_LOSE(
+            asList(
+                    "KILLSTREAK_GET_HEAL"
+            ),
+            asList(
+                    ChatColorCast.format("&7有几率在死亡时不丢失最大生命值")
+            ),
+            "生命之盾",
+            1,
+            0.5,
+            10,
+            200,
+            35,
+            1
     ),
 
 

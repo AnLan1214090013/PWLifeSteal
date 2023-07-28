@@ -2,15 +2,19 @@ package cn.pixelwar.pwlifesteal.Listeners;
 
 import cn.pixelwar.pwlifesteal.File.YamlStorage;
 import cn.pixelwar.pwlifesteal.PWLifeSteal;
+import cn.pixelwar.pwlifesteal.PlayerStats.PlayerSkill.FireSkill;
 import cn.pixelwar.pwlifesteal.PlayerStats.PlayerStatsManager;
 import cn.pixelwar.pwlifesteal.Utils.Ban;
 import cn.pixelwar.pwlifesteal.Utils.ChatColorCast;
 import cn.pixelwar.pwlifesteal.Utils.GetWGRegion;
 import cn.pixelwar.pwlifesteal.Utils.NumberFormat;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Server;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -80,30 +84,70 @@ public class LifeStealListener implements Listener {
         }.runTaskAsynchronously(PWLifeSteal.getPlugin());
     }
 
-
     @EventHandler
-    public void onPlayerDeath(EntityDeathEvent event){
-        Entity dead = event.getEntity();
+    public void onPlayerDeath(PlayerDeathEvent event){
+        Player victim = event.getEntity();
         Entity killer = getKiller(event);
-        //玩家死亡
-        if (dead.getType().equals(EntityType.PLAYER)){
-            Player victim = (Player) dead;
-            ApplicableRegionSet playerRegions = GetWGRegion.getWGRegion(victim);
-            //先检查是不是在spawn中
-            if (GetWGRegion.checkIfInRegion(playerRegions, "spawn")){
-                return;
-            }
-            double nowMaxHearts = PlayerStatsManager.playerStatMap.get(victim.getName()).getMaxHearts();
-            double aimMaxHearts = nowMaxHearts-1;
-            //玩家已经没有生命了，ban
-            if(aimMaxHearts<=0){
-                int banTime = PlayerStatsManager.playerStatMap.get(victim.getName()).getBanTime();
-                Ban.banPlayer(victim, banTime);
-            }
+        ApplicableRegionSet playerRegions = GetWGRegion.getWGRegion(victim);
+        //先检查是不是在spawn中
+        if (GetWGRegion.checkIfInRegion(playerRegions, "spawn")){
+            return;
+        }
+        double nowMaxHearts = PlayerStatsManager.playerStatMap.get(victim.getName()).getMaxHearts();
+        double aimMaxHearts = nowMaxHearts;
+        if (FireSkill.doDEATH_NO_HEART_LOSE(victim)) {
+            victim.sendMessage(ChatColorCast.format("&6▸ &f你死亡了! &c但是未损失❤"));
+        }else {
+            aimMaxHearts = nowMaxHearts - 1;
+            victim.sendMessage(ChatColorCast.format("&6▸ &f你死亡了! &c-1&l❤"));
+        }
+        //玩家已经没有生命了，ban
+        if(aimMaxHearts<=0){
+            int banTime = PlayerStatsManager.playerStatMap.get(victim.getName()).getBanTime();
+            Ban.banPlayer(victim, banTime);
+            PlayerStatsManager.setPlayerMaxHearts(victim, 20);
+            victim.kickPlayer(ChatColorCast.format("&c你已经被服务器封禁"));
+        }else {
             PlayerStatsManager.setPlayerMaxHearts(victim, (nowMaxHearts - 1));
         }
+        //玩家杀死玩家
+        if (killer!=null) {
+            if (killer.getType().equals(EntityType.PLAYER)) {
+                Player attacker = (Player) killer;
+                int exp = event.getDroppedExp();
+                if (exp > 0) {
+                    exp = FireSkill.doTRIPLE_EXP_FROM_KILL_PLAYER(exp, attacker);
+                    event.setDroppedExp(exp);
+                }
+                double nowMaxHearts2 = PlayerStatsManager.playerStatMap.get(attacker.getName()).getMaxHearts();
+                double aimMaxHearts2 = nowMaxHearts2;
+                if (FireSkill.doDOUBLE_HEARTS_FROM_KILL_PLAYER(attacker)) {
+                    aimMaxHearts2 = aimMaxHearts2 + 2;
+                    attacker.sendMessage(ChatColorCast.format("&6▸ &f你击杀了&d&l"+victim.getName()+" &a+2&l❤"));
+                } else {
+                    aimMaxHearts2 += 1;
+                    attacker.sendMessage(ChatColorCast.format("&6▸ &f你击杀了&d&l"+victim.getName()+" &a+1&l❤"));
+                }
+                PlayerStatsManager.setPlayerMaxHearts(attacker, aimMaxHearts2);
+            }
+        }
+    }
 
 
+    @EventHandler
+    public void onEntityDeath(EntityDeathEvent event){
+        Entity dead = event.getEntity();
+        Entity killer = getKiller(event);
+        if (killer!=null){
+            //玩家杀死怪物
+            if (!dead.getType().equals(EntityType.PLAYER) && killer.getType().equals(EntityType.PLAYER)){
+                Player attacker = (Player) killer;
+                int exp = event.getDroppedExp();
+                if (exp==0) return;
+                exp = FireSkill.doDOUBLE_EXP_FROM_KILL_MOB(exp, attacker);
+                event.setDroppedExp(exp);
+            }
+        }
     }
 
     public Entity getKiller(EntityDeathEvent event) {
@@ -115,13 +159,80 @@ public class LifeStealListener implements Listener {
                 LivingEntity shooter = (LivingEntity) ((Projectile) damager).getShooter();
                 if (shooter != null) return shooter;
             }
-
             return damager;
         }
+        return null;
+    }
+    public Entity getKiller(PlayerDeathEvent event) {
+        EntityDamageEvent entityDamageEvent = event.getEntity().getLastDamageCause();
+        if ((entityDamageEvent != null) && !entityDamageEvent.isCancelled() && (entityDamageEvent instanceof EntityDamageByEntityEvent)) {
+            Entity damager = ((EntityDamageByEntityEvent) entityDamageEvent).getDamager();
 
+            if (damager instanceof Projectile) {
+                LivingEntity shooter = (LivingEntity) ((Projectile) damager).getShooter();
+                if (shooter != null) return shooter;
+            }
+            return damager;
+        }
         return null;
     }
 
 
+    @EventHandler
+    public void EntityDamageByEntityEvent(EntityDamageByEntityEvent e) {
+        Entity victim = e.getEntity();
+        Entity attacker = e.getDamager();
+        double damage = e.getDamage();
+        //如果是玩家的攻击,怪物被攻击
+        if (
+                attacker.getType().equals(EntityType.PLAYER) &&
+                        (!(victim.getType().equals(EntityType.PLAYER)))
+        ){
+            damage = FireSkill.doPVE_TRIPLE_DAMAGE(e.getDamage(), (Player) attacker);
+            e.setDamage(damage);
+        }
 
+
+        //如果是怪物的攻击,玩家被攻击
+        if (
+                !attacker.getType().equals(EntityType.PLAYER) &&
+                victim.getType().equals(EntityType.PLAYER)
+        ){
+            if (FireSkill.doPVE_DODGE_DAMAGE((Player) victim)){
+                e.setCancelled(true);
+                return;
+            }else {
+                damage = FireSkill.doPVE_LESS_DAMAGE(e.getDamage(), (Player) victim);
+            }
+            e.setDamage(damage);
+        }
+
+        //发动低血量技能
+        if ( victim.getType().equals(EntityType.PLAYER)){
+            Player player = (Player) victim;
+            if (player.getHealth()-damage<=player.getMaxHealth()/5) {
+                FireSkill.doLOW_HEALTH_RESISTANCE(player);
+                FireSkill.doLOW_HEALTH_SPEED(player);
+                FireSkill.doLOW_HEALTH_REGENERATION(player);
+                FireSkill.doLOW_HEALTH_JUMP(player);
+            }
+        }
+
+    }
+
+    @EventHandler
+    public void PlayerDamagedEvent(EntityDamageEvent e) {
+        if (!(e.getEntity().getType().equals(EntityType.PLAYER))){
+            return;
+        }
+        Player player = (Player) e.getEntity();
+        double damage = e.getDamage();
+        if (e.getCause().equals(EntityDamageEvent.DamageCause.FALL)){
+            if (FireSkill.doFALL_DODGE_DAMAGE(player)) {
+                e.setCancelled(true);
+                return;
+            }
+        }
+
+    }
 }

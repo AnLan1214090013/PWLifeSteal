@@ -59,7 +59,7 @@ public class SkillTreeMenu {
             }else{
                 String chance = numberFormat.getDoubleFormat(skillType.getDefaultChance() + (double) (skillStat.get(skillType) * skillType.getEachLevelChance())) ;
                 item = new ItemStack(Material.ORANGE_DYE);
-                String displayName = ChatColorCast.format("&a&l" + skillType.getDisplayName() + " &f(等级" + skillStat.get(skillType) + "/" + skillType.getMaxLevel() + ")");
+                String displayName = ChatColorCast.format("&6&l" + skillType.getDisplayName() + " &f(等级" + skillStat.get(skillType) + "/" + skillType.getMaxLevel() + ")");
                 List<String> lore = new ArrayList<>();
                 for (String s : skillType.getDescription()) {
                     lore.add(s);
@@ -87,7 +87,7 @@ public class SkillTreeMenu {
             //如果可以解锁
             if (skillType.equals(SkillType.LESS_DAMAGE_FROM_MOB) || isUnlock){
                 String chance = numberFormat.getDoubleFormat(skillType.getDefaultChance()) ;
-                String displayName = ChatColorCast.format("&a&l"+skillType.getDisplayName()+" &f(等级0/"+skillType.getMaxLevel()+")");
+                String displayName = ChatColorCast.format("&7&l"+skillType.getDisplayName()+" &f(等级0/"+skillType.getMaxLevel()+")");
                 List<String> lore = new ArrayList<>();
                 for (String s : skillType.getDescription()){
                     lore.add(s);
@@ -108,7 +108,7 @@ public class SkillTreeMenu {
             //如果不能解锁
             else{
                 String chance = numberFormat.getDoubleFormat(skillType.getDefaultChance()) ;
-                String displayName = ChatColorCast.format("&a&l"+skillType.getDisplayName()+" &f(等级0/"+skillType.getMaxLevel()+")");
+                String displayName = ChatColorCast.format("&7&l"+skillType.getDisplayName()+" &f(等级0/"+skillType.getMaxLevel()+")");
                 List<String> lore = new ArrayList<>();
                 for (String s : skillType.getDescription()){
                     lore.add(s);

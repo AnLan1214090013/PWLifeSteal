@@ -9,13 +9,18 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public class SpawnListener implements Listener {
 
-
+    @EventHandler
+    public void onBlockExplode(EntityExplodeEvent event){
+        event.blockList().clear();
+    }
     @EventHandler
     public void onFireDamage(EntityDamageEvent event){
         if (!(event.getEntity().getType().equals(EntityType.PLAYER))){
