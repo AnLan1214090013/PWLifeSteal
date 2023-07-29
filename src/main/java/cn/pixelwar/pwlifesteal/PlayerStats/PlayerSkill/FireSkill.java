@@ -3,9 +3,13 @@ package cn.pixelwar.pwlifesteal.PlayerStats.PlayerSkill;
 import cn.pixelwar.pwlifesteal.PlayerStats.PlayerStatsManager;
 import cn.pixelwar.pwlifesteal.Utils.ChatColorCast;
 import cn.pixelwar.pwlifesteal.Utils.NumberFormat;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 
 import java.util.HashMap;
 
@@ -232,4 +236,23 @@ public class FireSkill {
             player.addPotionEffect(potionEffect);
         }
     }
+
+    public static void doKNOCKBACK_PLAYER(Player attacker, Player victim){
+        SkillType skillType = SkillType.KNOCKBACK_PLAYER;
+        CheckSkillResult checkSkillResult = checkSkill(skillType, attacker);
+        if (!checkSkillResult.hasSkill){
+            return;
+        }
+        else {
+            int random = NumberFormat.getRandomInt(0, 10000);
+//            if (random > checkSkillResult.getChance() * 100) {
+//                return;
+//            }
+            fireInform(attacker, skillType);
+            double speed = 3;
+            victim.setVelocity(attacker.getLocation().getDirection().multiply(4));
+
+        }
+    }
+
 }

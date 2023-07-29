@@ -191,7 +191,13 @@ public class LifeStealListener implements Listener {
             damage = FireSkill.doPVE_TRIPLE_DAMAGE(e.getDamage(), (Player) attacker);
             e.setDamage(damage);
         }
-
+        //如果是玩家的攻击,玩家被攻击
+        if (
+                attacker.getType().equals(EntityType.PLAYER) &&
+                        (victim.getType().equals(EntityType.PLAYER))
+        ){
+            FireSkill.doKNOCKBACK_PLAYER((Player) attacker, (Player) victim);
+        }
 
         //如果是怪物的攻击,玩家被攻击
         if (
