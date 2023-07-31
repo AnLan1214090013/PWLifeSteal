@@ -61,6 +61,7 @@ public class LifeStealListener implements Listener {
                 }.runTask(PWLifeSteal.getPlugin());
             }
         }.runTaskAsynchronously(PWLifeSteal.getPlugin());
+
     }
 
     public void doFirstJoin(Player player){
@@ -89,10 +90,22 @@ public class LifeStealListener implements Listener {
         Player victim = event.getEntity();
         Entity killer = getKiller(event);
         ApplicableRegionSet playerRegions = GetWGRegion.getWGRegion(victim);
-        //先检查是不是在spawn中
-        if (GetWGRegion.checkIfInRegion(playerRegions, "spawn")){
+        //先检查是不是在spawn中,但是不在pvp中
+        if (
+                GetWGRegion.checkIfInRegion(playerRegions, "spawn") &&
+                        !(GetWGRegion.checkIfInRegion(playerRegions, "pvp"))
+
+        ){
             return;
         }
+
+        //进行数据计数
+        //被击杀者
+        PlayerStatsManager.playerStatMap.get(victim.getName()).setDeath(PlayerStatsManager.playerStatMap.get(victim.getName()).getDeath()+1);
+        PlayerStatsManager.playerStatMap.get(victim.getName()).setKillStreak(0);
+
+
+
         double nowMaxHearts = PlayerStatsManager.playerStatMap.get(victim.getName()).getMaxHearts();
         double aimMaxHearts = nowMaxHearts;
         if (FireSkill.doDEATH_NO_HEART_LOSE(victim)) {
@@ -129,6 +142,14 @@ public class LifeStealListener implements Listener {
                     attacker.sendMessage(ChatColorCast.format("&6▸ &f你击杀了&d&l"+victim.getName()+" &a+1&l❤"));
                 }
                 PlayerStatsManager.setPlayerMaxHearts(attacker, aimMaxHearts2);
+
+                //进行数据计数
+                //杀人者
+                PlayerStatsManager.playerStatMap.get(attacker.getName()).setKill(PlayerStatsManager.playerStatMap.get(attacker.getName()).getKill()+1);
+                PlayerStatsManager.playerStatMap.get(attacker.getName()).setKillStreak(PlayerStatsManager.playerStatMap.get(attacker.getName()).getKillStreak()+1);
+                PlayerStatsManager.playerStatMap.get(attacker.getName()).setLastKillPlayerName(victim.getName());
+                FireSkill.doKILLSTREAK_GET_HEAL(attacker);
+
             }
         }
     }
@@ -189,6 +210,7 @@ public class LifeStealListener implements Listener {
                         (!(victim.getType().equals(EntityType.PLAYER)))
         ){
             damage = FireSkill.doPVE_TRIPLE_DAMAGE(e.getDamage(), (Player) attacker);
+            FireSkill.doKNOCKBACK_MOB((Player) attacker,  victim);
             e.setDamage(damage);
         }
         //如果是玩家的攻击,玩家被攻击

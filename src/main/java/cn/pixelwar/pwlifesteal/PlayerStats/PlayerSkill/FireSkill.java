@@ -6,6 +6,7 @@ import cn.pixelwar.pwlifesteal.Utils.NumberFormat;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -245,14 +246,51 @@ public class FireSkill {
         }
         else {
             int random = NumberFormat.getRandomInt(0, 10000);
-//            if (random > checkSkillResult.getChance() * 100) {
-//                return;
-//            }
+            if (random > checkSkillResult.getChance() * 100) {
+                return;
+            }
             fireInform(attacker, skillType);
             double speed = 3;
             victim.setVelocity(attacker.getLocation().getDirection().multiply(4));
 
         }
+    }
+    public static void doKNOCKBACK_MOB(Player attacker, Entity victim){
+        SkillType skillType = SkillType.KNOCKBACK_MOB;
+        CheckSkillResult checkSkillResult = checkSkill(skillType, attacker);
+        if (!checkSkillResult.hasSkill){
+            return;
+        }
+        else {
+            int random = NumberFormat.getRandomInt(0, 10000);
+            if (random > checkSkillResult.getChance() * 100) {
+                return;
+            }
+            fireInform(attacker, skillType);
+            double speed = 3;
+            victim.setVelocity(attacker.getLocation().getDirection().multiply(4));
+
+        }
+    }
+    public static void doKILLSTREAK_GET_HEAL(Player attacker){
+        SkillType skillType = SkillType.KILLSTREAK_GET_HEAL;
+        CheckSkillResult checkSkillResult = checkSkill(skillType, attacker);
+        if (!checkSkillResult.hasSkill){
+            return;
+        }
+        if(PlayerStatsManager.playerStatMap.get(attacker.getName()).getKillStreak()<=0){
+            return;
+        }
+
+        int random = NumberFormat.getRandomInt(0, 10000);
+        if (random > checkSkillResult.getChance() * 100) {
+            return;
+        }
+        fireInform(attacker, skillType);
+        attacker.setHealth(attacker.getMaxHealth());
+        attacker.setFoodLevel(20);
+
+
     }
 
 }

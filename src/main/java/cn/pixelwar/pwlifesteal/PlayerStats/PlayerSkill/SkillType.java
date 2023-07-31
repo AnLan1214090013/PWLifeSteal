@@ -273,8 +273,8 @@ public enum SkillType {
                     ChatColorCast.format("&7有几率在攻击玩家时将其击退5格")
             ),
             "PVP击退",
-            0.3,
-            0.2,
+            1,
+            0.4,
             10,
             120,
             15,
@@ -288,8 +288,8 @@ public enum SkillType {
                     ChatColorCast.format("&7有几率在攻击怪物时将其击退5格")
             ),
             "PVE击退",
-            0.3,
-            0.2,
+            3,
+            0.5,
             10,
             120,
             15,

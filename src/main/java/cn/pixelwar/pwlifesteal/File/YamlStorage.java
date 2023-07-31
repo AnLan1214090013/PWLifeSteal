@@ -58,7 +58,7 @@ public class YamlStorage {
         return firstJoin;
     }
 
-        public void CreatePlayerDataMap(Player player) {
+    public void CreatePlayerDataMap(Player player) {
             File dataFile = new File("plugins/PWLifeSteal/Players/" + player.getName() + ".yml");
 
             try (InputStreamReader Config = new InputStreamReader(new FileInputStream(dataFile), "UTF-8")) {
@@ -108,6 +108,7 @@ public class YamlStorage {
             int maxHome = 0;
             int tpTime = 0;
             int banTime = 0;
+            String lastKillPlayerName = "";
             if (config.contains("uuid")){
                 uuid = UUID.fromString(config.getString("uuid"));
             }
@@ -138,6 +139,9 @@ public class YamlStorage {
             if (config.contains("banTime")){
                 maxHome = config.getInt("banTime");
             }
+            if (config.contains("lastKillPlayerName")){
+                lastKillPlayerName = config.getString("lastKillPlayerName");
+            }
 
 
 
@@ -153,6 +157,7 @@ public class YamlStorage {
                     maxHome,
                     tpTime,
                     banTime,
+                    lastKillPlayerName,
                     skillStat
             );
             PlayerStatsManager.playerStatMap.put(player.getName(), playerStat);
@@ -162,52 +167,7 @@ public class YamlStorage {
 
     public void savePlayerData(Player player){
         String playerName = player.getName();;
-        File dataFolder = new File("plugins/PWLifeSteal/Players");
-        File dataFile = new File("plugins/PWLifeSteal/Players/" + playerName + ".yml");
-        try (InputStreamReader Config = new InputStreamReader(new FileInputStream(dataFile), "UTF-8")) {
-            config.load(Config);
-        } catch (IOException | InvalidConfigurationException ex) {}
-
-        //保存home
-        config.set("homes", null);
-        HashMap<String, Location> homeMap = PlayerStatsManager.playerStatMap.get(playerName).getHomes();
-        if (homeMap!=null) {
-            homeMap.forEach(
-                    (name, loc) -> {
-                        String locStr = loc.getWorld().getName() + ";" +
-                                loc.getX() + ";" +
-                                loc.getY() + ";" +
-                                loc.getZ() + ";" +
-                                loc.getYaw() + ";" +
-                                loc.getPitch();
-                        config.set("homes." + name, locStr);
-                    });
-        }
-        //保存技能
-        config.set("skills", null);
-        HashMap<SkillType, Integer> skillStat = PlayerStatsManager.playerStatMap.get(playerName).getSkillStat();
-        if (skillStat!=null) {
-            skillStat.forEach(
-                    (skillType, level) -> {
-                        config.set("skills." + skillType.toString(), level);
-                    });
-        }
-
-        //保存其他
-        config.set("uuid", PlayerStatsManager.playerStatMap.get(playerName).getUUID().toString());
-        config.set("hearts", player.getHealth()/2);
-        config.set("maxHearts", PlayerStatsManager.playerStatMap.get(playerName).getMaxHearts());
-        config.set("kill", PlayerStatsManager.playerStatMap.get(playerName).getKill());
-        config.set("killStreak", PlayerStatsManager.playerStatMap.get(playerName).getKillStreak());
-        config.set("ruby", PlayerStatsManager.playerStatMap.get(playerName).getRuby());
-        config.set("death", PlayerStatsManager.playerStatMap.get(playerName).getDeath());
-        config.set("tpTime", PlayerStatsManager.playerStatMap.get(playerName).getTpTime());
-        config.set("maxHome", PlayerStatsManager.playerStatMap.get(playerName).getMaxHome());
-        config.set("banTime", PlayerStatsManager.playerStatMap.get(playerName).getBanTime());
-        try{
-            config.save(dataFile);}catch (IOException ex){
-            System.out.println("玩家"+playerName+"的等级信息保存出错");
-        }
+        saveOffLinePlayerData(playerName);
     }
     public void saveOffLinePlayerData(String playerName){
         File dataFolder = new File("plugins/PWLifeSteal/Players");
@@ -252,6 +212,7 @@ public class YamlStorage {
         config.set("ruby", PlayerStatsManager.playerStatMap.get(playerName).getRuby());
         config.set("maxHome", PlayerStatsManager.playerStatMap.get(playerName).getMaxHome());
         config.set("banTime", PlayerStatsManager.playerStatMap.get(playerName).getBanTime());
+        config.set("lastKillPlayerName", PlayerStatsManager.playerStatMap.get(playerName).getLastKillPlayerName());
         try{
             config.save(dataFile);}catch (IOException ex){
             System.out.println("玩家"+playerName+"的信息保存出错");

@@ -23,10 +23,12 @@ public class PlayerStat {
     //小时
     private int banTime;
 
+    private String lastKillPlayerName;
+
     //<类型，等级>
     private HashMap<SkillType, Integer> skillStat;
 
-    public PlayerStat(UUID uuid, double hearts, double maxHearts, int kill, int killStreak, int ruby, int death, HashMap<String, Location> homes, int maxHome, int tpTime, int banTime, HashMap<SkillType, Integer> skillStat) {
+    public PlayerStat(UUID uuid, double hearts, double maxHearts, int kill, int killStreak, int ruby, int death, HashMap<String, Location> homes, int maxHome, int tpTime, int banTime, String lastKillPlayerName, HashMap<SkillType, Integer> skillStat) {
         this.uuid = uuid;
         this.hearts = hearts;
         this.maxHearts = maxHearts;
@@ -38,6 +40,7 @@ public class PlayerStat {
         this.maxHome = maxHome;
         this.tpTime = tpTime;
         this.banTime = banTime;
+        this.lastKillPlayerName = lastKillPlayerName;
         this.skillStat = skillStat;
     }
 
@@ -59,10 +62,19 @@ public class PlayerStat {
         //默认ban2天
         this.banTime = 48;
         this.skillStat = new HashMap<>();
+        this.lastKillPlayerName = "";
     }
 
     public int getRuby() {
         return ruby;
+    }
+
+    public void setLastKillPlayerName(String lastKillPlayerName) {
+        this.lastKillPlayerName = lastKillPlayerName;
+    }
+
+    public String getLastKillPlayerName() {
+        return lastKillPlayerName;
     }
 
     public void setRuby(int ruby) {

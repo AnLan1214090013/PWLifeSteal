@@ -60,7 +60,7 @@ public class MenuListener implements Listener {
                         int playerRuby = PlayerStatsManager.playerStatMap.get(player.getName()).getRuby();
                         if (cost>playerRuby){
                             player.playSound(player.getEyeLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 0.1f);
-                            player.sendMessage(ChatColorCast.format("&d▸ &f你没有足够的&c&l红宝石&f来升级技能!"));
+                            player.sendMessage(ChatColorCast.format("&d▸ &f你没有足够的&d&l紫宝石&f来升级技能!"));
                             return;
                         }
                         PlayerStatsManager.levelUpSkill(player, skillType);

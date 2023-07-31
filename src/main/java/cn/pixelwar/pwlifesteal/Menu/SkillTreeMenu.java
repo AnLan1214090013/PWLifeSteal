@@ -20,7 +20,7 @@ public class SkillTreeMenu {
 
 
     public void openSkillTreeMenu(Player player){
-        Inventory gui = Bukkit.createInventory(player, 54, ChatColorCast.format("&8技能树     当前红宝石: &c&l"+PlayerStatsManager.playerStatMap.get(player.getName()).getRuby()));
+        Inventory gui = Bukkit.createInventory(player, 54, ChatColorCast.format("&8技能树     当前紫宝石: &d&l"+PlayerStatsManager.playerStatMap.get(player.getName()).getRuby()));
         for (SkillType skillType : SkillType.values()){
             ItemStack item = getSkillItem(skillType, player);
             gui.setItem(skillType.getMenuSlot(), item);
@@ -46,7 +46,7 @@ public class SkillTreeMenu {
                 }
                 lore.add(" ");
                 lore.add(ChatColorCast.format("&4&l| &f当前触发几率: &b" + chance + "%"));
-                lore.add(ChatColorCast.format("&4&l| &f下一级花费: &c" + (skillType.getUnlockPrize() + skillType.getEachLevelAddPrize() * skillStat.get(skillType)) + " 红宝石"));
+                lore.add(ChatColorCast.format("&4&l| &f下一级花费: &d" + (skillType.getUnlockPrize() + skillType.getEachLevelAddPrize() * skillStat.get(skillType)) + " 紫宝石"));
                 lore.add(" ");
                 lore.add(ChatColorCast.format("&a▸ 点击升级"));
                 itemMeta.setDisplayName(displayName);
@@ -66,7 +66,7 @@ public class SkillTreeMenu {
                 }
                 lore.add(" ");
                 lore.add(ChatColorCast.format("&4&l| &f当前触发几率: &b" + chance + "%"));
-//                lore.add(ChatColorCast.format("&4&l| &f下一级花费: &c" + (skillType.getUnlockPrize() + skillType.getEachLevelAddPrize() * skillStat.get(skillType)) + " 红宝石"));
+//                lore.add(ChatColorCast.format("&4&l| &f下一级花费: &c" + (skillType.getUnlockPrize() + skillType.getEachLevelAddPrize() * skillStat.get(skillType)) + " 紫宝石"));
                 lore.add(" ");
                 lore.add(ChatColorCast.format("&6已达到最高等级"));
                 itemMeta.setDisplayName(displayName);
@@ -94,7 +94,7 @@ public class SkillTreeMenu {
                 }
                 lore.add(" ");
                 lore.add(ChatColorCast.format("&4&l| &f当前触发几率: &b"+chance+"%"));
-                lore.add(ChatColorCast.format("&4&l| &f解锁花费: &c"+skillType.getUnlockPrize()+" 红宝石"));
+                lore.add(ChatColorCast.format("&4&l| &f解锁花费: &d"+skillType.getUnlockPrize()+" 紫宝石"));
                 lore.add(" ");
                 lore.add(ChatColorCast.format("&a▸ 点击解锁技能"));
                 itemMeta.setDisplayName(displayName);
@@ -115,7 +115,7 @@ public class SkillTreeMenu {
                 }
                 lore.add(" ");
                 lore.add(ChatColorCast.format("&4&l| &f当前触发几率: &b"+chance+"%"));
-                lore.add(ChatColorCast.format("&4&l| &f解锁花费: &c"+skillType.getUnlockPrize()+" 红宝石"));
+                lore.add(ChatColorCast.format("&4&l| &f解锁花费: &d"+skillType.getUnlockPrize()+" 紫宝石"));
                 lore.add(" ");
                 lore.add(ChatColorCast.format("&c&l✖ &c当前技能不能解锁,你需要"));
                 lore.add(ChatColorCast.format("&c先解锁与这个技能相连的技能"));
