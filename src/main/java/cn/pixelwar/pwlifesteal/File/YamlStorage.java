@@ -99,15 +99,15 @@ public class YamlStorage {
             }
 
             UUID uuid = null;
-            double hearts = 0;
-            double maxHearts = 0;
+            double hearts = 20;
+            double maxHearts = 20;
             int kill = 0;
             int killStreak = 0;
             int ruby = 0;
             int death = 0;
-            int maxHome = 0;
-            int tpTime = 0;
-            int banTime = 0;
+            int maxHome = 1;
+            int tpTime = 10;
+            int banTime = 48;
             String lastKillPlayerName = "";
             if (config.contains("uuid")){
                 uuid = UUID.fromString(config.getString("uuid"));
@@ -137,7 +137,7 @@ public class YamlStorage {
                 tpTime = config.getInt("tpTime");
             }
             if (config.contains("banTime")){
-                maxHome = config.getInt("banTime");
+                banTime = config.getInt("banTime");
             }
             if (config.contains("lastKillPlayerName")){
                 lastKillPlayerName = config.getString("lastKillPlayerName");
