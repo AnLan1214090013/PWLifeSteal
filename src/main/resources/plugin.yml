@@ -3,4 +3,4 @@ version: '${project.version}'
 main: cn.pixelwar.pwlifesteal.PWLifeSteal
 api-version: 1.18
 authors: [ An_Lan ]
-depend: [WorldGuard, Skript, NBTAPI]
+depend: [WorldGuard, Skript, NBTAPI, Vault]
