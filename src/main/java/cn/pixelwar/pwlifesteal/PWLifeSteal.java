@@ -6,7 +6,7 @@ import cn.pixelwar.pwlifesteal.File.YamlStorage;
 import cn.pixelwar.pwlifesteal.Listeners.LifeStealListener;
 import cn.pixelwar.pwlifesteal.Listeners.MenuListener;
 import cn.pixelwar.pwlifesteal.Listeners.SpawnListener;
-import net.milkbowl.vault.economy.Economy;
+//import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -23,7 +23,7 @@ import java.io.InputStreamReader;
 
 public final class PWLifeSteal extends JavaPlugin {
     static PWLifeSteal instance;
-    private static Economy econ = null;
+//    private static Economy econ = null;
     SkriptAddon addon;
 
     private static Plugin plugin;
@@ -35,11 +35,11 @@ public final class PWLifeSteal extends JavaPlugin {
         registerEvents();
         setupConfig();
         setupSK();
-        if (!setupEconomy() ) {
-            Bukkit.getLogger().severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
+//        if (!setupEconomy() ) {
+//            Bukkit.getLogger().severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
+//            getServer().getPluginManager().disablePlugin(this);
+//            return;
+//        }
     }
 
     @Override
@@ -89,16 +89,16 @@ public final class PWLifeSteal extends JavaPlugin {
         Bukkit.getLogger().info("[PWLifeSteal-skript] 已经成功启动!");
     }
 
-    private boolean setupEconomy() {
-        if (getServer().getPluginManager().getPlugin("Vault") == null) {
-            return false;
-        }
-        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-        if (rsp == null) {
-            return false;
-        }
-        econ = rsp.getProvider();
-        return econ != null;
-    }
+//    private boolean setupEconomy() {
+//        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+//            return false;
+//        }
+//        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+//        if (rsp == null) {
+//            return false;
+//        }
+//        econ = rsp.getProvider();
+//        return econ != null;
+//    }
 
 }
