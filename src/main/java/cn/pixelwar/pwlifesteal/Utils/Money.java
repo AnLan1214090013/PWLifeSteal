@@ -1,39 +1,29 @@
-//package cn.pixelwar.pwlifesteal.Utils;
-//
-//import net.milkbowl.vault.economy.Economy;
-//import org.bukkit.entity.Player;
-//import org.bukkit.plugin.RegisteredServiceProvider;
-//
-//import static org.bukkit.Bukkit.getServer;
-//
-//public class Money {
-//
-//    public static double getPlayerMoney(Player player){
-//
-//        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-//        if (rsp == null) {
-//            return 0;
-//        }
-//        Economy econ = rsp.getProvider();
-//        return econ.getBalance(player);
-//
-//    }
-//    public static void givePlayerMoney(Player player, double amount){
-//        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-//        if (rsp == null) {
-//            return;
-//        }
-//        Economy econ = rsp.getProvider();
-//        econ.depositPlayer(player, amount);
-//    }
-//    public static void takePlayerMoney(Player player, double amount){
-//        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-//        if (rsp == null) {
-//            return;
-//        }
-//        Economy econ = rsp.getProvider();
-//        econ.withdrawPlayer(player, amount);
-//    }
-//
-//
-//}
+package cn.pixelwar.pwlifesteal.Utils;
+
+import me.yic.xconomy.api.XConomyAPI;
+import me.yic.xconomy.data.syncdata.PlayerData;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.RegisteredServiceProvider;
+
+import java.math.BigDecimal;
+
+import static org.bukkit.Bukkit.getServer;
+
+public class Money {
+
+    public static double getPlayerMoney(Player player){
+        XConomyAPI xcapi = new XConomyAPI();
+        PlayerData playerData = xcapi.getPlayerData(player.getName());
+        return playerData.getBalance().doubleValue();
+    }
+    public static void givePlayerMoney(Player player, double amount){
+        XConomyAPI xcapi = new XConomyAPI();
+        xcapi.changePlayerBalance(player.getUniqueId(), player.getName(), new BigDecimal(amount), true);
+    }
+    public static void takePlayerMoney(Player player, double amount){
+        XConomyAPI xcapi = new XConomyAPI();
+        xcapi.changePlayerBalance(player.getUniqueId(), player.getName(), new BigDecimal(amount), false);
+    }
+
+
+}

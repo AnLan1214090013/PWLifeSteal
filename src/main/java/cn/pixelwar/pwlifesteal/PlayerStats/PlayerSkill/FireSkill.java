@@ -291,23 +291,17 @@ public class FireSkill {
         attacker.setFoodLevel(20);
     }
 
-    public static void doDOUBLE_MONEY_FROM_KILL_PLAYER(Player attacker){
+    public static boolean doDOUBLE_MONEY_FROM_KILL_PLAYER(Player attacker){
         SkillType skillType = SkillType.DOUBLE_MONEY_FROM_KILL_PLAYER;
         CheckSkillResult checkSkillResult = checkSkill(skillType, attacker);
         if (!checkSkillResult.hasSkill){
-            return;
+            return false;
         }
-        if(PlayerStatsManager.playerStatMap.get(attacker.getName()).getKillStreak()<=0){
-            return;
-        }
-
         int random = NumberFormat.getRandomInt(0, 10000);
         if (random > checkSkillResult.getChance() * 100) {
-            return;
+            return false;
         }
-        fireInform(attacker, skillType);
-        attacker.setHealth(attacker.getMaxHealth());
-        attacker.setFoodLevel(20);
+        return true;
     }
 
 
