@@ -1,8 +1,10 @@
 package cn.pixelwar.pwlifesteal.File;
 
+import cn.pixelwar.pwlifesteal.PWLifeSteal;
 import cn.pixelwar.pwlifesteal.PlayerStats.PlayerSkill.SkillType;
 import cn.pixelwar.pwlifesteal.PlayerStats.PlayerStat;
 import cn.pixelwar.pwlifesteal.PlayerStats.PlayerStatsManager;
+import cn.pixelwar.pwlifesteal.Utils.Teleport.Teleport;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
@@ -223,4 +225,22 @@ public class YamlStorage {
             saveOffLinePlayerData(playerName);
         }
     }
+
+    public void loadWarps(){
+        ConfigurationSection warps = PWLifeSteal.getPlugin().getConfig().getConfigurationSection("warps");
+        for (String warp : warps.getKeys(false)) {
+            String[] locStr = PWLifeSteal.getPlugin().getConfig().getString("warps."+warp).split(";");
+            Location loc = new Location(
+                    Bukkit.getWorld(locStr[0]),
+                    Double.valueOf(locStr[1]),
+                    Double.valueOf(locStr[2]),
+                    Double.valueOf(locStr[3]),
+                    Float.valueOf(locStr[4]),
+                    Float.valueOf(locStr[5])
+            );
+            Teleport.warpsMap.put(warp, loc);
+        }
+    }
+
+
 }

@@ -145,7 +145,7 @@ public class LifeStealListener implements Listener {
                 int victimNowRuby = PlayerStatsManager.playerStatMap.get(victim.getName()).getRuby();
                 if(victimNowRuby>10){
 //                    int attackerNowRuby = PlayerStatsManager.playerStatMap.get(attacker.getName()).getRuby();
-                    int random = NumberFormat.getRandomInt(1, 10);
+                    int random = NumberFormat.getRandomInt(1, 10) / 2;
                     PlayerStatsManager.removePlayerRuby(victim, random);
                     PlayerStatsManager.givePlayerRuby(attacker, random);
                     attacker.sendMessage(ChatColorCast.format("&6▸ &f你获得了&c&l"+victim.getName()+"&f掉落的&d&l"+random+"紫宝石"));
@@ -154,15 +154,16 @@ public class LifeStealListener implements Listener {
                 double victimNowMoney = Money.getPlayerMoney(victim);
                 if(victimNowMoney>10){
 //                    int attackerNowRuby = PlayerStatsManager.playerStatMap.get(attacker.getName()).getRuby();
-                    int random = NumberFormat.getRandomInt(1, (int) victimNowMoney/20);
+                    int random = NumberFormat.getRandomInt(1, (int) victimNowMoney/20) / 2;
                     Money.takePlayerMoney(victim, random);
                     Money.givePlayerMoney(attacker, random);
-                    attacker.sendMessage(ChatColorCast.format("&6▸ &f你获得了&c&l"+victim.getName()+"&f掉落的&e&l"+random+"&2&l$"));
+                    victim.sendMessage(ChatColorCast.format("&c▸ 你因为被其他玩家杀死掉落了&e&l"+random+"&2&l$"));
                     if (FireSkill.doDOUBLE_MONEY_FROM_KILL_PLAYER(attacker)){
                         Money.givePlayerMoney(attacker, random);
-                        victim.sendMessage(ChatColorCast.format("&c▸ 你因为被其他玩家杀死掉落了&e&l"+random*2+"&2&l$"));
+                        attacker.sendMessage(ChatColorCast.format("&6▸ &f你获得了&c&l"+victim.getName()+"&f掉落的&e&l"+random*2+"&2&l$"));
                     }else{
-                        victim.sendMessage(ChatColorCast.format("&c▸ 你因为被其他玩家杀死掉落了&e&l"+random+"&2&l$"));
+                        attacker.sendMessage(ChatColorCast.format("&6▸ &f你获得了&c&l"+victim.getName()+"&f掉落的&e&l"+random+"&2&l$"));
+
                     }
 
 

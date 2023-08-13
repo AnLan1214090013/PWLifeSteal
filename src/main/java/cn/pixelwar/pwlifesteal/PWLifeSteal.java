@@ -7,6 +7,7 @@ import cn.pixelwar.pwlifesteal.Listeners.LifeStealListener;
 import cn.pixelwar.pwlifesteal.Listeners.MenuListener;
 import cn.pixelwar.pwlifesteal.Listeners.SpawnListener;
 //import net.milkbowl.vault.economy.Economy;
+import cn.pixelwar.pwlifesteal.Utils.Teleport.Teleport;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -35,6 +36,7 @@ public final class PWLifeSteal extends JavaPlugin {
         registerEvents();
         setupConfig();
         setupSK();
+        setupTimer();
 //        if (!setupEconomy() ) {
 //            Bukkit.getLogger().severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
 //            getServer().getPluginManager().disablePlugin(this);
@@ -65,6 +67,8 @@ public final class PWLifeSteal extends JavaPlugin {
         reloadConfig();
         config = getConfig();
         totalPlayerAmount=PWLifeSteal.config.getInt("players");
+        YamlStorage yamlStorage = new YamlStorage();
+        yamlStorage.loadWarps();
     }
 
     private void updateConfig(){
@@ -89,16 +93,9 @@ public final class PWLifeSteal extends JavaPlugin {
         Bukkit.getLogger().info("[PWLifeSteal-skript] 已经成功启动!");
     }
 
-//    private boolean setupEconomy() {
-//        if (getServer().getPluginManager().getPlugin("Vault") == null) {
-//            return false;
-//        }
-//        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-//        if (rsp == null) {
-//            return false;
-//        }
-//        econ = rsp.getProvider();
-//        return econ != null;
-//    }
+    private void setupTimer(){
+        Teleport teleport = new Teleport();
+        teleport.tpaTimer();
+    }
 
 }

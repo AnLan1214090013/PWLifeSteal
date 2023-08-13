@@ -6,11 +6,21 @@ public class TPAData {
 
 
     private Player receiver;
+    private Player sender;
     private int time;
 
-    public TPAData(Player receiver, int time) {
+    public TPAData(Player receiver, Player sender, int time) {
         this.receiver = receiver;
+        this.sender = sender;
         this.time = time;
+    }
+
+    public Player getSender() {
+        return sender;
+    }
+
+    public void setSender(Player sender) {
+        this.sender = sender;
     }
 
     public Player getReceiver() {

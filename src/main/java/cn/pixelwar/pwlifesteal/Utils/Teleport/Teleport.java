@@ -4,6 +4,7 @@ import cn.pixelwar.pwlifesteal.PWLifeSteal;
 import cn.pixelwar.pwlifesteal.PlayerStats.PlayerStatsManager;
 import cn.pixelwar.pwlifesteal.Utils.ChatColorCast;
 import cn.pixelwar.pwlifesteal.Utils.TimeFormat;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -17,9 +18,10 @@ import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Teleport {
+    //sender, tpaData
     public static ConcurrentHashMap<Player, TPAData> TPARequest = new ConcurrentHashMap<>();
 
-    //receiver 发起人
+    //receiver sender
     public static ConcurrentHashMap<Player, Player> TPAReceivedRequest = new ConcurrentHashMap<>();
     public static ConcurrentHashMap<String, Location> warpsMap = new ConcurrentHashMap<>();
 
@@ -100,7 +102,7 @@ public class Teleport {
         sender.sendMessage("");
         sender.sendMessage(ChatColorCast.format("&d▸ &f你已经发送了传送请求，&e&l"+receiver.getName()+"&f有&b&l60秒&f同意时间!"));
         sender.sendMessage("");
-        TPAData tpaData = new TPAData(receiver, 60);
+        TPAData tpaData = new TPAData(receiver, sender, 60);
         TPARequest.put(sender, tpaData);
         TPAReceivedRequest.put(receiver, sender);
         receiver.playSound(sender.getEyeLocation(), Sound.ENTITY_VILLAGER_YES, 1f,1f);
@@ -125,7 +127,8 @@ public class Teleport {
             TPARequest.remove(sender);
             return;
         }
-        teleportPlayer(sender, receiver.getLocation());
+//        teleportPlayer(sender, receiver.getLocation());
+        sender.teleport(receiver.getLocation());
         receiver.sendMessage(ChatColorCast.format("&d▸ &f你同意了&b&l"+sender.getName()+"&f的传送请求!"));
         receiver.playSound(receiver.getEyeLocation(), Sound.ENTITY_VILLAGER_YES, 1f,1f);
         sender.playSound(receiver.getEyeLocation(), Sound.ENTITY_VILLAGER_YES, 1f,1f);
@@ -139,15 +142,19 @@ public class Teleport {
         new BukkitRunnable() {
             @Override
             public void run() {
-                TPARequest.forEach((key, value) -> {
-                    if (value.getTime()<=0){
-                        key.sendMessage(ChatColorCast.format("&c▸ 你的传送请求已过期!"));
-                        key.playSound(key.getEyeLocation(), Sound.ENTITY_VILLAGER_NO, 1f,1f);
-                        TPAReceivedRequest.remove(value.getReceiver());
-                        TPARequest.remove(key);
+                //sender tpaData
+                TPARequest.forEach((sender, tpaData) -> {
+//                    Bukkit.broadcastMessage("TPARequest.sender: "+sender.getName());
+//                    Bukkit.broadcastMessage("TPARequest.tpaData.getReceiver(): "+tpaData.getReceiver().getName());
+//                    Bukkit.broadcastMessage("TPARequest.tpaData.getSender(): "+tpaData.getSender().getName());
+                    if (tpaData.getTime()<=0){
+                        sender.sendMessage(ChatColorCast.format("&c▸ 你的传送请求已过期!"));
+                        sender.playSound(sender.getEyeLocation(), Sound.ENTITY_VILLAGER_NO, 1f,1f);
+                        TPAReceivedRequest.remove(tpaData.getReceiver());
+                        TPARequest.remove(sender);
                     }else {
-                        TPAData tpaData = new TPAData(key, value.getTime()-1);
-                        TPARequest.put(key, tpaData);
+                        TPAData tpaData2 = new TPAData(tpaData.getReceiver(),sender, tpaData.getTime()-1);
+                        TPARequest.put(sender, tpaData2);
                     }
                 });
             }
