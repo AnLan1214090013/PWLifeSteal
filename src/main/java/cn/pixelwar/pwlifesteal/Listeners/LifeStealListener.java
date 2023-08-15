@@ -6,6 +6,7 @@ import cn.pixelwar.pwlifesteal.PlayerStats.PlayerSkill.FireSkill;
 import cn.pixelwar.pwlifesteal.PlayerStats.PlayerStatsManager;
 import cn.pixelwar.pwlifesteal.Utils.*;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
+import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -43,6 +44,7 @@ public class LifeStealListener implements Listener {
                     public void run() {
                         p.setMaxHealth(maxHearts*2);
                         p.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(maxHearts*2);
+//                        Bukkit.broadcastMessage("maxHearts*2: "+maxHearts*2);
 //                        p.setHealth(hearts*2);
                         if (isFirst){
                             doFirstJoin(p);

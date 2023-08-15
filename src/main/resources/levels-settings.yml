@@ -1,0 +1,24 @@
+maxLevel: 100
+levels:
+  1:
+    quests:
+      - "BREAK;ANY_LOG;12"    # 破坏所有种类的木头
+      - "BREAK;STONE;12"      # 破坏一种方块
+      - "PLACE;STONE;12"      # 放置一种方块
+      - "CRAFT;WORKBENCH;1"      # 合成物品
+      - "CONSUME;BEEF;1"      # 吃东西
+      - "KILL_MOB;ZOMBIE;10"
+      - "DAMAGE_MOB;ZOMBIE;10000"
+      - "DAMAGE_PLAYER;10000"
+      - "KILL_PLAYER;10"
+      - "ENCHANT;10"
+      - "SMELT;COAL;10"
+      - "HONEY_EXTRACT;10"
+    commonRewards:
+      - "EXP;1000"
+    premiumRewards:
+      - "EXP;1000"
+      - "MONEY;1000"
+      - "RUBY;1000"
+      - "ITEM;WOODEN_PICKAXE;1"
+      - "CUSTOM_ITEM;pwpickaxe;1"
