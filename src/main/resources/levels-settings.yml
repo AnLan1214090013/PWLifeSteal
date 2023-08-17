@@ -2,18 +2,31 @@ maxLevel: 100
 levels:
   1:
     quests:
-      - "BREAK;ANY_LOG;12"    # 破坏所有种类的木头
-      - "BREAK;STONE;12"      # 破坏一种方块
-      - "PLACE;STONE;12"      # 放置一种方块
-      - "CRAFT;WORKBENCH;1"      # 合成物品
-      - "CONSUME;BEEF;1"      # 吃东西
-      - "KILL_MOB;ZOMBIE;10"
-      - "DAMAGE_MOB;ZOMBIE;10000"
-      - "DAMAGE_PLAYER;10000"
-      - "KILL_PLAYER;10"
-      - "ENCHANT;10"
-      - "SMELT;COAL;10"
-      - "HONEY_EXTRACT;10"
+      1:   # 破坏所有种类的木头
+        type: BREAK
+        name: "破坏12个任意种类的木头"
+        variable: ANY_LOG
+        needProgress: 12
+      2:    # 破坏一种方块
+        type: BREAK
+        name: "破坏12个石头"
+        variable: STONE
+        needProgress: 12
+      3:
+        type: KILL_MOB
+        name: "击杀10个僵尸"
+        variable: ZOMBIE
+        needProgress: 10
+    #      - "PLACE;STONE;12"      # 放置一种方块
+    #      - "CRAFT;WORKBENCH;1"      # 合成物品
+    #      - "CONSUME;BEEF;1"      # 吃东西
+    #      - "KILL_MOB;ZOMBIE;10"
+    #      - "DAMAGE_MOB;ZOMBIE;10000"
+    #      - "DAMAGE_PLAYER;10000"
+    #      - "KILL_PLAYER;10"
+    #      - "ENCHANT;10"
+    #      - "SMELT;COAL;10"
+    #      - "HONEY_EXTRACT;10"
     commonRewards:
       - "EXP;1000"
     premiumRewards:

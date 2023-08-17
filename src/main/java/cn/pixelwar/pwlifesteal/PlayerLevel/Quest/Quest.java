@@ -1,19 +1,26 @@
 package cn.pixelwar.pwlifesteal.PlayerLevel.Quest;
 
-public class Quest<T> {
+public class Quest {
 
     private String questName;
     private int needProgress;
     private int nowProgress;
     private QuestType questType;
-    private T questVariable;
+    private String questVariable;
 
-    public Quest(String questName, int needProgress, int nowProgress, QuestType questType, T questVariable) {
+    public Quest(String questName, int needProgress, int nowProgress, QuestType questType, String questVariable) {
         this.questName = questName;
         this.needProgress = needProgress;
         this.nowProgress = nowProgress;
         this.questType = questType;
         this.questVariable = questVariable;
+    }
+    public Quest(String questName, int needProgress, int nowProgress, QuestType questType) {
+        this.questName = questName;
+        this.needProgress = needProgress;
+        this.nowProgress = nowProgress;
+        this.questType = questType;
+        this.questVariable = null;
     }
 
     public String getQuestName() {
@@ -48,11 +55,11 @@ public class Quest<T> {
         this.questType = questType;
     }
 
-    public T getQuestVariable() {
+    public String getQuestVariable() {
         return questVariable;
     }
 
-    public void setQuestVariable(T questVariable) {
+    public void setQuestVariable(String questVariable) {
         this.questVariable = questVariable;
     }
 }

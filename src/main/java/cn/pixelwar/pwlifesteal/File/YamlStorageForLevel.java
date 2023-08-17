@@ -1,6 +1,11 @@
 package cn.pixelwar.pwlifesteal.File;
 
 import cn.pixelwar.pwlifesteal.PWLifeSteal;
+import cn.pixelwar.pwlifesteal.PlayerLevel.Level;
+import cn.pixelwar.pwlifesteal.PlayerLevel.Quest.Quest;
+import cn.pixelwar.pwlifesteal.PlayerLevel.Quest.QuestType;
+import cn.pixelwar.pwlifesteal.PlayerLevel.Reward.Reward;
+import cn.pixelwar.pwlifesteal.PlayerLevel.ServerLevelManager;
 import cn.pixelwar.pwlifesteal.PlayerStats.PlayerSkill.SkillType;
 import cn.pixelwar.pwlifesteal.PlayerStats.PlayerStat;
 import cn.pixelwar.pwlifesteal.PlayerStats.PlayerStatsManager;
@@ -17,8 +22,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
 
 
 public class YamlStorageForLevel {
@@ -61,186 +65,71 @@ public class YamlStorageForLevel {
         return firstJoin;
     }
 
-    public void CreatePlayerDataMap(Player player) {
-            File dataFile = new File("plugins/PWLifeSteal/PlayerLevels/" + player.getName() + ".yml");
+    public void initLevelSystem(){
+//        File dataFile = new File("plugins/PWLifeSteal/levels-settings.yml");
+        FileConfiguration levelConfig = PWLifeSteal.getInstance().getLevelConfig();
+        ConfigurationSection levelNumSection =  levelConfig.getConfigurationSection("levels");
+        for (String levelNum : levelNumSection.getKeys(false)){
+            Level level;
+//            Bukkit.getLogger().info("levelNum : "+levelNum);
+            ConfigurationSection questsSection =  levelConfig.getConfigurationSection("levels."+levelNum+".quests");
+//            List<String> questsSection =  levelConfig.getStringList("levels."+levelNum+".quests");
+            List<Quest> quests = new ArrayList<>();
+            for (String questNum : questsSection.getKeys(false)){
+//                Bukkit.getLogger().info("quest : "+questType);
+                Quest quest = null;
+                int needProgress = levelConfig.getInt("levels."+levelNum+".quests."+questNum+".needProgress");
+                String variable = levelConfig.getString("levels."+levelNum+".quests."+questNum+".variable");
+                String name = levelConfig.getString("levels."+levelNum+".quests."+questNum+".name");
+                String questType = levelConfig.getString("levels."+levelNum+".quests."+questNum+".questType");
 
-            try (InputStreamReader Config = new InputStreamReader(new FileInputStream(dataFile), "UTF-8")) {
-                config.load(Config);
-            } catch (IOException | InvalidConfigurationException ex) {
+                if (variable!=null){
+                    quest = new Quest(name, needProgress, 0, QuestType.getQuestTypeByName(questType), variable);
+                }else{
+                    quest = new Quest(name, needProgress, 0, QuestType.getQuestTypeByName(questType));
+                }
+                quests.add(quest);
             }
-
-
-            //加载数据
-
-            //家的数据
-            HashMap<String, Location> homes = new HashMap<>();
-            if(config.contains("homes")){
-                ConfigurationSection homess = config.getConfigurationSection("homes");
-                for (String homeName : homess.getKeys(false)) {
-                    String[] locStr = config.getString("homes."+homeName).split(";");
-                    Location loc = new Location(
-                            Bukkit.getWorld(locStr[0]),
-                            Double.valueOf(locStr[1]),
-                            Double.valueOf(locStr[2]),
-                            Double.valueOf(locStr[3]),
-                            Float.valueOf(locStr[4]),
-                            Float.valueOf(locStr[5])
-                    );
-                    homes.put(homeName, loc);
+            List<String> commonRewardsStringList =  levelConfig.getStringList("levels."+levelNum+".commonRewards");
+            List<Reward> commonRewardsList = new ArrayList<>();
+            for (String commonRewardString : commonRewardsStringList){
+                Reward commonReward = null;
+                String[] strings = commonRewardString.split(";");
+                //no variable
+                if (strings.length==2){
+                    commonReward = new Reward(strings[0], Integer.parseInt(strings[1]));
+                }
+                if (strings.length==3){
+                    commonReward = new Reward(strings[0], Integer.parseInt(strings[2]), strings[1]);
+                }
+                if (commonReward!=null) {
+                    commonRewardsList.add(commonReward);
                 }
             }
-
-            //技能数据
-            HashMap<SkillType, Integer> skillStat = new HashMap<>();
-            if(config.contains("skills")){
-                ConfigurationSection skillss = config.getConfigurationSection("skills");
-                for (String skillName : skillss.getKeys(false)) {
-                    int level = config.getInt("skills."+skillName);
-                    SkillType skillType = SkillType.getSkillType(skillName);
-                    skillStat.put(skillType, level);
+            List<String> premiumRewardsStringList =  levelConfig.getStringList("levels."+levelNum+".premiumRewards");
+            List<Reward> premiumRewardsList = new ArrayList<>();
+            for (String premiumRewardString : premiumRewardsStringList){
+                Reward premiumReward = null;
+                String[] strings = premiumRewardString.split(";");
+                //no variable
+                if (strings.length==2){
+                    premiumReward = new Reward(strings[0], Integer.parseInt(strings[1]));
+                }
+                if (strings.length==3){
+                    premiumReward = new Reward(strings[0], Integer.parseInt(strings[2]), strings[1]);
+                }
+                if (premiumReward!=null) {
+                    commonRewardsList.add(premiumReward);
                 }
             }
+            level= new Level(quests, commonRewardsList, premiumRewardsList);
+            ServerLevelManager.allLevels.put(Integer.parseInt(levelNum), level );
 
-            UUID uuid = null;
-            double hearts = 20;
-            double maxHearts = 20;
-            int kill = 0;
-            int killStreak = 0;
-            int ruby = 0;
-            int death = 0;
-            int maxHome = 1;
-            int tpTime = 10;
-            int banTime = 48;
-            String lastKillPlayerName = "";
-            if (config.contains("uuid")){
-                uuid = UUID.fromString(config.getString("uuid"));
-            }
-            if (config.contains("hearts")){
-                hearts = config.getDouble("hearts");
-            }
-            if (config.contains("maxHearts")){
-                maxHearts = config.getDouble("maxHearts");
-            }
-            if (config.contains("kill")){
-                kill = config.getInt("kill");
-            }
-            if (config.contains("killStreak")){
-                killStreak = config.getInt("killStreak");
-            }
-            if (config.contains("ruby")){
-                ruby = config.getInt("ruby");
-            }
-            if (config.contains("death")){
-                death = config.getInt("death");
-            }
-            if (config.contains("maxHome")){
-                maxHome = config.getInt("maxHome");
-            }
-            if (config.contains("tpTime")){
-                tpTime = config.getInt("tpTime");
-            }
-            if (config.contains("banTime")){
-                banTime = config.getInt("banTime");
-            }
-            if (config.contains("lastKillPlayerName")){
-                lastKillPlayerName = config.getString("lastKillPlayerName");
-            }
-
-
-
-            PlayerStat playerStat = new PlayerStat(
-                    uuid,
-                    hearts,
-                    maxHearts,
-                    kill,
-                    killStreak,
-                    ruby,
-                    death,
-                    homes,
-                    maxHome,
-                    tpTime,
-                    banTime,
-                    lastKillPlayerName,
-                    skillStat
-            );
-            PlayerStatsManager.playerStatMap.put(player.getName(), playerStat);
 
         }
 
 
-    public void savePlayerData(Player player){
-        String playerName = player.getName();;
-        saveOffLinePlayerData(playerName);
-    }
-    public void saveOffLinePlayerData(String playerName){
-        File dataFolder = new File("plugins/PWLifeSteal/PlayerLevels");
-        File dataFile = new File("plugins/PWLifeSteal/PlayerLevels/" + playerName + ".yml");
-        try (InputStreamReader Config = new InputStreamReader(new FileInputStream(dataFile), "UTF-8")) {
-            config.load(Config);
-        } catch (IOException | InvalidConfigurationException ex) {}
 
-        //保存home
-        config.set("homes", null);
-        HashMap<String, Location> homeMap = PlayerStatsManager.playerStatMap.get(playerName).getHomes();
-        if (homeMap!=null) {
-            homeMap.forEach(
-                    (name, loc) -> {
-                        String locStr = loc.getWorld().getName() + ";" +
-                                loc.getX() + ";" +
-                                loc.getY() + ";" +
-                                loc.getZ() + ";" +
-                                loc.getYaw() + ";" +
-                                loc.getPitch();
-                        config.set("homes." + name, locStr);
-                    });
-        }
-        //保存技能
-        config.set("skills", null);
-        HashMap<SkillType, Integer> skillStat = PlayerStatsManager.playerStatMap.get(playerName).getSkillStat();
-        if (skillStat!=null) {
-            skillStat.forEach(
-                    (skillType, level) -> {
-                        config.set("skills." + skillType.toString(), level);
-                    });
-        }
-
-        //保存其他
-        config.set("uuid", PlayerStatsManager.playerStatMap.get(playerName).getUUID().toString());
-        config.set("maxHearts", PlayerStatsManager.playerStatMap.get(playerName).getMaxHearts());
-        config.set("kill", PlayerStatsManager.playerStatMap.get(playerName).getKill());
-        config.set("killStreak", PlayerStatsManager.playerStatMap.get(playerName).getKillStreak());
-        config.set("tpTime", PlayerStatsManager.playerStatMap.get(playerName).getTpTime());
-        config.set("death", PlayerStatsManager.playerStatMap.get(playerName).getDeath());
-        config.set("tpTime", PlayerStatsManager.playerStatMap.get(playerName).getTpTime());
-        config.set("ruby", PlayerStatsManager.playerStatMap.get(playerName).getRuby());
-        config.set("maxHome", PlayerStatsManager.playerStatMap.get(playerName).getMaxHome());
-        config.set("banTime", PlayerStatsManager.playerStatMap.get(playerName).getBanTime());
-        config.set("lastKillPlayerName", PlayerStatsManager.playerStatMap.get(playerName).getLastKillPlayerName());
-        try{
-            config.save(dataFile);}catch (IOException ex){
-            System.out.println("玩家"+playerName+"的信息保存出错");
-        }
-    }
-    public void saveAllPlayerData(){
-        for (String playerName : PlayerStatsManager.playerStatMap.keySet()){
-            saveOffLinePlayerData(playerName);
-        }
-    }
-
-    public void loadWarps(){
-        ConfigurationSection warps = PWLifeSteal.getPlugin().getConfig().getConfigurationSection("warps");
-        for (String warp : warps.getKeys(false)) {
-            String[] locStr = PWLifeSteal.getPlugin().getConfig().getString("warps."+warp).split(";");
-            Location loc = new Location(
-                    Bukkit.getWorld(locStr[0]),
-                    Double.valueOf(locStr[1]),
-                    Double.valueOf(locStr[2]),
-                    Double.valueOf(locStr[3]),
-                    Float.valueOf(locStr[4]),
-                    Float.valueOf(locStr[5])
-            );
-            Teleport.warpsMap.put(warp, loc);
-        }
     }
 
 

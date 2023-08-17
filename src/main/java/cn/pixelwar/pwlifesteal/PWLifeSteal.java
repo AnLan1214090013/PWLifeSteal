@@ -3,6 +3,7 @@ package cn.pixelwar.pwlifesteal;
 import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptAddon;
 import cn.pixelwar.pwlifesteal.File.YamlStorage;
+import cn.pixelwar.pwlifesteal.File.YamlStorageForLevel;
 import cn.pixelwar.pwlifesteal.Listeners.LifeStealListener;
 import cn.pixelwar.pwlifesteal.Listeners.MenuListener;
 import cn.pixelwar.pwlifesteal.Listeners.SpawnListener;
@@ -26,13 +27,15 @@ public final class PWLifeSteal extends JavaPlugin {
     static PWLifeSteal instance;
 //    private static Economy econ = null;
     SkriptAddon addon;
-
+    private File levelConfigFile;
+    private FileConfiguration levelConfig;
     private static Plugin plugin;
     public static int totalPlayerAmount;
     public static FileConfiguration config;
     @Override
     public void onEnable() {
         plugin = this;
+        instance = this;
         registerEvents();
         setupConfig();
         setupSK();
@@ -48,7 +51,7 @@ public final class PWLifeSteal extends JavaPlugin {
     public void onDisable() {
        updateConfig();
        YamlStorage yamlStorage = new YamlStorage();
-        yamlStorage.saveAllPlayerData();
+       yamlStorage.saveAllPlayerData();
     }
     public static PWLifeSteal getInstance() {
         return instance;
@@ -69,6 +72,10 @@ public final class PWLifeSteal extends JavaPlugin {
         totalPlayerAmount=PWLifeSteal.config.getInt("players");
         YamlStorage yamlStorage = new YamlStorage();
         yamlStorage.loadWarps();
+        YamlStorageForLevel yamlStorageForLevel = new YamlStorageForLevel();
+
+        createLevelConfig();
+        yamlStorageForLevel.initLevelSystem();
     }
 
     private void updateConfig(){
@@ -97,5 +104,26 @@ public final class PWLifeSteal extends JavaPlugin {
         Teleport teleport = new Teleport();
         teleport.tpaTimer();
     }
+
+    public FileConfiguration getLevelConfig() {
+        return this.levelConfig;
+    }
+
+    private void createLevelConfig() {
+        levelConfigFile = new File(getDataFolder(), "levels-settings.yml");
+        if (!levelConfigFile.exists()) {
+            levelConfigFile.getParentFile().mkdirs();
+            saveResource("levels-settings.yml", false);
+        }
+
+        levelConfig = new YamlConfiguration();
+        try {
+            levelConfig.load(levelConfigFile);
+        } catch (IOException | InvalidConfigurationException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
 }
