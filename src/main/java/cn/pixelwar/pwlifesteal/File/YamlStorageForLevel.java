@@ -90,38 +90,40 @@ public class YamlStorageForLevel {
                 }
                 quests.add(quest);
             }
-            List<String> commonRewardsStringList =  levelConfig.getStringList("levels."+levelNum+".commonRewards");
+            ConfigurationSection commonRewardsSection =  levelConfig.getConfigurationSection("levels."+levelNum+".commonRewards");
             List<Reward> commonRewardsList = new ArrayList<>();
-            for (String commonRewardString : commonRewardsStringList){
+            for (String commonRewardNum : commonRewardsSection.getKeys(false)){
                 Reward commonReward = null;
-                String[] strings = commonRewardString.split(";");
-                //no variable
-                if (strings.length==2){
-                    commonReward = new Reward(strings[0], Integer.parseInt(strings[1]));
+                String desc = levelConfig.getString("levels."+levelNum+".commonRewards."+commonRewardNum+".desc");
+                String type = levelConfig.getString("levels."+levelNum+".commonRewards."+commonRewardNum+".type");;
+                int amount = levelConfig.getInt("levels."+levelNum+".commonRewards."+commonRewardNum+".amount");;
+                String variable  = levelConfig.getString("levels."+levelNum+".commonRewards."+commonRewardNum+".variable");
+
+                if (variable!=null){
+                    commonReward = new Reward(desc, type, amount, variable);
+                }else{
+                    commonReward = new Reward(desc, type, amount);
                 }
-                if (strings.length==3){
-                    commonReward = new Reward(strings[0], Integer.parseInt(strings[2]), strings[1]);
-                }
-                if (commonReward!=null) {
-                    commonRewardsList.add(commonReward);
-                }
+                commonRewardsList.add(commonReward);
             }
-            List<String> premiumRewardsStringList =  levelConfig.getStringList("levels."+levelNum+".premiumRewards");
+
+            ConfigurationSection premiumRewardsSection =  levelConfig.getConfigurationSection("levels."+levelNum+".premiumRewards");
             List<Reward> premiumRewardsList = new ArrayList<>();
-            for (String premiumRewardString : premiumRewardsStringList){
+            for (String premiumRewardNum : premiumRewardsSection.getKeys(false)){
                 Reward premiumReward = null;
-                String[] strings = premiumRewardString.split(";");
-                //no variable
-                if (strings.length==2){
-                    premiumReward = new Reward(strings[0], Integer.parseInt(strings[1]));
+                String desc = levelConfig.getString("levels."+levelNum+".premiumRewards."+premiumRewardNum+".desc");
+                String type = levelConfig.getString("levels."+levelNum+".premiumRewards."+premiumRewardNum+".type");;
+                int amount = levelConfig.getInt("levels."+levelNum+".premiumRewards."+premiumRewardNum+".amount");;
+                String variable  = levelConfig.getString("levels."+levelNum+".premiumRewards."+premiumRewardNum+".variable");
+
+                if (variable!=null){
+                    premiumReward = new Reward(desc, type, amount, variable);
+                }else{
+                    premiumReward = new Reward(desc, type, amount);
                 }
-                if (strings.length==3){
-                    premiumReward = new Reward(strings[0], Integer.parseInt(strings[2]), strings[1]);
-                }
-                if (premiumReward!=null) {
-                    commonRewardsList.add(premiumReward);
-                }
+                premiumRewardsList.add(premiumReward);
             }
+
             level= new Level(quests, commonRewardsList, premiumRewardsList);
             ServerLevelManager.allLevels.put(Integer.parseInt(levelNum), level );
 

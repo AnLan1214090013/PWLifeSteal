@@ -19,6 +19,7 @@ public class PlayerLevelManager {
 
     public static HashMap<Player , Level> playerLevelHashMap = new HashMap<>();
     public static HashMap<Player , Integer> playerLevelNumHashMap = new HashMap<>();
+    public static HashMap<Player , Boolean> isPremiumMap = new HashMap<>();
 
     public static void setNewLevelForPlayer(Player player, int level){
         Level l = ServerLevelManager.allLevels.get(level);
@@ -55,7 +56,10 @@ public class PlayerLevelManager {
         playerLevelHashMap.put(player, nowLevel);
     }
 
-    private static boolean checkLevelIsDone(Player player, int level){
+    public static boolean checkLevelIsDone(Player player, int level){
+        int nowLevelNum = playerLevelNumHashMap.get(player);
+        if (level!=nowLevelNum)return false;
+
         Level nowLevel = playerLevelHashMap.get(player);
         List<Quest> questList = nowLevel.getQuests();
         boolean isDone = true;

@@ -28,10 +28,27 @@ levels:
     #      - "SMELT;COAL;10"
     #      - "HONEY_EXTRACT;10"
     commonRewards:
-      - "EXP;1000"
+      1:
+        desc: "&ex1,000 经验值"
+        type: EXP
+        amount: 1000
+      2:
+        desc: "&fx1 初学者铁镐"
+        type: ITEM
+        amount: 1
+        variable: IRON_PICKAXE
     premiumRewards:
-      - "EXP;1000"
-      - "MONEY;1000"
-      - "RUBY;1000"
-      - "ITEM;WOODEN_PICKAXE;1"
-      - "CUSTOM_ITEM;pwpickaxe;1"
+      1:
+        desc: "&ex1,000 经验值"
+        type: EXP
+        amount: 1000
+      2:
+        desc: "&fx1 初学者铁镐"
+        type: ITEM
+        amount: 1
+        variable: IRON_PICKAXE
+#      - "EXP;1000"
+#      - "MONEY;1000"
+#      - "RUBY;1000"
+#      - "ITEM;WOODEN_PICKAXE;1"
+#      - "CUSTOM_ITEM;pwpickaxe;1"
