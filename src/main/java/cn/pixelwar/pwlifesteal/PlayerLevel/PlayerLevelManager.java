@@ -93,5 +93,9 @@ public class PlayerLevelManager {
         List<Integer> gotLevels = new ArrayList<>();
         premiumRewardGetMap.put(player.getName(), gotLevels);
     }
+    public static void setPremium(Player player){
+        isPremiumMap.put(player.getName(), true);
+    }
+
 
 }

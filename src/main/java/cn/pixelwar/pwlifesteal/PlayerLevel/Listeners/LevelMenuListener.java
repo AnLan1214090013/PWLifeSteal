@@ -100,28 +100,5 @@ public class LevelMenuListener implements Listener {
     }
 
 
-    @EventHandler
-    public void onRegionEnter(RegionEnterEvent e)
-    {
-        if (e.getRegion().getId().equals("spawn")){
-            e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 99999, 1, false, false, false));
-        }
-    }
-
-    @EventHandler
-    public void onRegionLeave(RegionLeaveEvent e)
-    {
-        if (e.getRegion().getId().equals("spawn")){
-            e.getPlayer().removePotionEffect(PotionEffectType.NIGHT_VISION);
-        }
-    }
-    @EventHandler
-    public void onRegionLeft(RegionLeftEvent e)
-    {
-        if (e.getRegion().getId().equals("spawn")){
-            e.getPlayer().removePotionEffect(PotionEffectType.NIGHT_VISION);
-        }
-    }
-
 
 }

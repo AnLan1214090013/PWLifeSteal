@@ -28,8 +28,8 @@ public class LevelMenu {
     public void openLevelMenu(Player player, int page){
         Inventory gui = Bukkit.createInventory(player, 54, ChatColorCast.format("&8玩家等级 ("+page+"/"+ (int)(ServerLevelManager.allLevels.size()/18+1)+")"));
 
-        int commonSlot[] = {9,10,11,12,13,14,15,16,17,   27,18,29,30,31,32,33,34,35};
-        int premiumSlot[] = {18,19,20,21,22,23,24,25,26,   36,37,38,39,40,41,42,43,44};
+        int[] commonSlot = {9,10,11,12,13,14,15,16,17,   27,18,29,30,31,32,33,34,35};
+        int[] premiumSlot = {18,19,20,21,22,23,24,25,26,   36,37,38,39,40,41,42,43,44};
         //第一页: 0 - 17
         //第2页: 18 - 35
         int count = 0;
