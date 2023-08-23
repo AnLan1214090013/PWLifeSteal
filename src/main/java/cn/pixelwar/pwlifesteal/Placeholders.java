@@ -1,6 +1,7 @@
 package cn.pixelwar.pwlifesteal;
 
 
+import cn.pixelwar.pwlifesteal.PlayerLevel.PlayerLevelManager;
 import cn.pixelwar.pwlifesteal.PlayerStats.PlayerStatsManager;
 import cn.pixelwar.pwlifesteal.Utils.ChatColorCast;
 import cn.pixelwar.pwlifesteal.Utils.NumberFormat;
@@ -81,6 +82,14 @@ public class Placeholders extends PlaceholderExpansion {
                 return "0";
             }
             return numberFormat.getIntFormat(PlayerStatsManager.playerStatMap.get(p.getName()).getKill());
+        }
+        if (identifier.equals("level")) {
+            int level = PlayerLevelManager.playerLevelNumHashMap.get(p.getName())-1;
+            if (level==0){
+                return ChatColorCast.format("&8<&70&8>");
+            }else{
+                return ChatColorCast.format("&8<&70&8>");
+            }
         }
         if (identifier.equals("maxhearts")) {
             if (!PlayerStatsManager.playerStatMap.containsKey(p.getName())){

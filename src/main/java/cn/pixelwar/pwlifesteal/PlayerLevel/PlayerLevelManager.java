@@ -17,53 +17,59 @@ import java.util.List;
 
 public class PlayerLevelManager {
 
-    public static HashMap<Player , Level> playerLevelHashMap = new HashMap<>();
-    public static HashMap<Player , Integer> playerLevelNumHashMap = new HashMap<>();
-    public static HashMap<Player , Boolean> isPremiumMap = new HashMap<>();
+    public static HashMap<String , Level> playerLevelHashMap = new HashMap<>();
+    public static HashMap<String , Integer> playerLevelNumHashMap = new HashMap<>();
+    public static HashMap<String , Boolean> isPremiumMap = new HashMap<>();
+
+    //<玩家， 已经领过的等级>
+    public static HashMap<String , List<Integer>> premiumRewardGetMap = new HashMap<>();
 
     public static void setNewLevelForPlayer(Player player, int level){
         Level l = ServerLevelManager.allLevels.get(level);
-        playerLevelHashMap.put(player, l);
-        playerLevelNumHashMap.put(player, level);
+        playerLevelHashMap.put(player.getName(), l);
+        playerLevelNumHashMap.put(player.getName(), level);
     }
 
     public static void setQuestProgressForPlayer(Player player, QuestType questType, String questVariable, int nowProgress){
-        Level nowLevel = playerLevelHashMap.get(player);
-        List<Quest> questList = nowLevel.getQuests();
-        List<Quest> newQuestList = new ArrayList<>();
-        for (Quest quest : questList){
+        Level nowLevel = playerLevelHashMap.get(player.getName());
+        HashMap<Integer, Quest> questList = nowLevel.getQuests();
+        HashMap<Integer, Quest> newQuestList = new HashMap<>();
+        questList.forEach((num, quest) ->{
             QuestType qt = quest.getQuestType();
             String qv = quest.getQuestVariable();
             if (qt.equals(questType) && qv.equals(questVariable)){
                 if (quest.getNeedProgress() > quest.getNowProgress()) {
                     quest.setNowProgress(nowProgress);
                     //如果这一等级已经完成
-                    if (checkLevelIsDone(player, playerLevelNumHashMap.get(player))){
+                    if (checkLevelIsDone(player, playerLevelNumHashMap.get(player.getName()))){
                         LevelDoneEvent event = new LevelDoneEvent(
                                 false,
-                                playerLevelNumHashMap.get(player),
-                                playerLevelNumHashMap.get(player)+1,
+                                playerLevelNumHashMap.get(player.getName()),
+                                playerLevelNumHashMap.get(player.getName())+1,
                                 player,
                                 false
-                                );
+                        );
                         Bukkit.getPluginManager().callEvent(event);
                     }
                 }
             }
-            newQuestList.add(quest);
-        }
+            newQuestList.put(num,quest);
+        });
         nowLevel.setQuests(newQuestList);
-        playerLevelHashMap.put(player, nowLevel);
+        playerLevelHashMap.put(player.getName(), nowLevel);
     }
 
     public static boolean checkLevelIsDone(Player player, int level){
-        int nowLevelNum = playerLevelNumHashMap.get(player);
+        int nowLevelNum = playerLevelNumHashMap.get(player.getName());
         if (level!=nowLevelNum)return false;
 
-        Level nowLevel = playerLevelHashMap.get(player);
-        List<Quest> questList = nowLevel.getQuests();
+        Level nowLevel = playerLevelHashMap.get(player.getName());
+        HashMap<Integer, Quest> questList = nowLevel.getQuests();
         boolean isDone = true;
-        for (Quest quest : questList){
+        for (Quest quest : questList.values()){
+            Bukkit.broadcastMessage("quest: "+quest.getQuestName());
+            Bukkit.broadcastMessage("quest.getNeedProgress(): "+quest.getNeedProgress());
+            Bukkit.broadcastMessage("quest.getNowProgress(): "+quest.getNowProgress());
             if (quest.getNeedProgress() != quest.getNowProgress()){
                 isDone = false;
             }
@@ -71,5 +77,21 @@ public class PlayerLevelManager {
         return isDone;
     }
 
+    public static boolean checkGotPremiumReward(Player player, int level){
+        for (int gotLevel : PlayerLevelManager.premiumRewardGetMap.get(player.getName())){
+            if (gotLevel==level){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static void setDefaultPlayerLevel(Player player){
+        playerLevelHashMap.put(player.getName(), ServerLevelManager.allLevels.get(1));
+        playerLevelNumHashMap.put(player.getName(), 1);
+        isPremiumMap.put(player.getName(), false);
+        List<Integer> gotLevels = new ArrayList<>();
+        premiumRewardGetMap.put(player.getName(), gotLevels);
+    }
 
 }

@@ -1,16 +1,13 @@
-package cn.pixelwar.pwlifesteal.File;
+package cn.pixelwar.pwlifesteal.PlayerLevel.File;
 
 import cn.pixelwar.pwlifesteal.PWLifeSteal;
 import cn.pixelwar.pwlifesteal.PlayerLevel.Level;
+import cn.pixelwar.pwlifesteal.PlayerLevel.PlayerLevelManager;
 import cn.pixelwar.pwlifesteal.PlayerLevel.Quest.Quest;
 import cn.pixelwar.pwlifesteal.PlayerLevel.Quest.QuestType;
 import cn.pixelwar.pwlifesteal.PlayerLevel.Reward.Reward;
 import cn.pixelwar.pwlifesteal.PlayerLevel.ServerLevelManager;
-import cn.pixelwar.pwlifesteal.PlayerStats.PlayerSkill.SkillType;
-import cn.pixelwar.pwlifesteal.PlayerStats.PlayerStat;
 import cn.pixelwar.pwlifesteal.PlayerStats.PlayerStatsManager;
-import cn.pixelwar.pwlifesteal.Utils.Teleport.Teleport;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -58,9 +55,7 @@ public class YamlStorageForLevel {
         config.save(dataFile);}catch (IOException ex){}
         //如果是第一次加入就弄一个默认的data
         if (firstJoin){
-            PlayerStat playerStat = new PlayerStat();
-            playerStat.setDefaultStat(player);
-            PlayerStatsManager.playerStatMap.put(playerName, playerStat);
+            PlayerLevelManager.setDefaultPlayerLevel(player);
         }
         return firstJoin;
     }
@@ -74,7 +69,7 @@ public class YamlStorageForLevel {
 //            Bukkit.getLogger().info("levelNum : "+levelNum);
             ConfigurationSection questsSection =  levelConfig.getConfigurationSection("levels."+levelNum+".quests");
 //            List<String> questsSection =  levelConfig.getStringList("levels."+levelNum+".quests");
-            List<Quest> quests = new ArrayList<>();
+            HashMap<Integer, Quest> quests = new HashMap<>();
             for (String questNum : questsSection.getKeys(false)){
 //                Bukkit.getLogger().info("quest : "+questType);
                 Quest quest = null;
@@ -88,7 +83,7 @@ public class YamlStorageForLevel {
                 }else{
                     quest = new Quest(name, needProgress, 0, QuestType.getQuestTypeByName(questType));
                 }
-                quests.add(quest);
+                quests.put(Integer.parseInt(questNum), quest);
             }
             ConfigurationSection commonRewardsSection =  levelConfig.getConfigurationSection("levels."+levelNum+".commonRewards");
             List<Reward> commonRewardsList = new ArrayList<>();
@@ -134,5 +129,86 @@ public class YamlStorageForLevel {
 
     }
 
+    public void createPlayerLevelData(String playerName){
+        File dataFolder = new File("plugins/PWLifeSteal/PlayerLevels");
+        File dataFile = new File("plugins/PWLifeSteal/PlayerLevels/" + playerName + ".yml");
+        try (InputStreamReader Config = new InputStreamReader(new FileInputStream(dataFile), "UTF-8")) {
+            config.load(Config);
+        } catch (IOException | InvalidConfigurationException ex) {}
+
+        //加载premium信息
+        boolean isPremium = config.isSet("premium.isPremium") ? config.getBoolean("premium.isPremium") : false;
+        List<Integer> gotRewards = config.isSet("premium.premiumRewardGetList") ? (List<Integer>) config.getList("premium.premiumRewardGetList") : new ArrayList<>();
+        PlayerLevelManager.premiumRewardGetMap.put(playerName, gotRewards);
+        PlayerLevelManager.isPremiumMap.put(playerName, isPremium);
+
+        //加载level信息
+        int levelNum = config.isSet("level.num") ? config.getInt("level.num") : 1;
+        PlayerLevelManager.playerLevelNumHashMap.put(playerName, levelNum);
+
+        HashMap<Integer, Quest> quests = new HashMap<>();
+        Level level = ServerLevelManager.allLevels.get(levelNum);
+
+        Level serverLevel = ServerLevelManager.allLevels.get(levelNum);
+        if (config.contains("level.quests")) {
+                ConfigurationSection questsSection = config.getConfigurationSection("level.quests");
+                for (String questNum : questsSection.getKeys(false)) {
+                    Quest quest = null;
+                    int num = Integer.parseInt(questNum);
+                    int needProgress = serverLevel.getQuests().get(num).getNeedProgress();
+                    int nowProgress = config.isSet("level.quests." + num + ".progress") ? config.getInt("level.quests." + num + ".progress") : 0;
+                    String variable = serverLevel.getQuests().get(num).getQuestVariable();
+                    String name = serverLevel.getQuests().get(num).getQuestName();
+                    QuestType questType = serverLevel.getQuests().get(num).getQuestType();
+
+                    if (variable != null) {
+                        quest = new Quest(name, needProgress, nowProgress, questType, variable);
+                    } else {
+                        quest = new Quest(name, needProgress, nowProgress, questType);
+                    }
+                    quests.put(num, quest);
+                }
+            level = new Level(quests, serverLevel.getCommonRewards(), serverLevel.getPremiumRewards());
+        }
+
+        PlayerLevelManager.playerLevelHashMap.put(playerName, level);
+
+
+
+    }
+
+    public void savePlayerLevelData(String playerName){
+        File dataFolder = new File("plugins/PWLifeSteal/PlayerLevels");
+        File dataFile = new File("plugins/PWLifeSteal/PlayerLevels/" + playerName + ".yml");
+        try (InputStreamReader Config = new InputStreamReader(new FileInputStream(dataFile), "UTF-8")) {
+            config.load(Config);
+        } catch (IOException | InvalidConfigurationException ex) {}
+
+        //保存premium信息
+        config.set("premium", null);
+        if (PlayerLevelManager.isPremiumMap.containsKey(playerName)) {
+            config.set("premium.isPremium", PlayerLevelManager.isPremiumMap.get(playerName));
+        }
+        if (PlayerLevelManager.premiumRewardGetMap.containsKey(playerName)) {
+            config.set("premium.premiumRewardGetList", PlayerLevelManager.premiumRewardGetMap.get(playerName));
+        }
+        //保存level信息
+        if (PlayerLevelManager.playerLevelNumHashMap.containsKey(playerName)){
+            config.set("level.num", PlayerLevelManager.playerLevelNumHashMap.get(playerName));
+        }else{
+            config.set("level.num",1);
+        }
+        if (PlayerLevelManager.playerLevelHashMap.containsKey(playerName)){
+            Level level = PlayerLevelManager.playerLevelHashMap.get(playerName);
+            HashMap<Integer, Quest> quests = level.getQuests();
+            quests.forEach((num, quest)->{
+                config.set("level.quests."+num+".progress", quest.getNowProgress());
+            });
+        }
+        try{
+            config.save(dataFile);}catch (IOException ex){
+            System.out.println("玩家"+playerName+"的信息保存出错");
+        }
+    }
 
 }

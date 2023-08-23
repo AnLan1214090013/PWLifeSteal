@@ -4,28 +4,29 @@ package cn.pixelwar.pwlifesteal.PlayerLevel;
 import cn.pixelwar.pwlifesteal.PlayerLevel.Reward.Reward;
 import cn.pixelwar.pwlifesteal.PlayerLevel.Quest.Quest;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class Level {
 
-
-    private List<Quest> quests;
+    //<编号，任务>
+    private HashMap<Integer, Quest> quests;
     private List<Reward> commonRewards;
     private List<Reward> premiumRewards;
     public Level(){
 
     }
-    public Level(List<Quest> quests, List<Reward> commonRewards, List<Reward> premiumRewards) {
+    public Level(HashMap<Integer, Quest> quests, List<Reward> commonRewards, List<Reward> premiumRewards) {
         this.quests = quests;
         this.commonRewards = commonRewards;
         this.premiumRewards = premiumRewards;
     }
 
-    public List<Quest> getQuests() {
+    public HashMap<Integer, Quest> getQuests() {
         return quests;
     }
 
-    public void setQuests(List<Quest> quests) {
+    public void setQuests(HashMap<Integer, Quest> quests) {
         this.quests = quests;
     }
 

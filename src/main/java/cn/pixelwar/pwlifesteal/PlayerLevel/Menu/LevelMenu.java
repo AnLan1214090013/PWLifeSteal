@@ -56,7 +56,7 @@ public class LevelMenu {
         gui.setItem(9, zero);
         ItemStack zeroP = new ItemStack(Material.MINECART);
         ItemMeta itemMeta2 = zeroP.getItemMeta();
-        itemMeta2.setDisplayName(ChatColorCast.format("&6&l等级 0额外奖励"));
+        itemMeta2.setDisplayName(ChatColorCast.format("&6&l等级 0 额外奖励"));
         List<String> lore2 = new ArrayList<>();
         lore.add("");
         itemMeta2.setLore(lore2);
@@ -66,7 +66,7 @@ public class LevelMenu {
     }
 
     public ItemStack getCommonItem(int level, Player player){
-        int nowLevelNum = PlayerLevelManager.playerLevelNumHashMap.get(player);
+        int nowLevelNum = PlayerLevelManager.playerLevelNumHashMap.get(player.getName());
         Level serverLevel = ServerLevelManager.allLevels.get(level);
         ItemStack item = null;
         String itemName = "";
@@ -80,7 +80,7 @@ public class LevelMenu {
         if (level > nowLevelNum){
             item = new ItemStack(Material.RED_STAINED_GLASS_PANE);
             itemName = ChatColorCast.format("&c&l等级 "+level);
-            for (Quest q : serverLevel.getQuests()){
+            for (Quest q : serverLevel.getQuests().values()){
                 lore.add(ChatColorCast.format("&8 ▸ &c&l???"));
             }
             lore.add(ChatColorCast.format("&8 ▸ &7达到该等级解锁任务"));
@@ -96,8 +96,8 @@ public class LevelMenu {
         if (level < nowLevelNum){
             item = new ItemStack(Material.LIME_STAINED_GLASS_PANE);
             itemName = ChatColorCast.format("&a&l等级 "+level);
-            for (Quest q : serverLevel.getQuests()){
-                lore.add(ChatColorCast.format("&a&l ✔ &7&m")+q.getQuestName()+"&f("+q.getNeedProgress()+"/"+q.getNeedProgress()+")");
+            for (Quest q : serverLevel.getQuests().values()){
+                lore.add(ChatColorCast.format("&a&l ✔ &7&m"+q.getQuestName()+"&f("+q.getNeedProgress()+"/"+q.getNeedProgress()+")"));
             }
             lore.add(ChatColorCast.format("&7"));
             lore.add(ChatColorCast.format("&7等级奖励:"));
@@ -109,20 +109,20 @@ public class LevelMenu {
         }
         //玩家当前的等级
         if (level == nowLevelNum){
-            Level nowLevel = PlayerLevelManager.playerLevelHashMap.get(player);
-            List<Quest> quests = nowLevel.getQuests();
+            Level nowLevel = PlayerLevelManager.playerLevelHashMap.get(player.getName());
+            HashMap<Integer, Quest> quests = nowLevel.getQuests();
             boolean isDone = PlayerLevelManager.checkLevelIsDone(player, nowLevelNum);
             //还没有完成等级
             if (!isDone){
                 item = new ItemStack(Material.ORANGE_STAINED_GLASS_PANE);
                 itemName = ChatColorCast.format("&e&l等级 "+level);
-                for (Quest q : quests){
+                for (Quest q : quests.values()){
                     //该任务已经完成
                     if (q.getNeedProgress()<=q.getNowProgress()){
-                        lore.add(ChatColorCast.format("&a&l ✔ &7&m")+q.getQuestName()+"&f("+q.getNeedProgress()+"/"+q.getNeedProgress()+")");
+                        lore.add(ChatColorCast.format("&a&l ✔ &7&m"+q.getQuestName()+"&f("+q.getNeedProgress()+"/"+q.getNeedProgress()+")"));
                     }else{
                         //该任务未完成
-                        lore.add(ChatColorCast.format("&c&l ✖ &7")+q.getQuestName()+"&f("+q.getNowProgress()+"/"+q.getNeedProgress()+")");
+                        lore.add(ChatColorCast.format("&c&l ✖ &7"+q.getQuestName()+"&f("+q.getNowProgress()+"/"+q.getNeedProgress()+")"));
                     }
                 }
                 lore.add(ChatColorCast.format("&7"));
@@ -136,8 +136,8 @@ public class LevelMenu {
                 //已经完成等级
                 item = new ItemStack(Material.LIGHT_BLUE_STAINED_GLASS_PANE);
                 itemName = ChatColorCast.format("&b&l等级 "+level);
-                for (Quest q : serverLevel.getQuests()){
-                    lore.add(ChatColorCast.format("&a&l ✔ &7&m")+q.getQuestName()+"&f("+q.getNeedProgress()+"/"+q.getNeedProgress()+")");
+                for (Quest q : serverLevel.getQuests().values()){
+                    lore.add(ChatColorCast.format("&a&l ✔ &7&m"+q.getQuestName()+"&f("+q.getNeedProgress()+"/"+q.getNeedProgress()+")"));
                 }
                 lore.add(ChatColorCast.format("&7"));
                 lore.add(ChatColorCast.format("&7等级奖励:"));
@@ -157,7 +157,7 @@ public class LevelMenu {
         return item;
     }
     public ItemStack getPremiumItem(int level, Player player){
-        int nowLevelNum = PlayerLevelManager.playerLevelNumHashMap.get(player);
+        int nowLevelNum = PlayerLevelManager.playerLevelNumHashMap.get(player.getName());
         Level serverLevel = ServerLevelManager.allLevels.get(level);
         ItemStack item = null;
         List<String> lore = new ArrayList<>();
@@ -170,14 +170,37 @@ public class LevelMenu {
             lore.add(ChatColorCast.format("&7 ▸ "+reward.getDesc()));
         }
         //有 等级+
-        if(PlayerLevelManager.isPremiumMap.get(player)){
+        if(PlayerLevelManager.isPremiumMap.get(player.getName())){
+            //已经领过
+            if (PlayerLevelManager.checkGotPremiumReward(player, level)){
+                item = new ItemStack(Material.MINECART);
+                lore.add(ChatColorCast.format("&7"));
+                lore.add(ChatColorCast.format("&a你已经领过该奖励了"));
+            }else{
+                //没有领过
+                //可以领
+                if (PlayerLevelManager.playerLevelNumHashMap.get(player.getName())>level){
+                    item = new ItemStack(Material.CHEST_MINECART);
+                    lore.add(ChatColorCast.format("&7"));
+                    lore.add(ChatColorCast.format("&a你当前可以点击领取该奖励"));
+                }else{
+                    //不能领
+                    item = new ItemStack(Material.CHEST_MINECART);
+                    lore.add(ChatColorCast.format("&7"));
+                    lore.add(ChatColorCast.format("&c你需要达到该等级来解锁奖励"));
+                }
+            }
+
+        }else{
+            //没解锁
             item = new ItemStack(Material.CHEST_MINECART);
+            lore.add(ChatColorCast.format("&7"));
+            lore.add(ChatColorCast.format("&c你需要购买&6&l等级+&c来解锁奖励"));
         }
 
 
         ItemMeta itemMeta = item.getItemMeta();
-        String displayName = ChatColorCast.format("&6&l等级" + level+"额外奖励");
-        List<String> lore = new ArrayList<>();
+        String displayName = ChatColorCast.format("&6&l等级 " + level+" 额外奖励");
         itemMeta.setDisplayName(displayName);
         itemMeta.setLore(lore);
         item.setItemMeta(itemMeta);

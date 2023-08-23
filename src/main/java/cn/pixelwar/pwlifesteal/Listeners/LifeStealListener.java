@@ -2,6 +2,7 @@ package cn.pixelwar.pwlifesteal.Listeners;
 
 import cn.pixelwar.pwlifesteal.File.YamlStorage;
 import cn.pixelwar.pwlifesteal.PWLifeSteal;
+import cn.pixelwar.pwlifesteal.PlayerLevel.File.YamlStorageForLevel;
 import cn.pixelwar.pwlifesteal.PlayerStats.PlayerSkill.FireSkill;
 import cn.pixelwar.pwlifesteal.PlayerStats.PlayerStatsManager;
 import cn.pixelwar.pwlifesteal.Utils.*;
@@ -27,7 +28,7 @@ public class LifeStealListener implements Listener {
         Player p = event.getPlayer();
         //先加载玩家数据
         YamlStorage yamlStorage  = new YamlStorage();
-
+        YamlStorageForLevel yamlStorageForLevel = new YamlStorageForLevel();
 
         new BukkitRunnable() {
             @Override
@@ -35,6 +36,9 @@ public class LifeStealListener implements Listener {
                 boolean isFirst = yamlStorage.CheckYamlFile(p);
                 if(!isFirst){
                     yamlStorage.CreatePlayerDataMap(p);
+                }
+                if(!yamlStorageForLevel.CheckYamlFile(p)) {
+                    yamlStorageForLevel.createPlayerLevelData(p.getName());
                 }
                 //设置玩家血量
                 double maxHearts = PlayerStatsManager.playerStatMap.get(p.getName()).getMaxHearts();
@@ -67,12 +71,14 @@ public class LifeStealListener implements Listener {
     public void onPlayerLeave(PlayerQuitEvent event){
         event.setQuitMessage("");
         YamlStorage yamlStorage  = new YamlStorage();
+        YamlStorageForLevel yamlStorageForLevel = new YamlStorageForLevel();
         Player p = event.getPlayer();
         new BukkitRunnable() {
             @Override
             public void run() {
                 //存储玩家信息
                 yamlStorage.savePlayerData(p);
+                yamlStorageForLevel.savePlayerLevelData(p.getName());
             }
         }.runTaskAsynchronously(PWLifeSteal.getPlugin());
     }
