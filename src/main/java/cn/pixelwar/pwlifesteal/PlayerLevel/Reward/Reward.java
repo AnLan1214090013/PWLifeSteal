@@ -1,5 +1,13 @@
 package cn.pixelwar.pwlifesteal.PlayerLevel.Reward;
 
+import cn.pixelwar.pwlifesteal.PlayerStats.PlayerStatsManager;
+import cn.pixelwar.pwlifesteal.Utils.GetMythicMobsItem;
+import cn.pixelwar.pwlifesteal.Utils.GiveItem;
+import cn.pixelwar.pwlifesteal.Utils.Money;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
 public class Reward {
 
     String desc;
@@ -51,4 +59,29 @@ public class Reward {
         this.type = type;
         this.amount = amount;
     }
+
+    public void giveReward(Player player){
+        switch (this.type){
+            case "EXP":
+                player.giveExp(this.amount);
+            case "MONEY":
+                Money.givePlayerMoney(player, this.amount);
+            case  "RUBY":
+                PlayerStatsManager.givePlayerRuby(player, amount);
+            case "ITEM":
+                ItemStack itemStack = new ItemStack(Material.getMaterial(this.variable), amount);
+                GiveItem.giveItem(player, itemStack);
+            case "CUSTOM_ITEM":
+                ItemStack itemStack2 = GetMythicMobsItem.getMMItem(this.variable);
+                GiveItem.giveItem(player, itemStack2);
+            default:
+                return;
+        }
+
+
+
+    }
+
+
+
 }

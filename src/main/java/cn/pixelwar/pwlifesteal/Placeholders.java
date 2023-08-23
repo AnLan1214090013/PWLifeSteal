@@ -84,12 +84,49 @@ public class Placeholders extends PlaceholderExpansion {
             return numberFormat.getIntFormat(PlayerStatsManager.playerStatMap.get(p.getName()).getKill());
         }
         if (identifier.equals("level")) {
+            return (PlayerLevelManager.playerLevelNumHashMap.get(p.getName()) - 1)+"";
+        }
+        if (identifier.equals("levelformotted")) {
             int level = PlayerLevelManager.playerLevelNumHashMap.get(p.getName())-1;
             if (level==0){
                 return ChatColorCast.format("&8<&70&8>");
-            }else{
-                return ChatColorCast.format("&8<&70&8>");
             }
+            if (level>0 && level<8){
+                return ChatColorCast.format("&7<&f"+level+"&7>");
+            }
+            if (level>=16 && level<24){
+                return ChatColorCast.format("&7<&f"+level+"&7>");
+            }
+            if (level>=24 && level<32){
+                return ChatColorCast.format("&f<&e"+level+"&f>");
+            }
+            if (level>=32 && level<40){
+                return ChatColorCast.format("&f<&6"+level+"&f>");
+            }
+            if (level>=40 && level<48){
+                return ChatColorCast.format("&e<&b"+level+"&e>");
+            }
+            if (level>=56 && level<64){
+                return ChatColorCast.format("&6<&b"+level+"&6>");
+            }
+            if (level>=64 && level<72){
+                return ChatColorCast.format("&d<&a"+level+"&d>");
+            }
+            if (level>=72 && level<80){
+                return ChatColorCast.format("&e<&a&l"+level+"&e>");
+            }
+            if (level>=80 && level<88){
+                return ChatColorCast.format("&b<&6&l"+level+"&b>");
+            }
+            if (level>=88 && level<96){
+                return ChatColorCast.format("&f&l<&c&l"+level+"&f&l>");
+            }
+            if (level>=96){
+                return ChatColorCast.format("&b&l<&d&l"+level+"&b&l>");
+            }
+
+            return ChatColorCast.format("&8<&70&8>");
+
         }
         if (identifier.equals("maxhearts")) {
             if (!PlayerStatsManager.playerStatMap.containsKey(p.getName())){

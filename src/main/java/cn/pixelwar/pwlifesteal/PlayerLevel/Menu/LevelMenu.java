@@ -62,6 +62,48 @@ public class LevelMenu {
         itemMeta2.setLore(lore2);
         zeroP.setItemMeta(itemMeta2);
         gui.setItem(18, zeroP);
+
+        //箭头
+        if (page==1){
+            ItemStack next = new ItemStack(Material.ARROW);
+            ItemMeta m = next.getItemMeta();
+            m.setDisplayName(ChatColorCast.format("&a▸ &l下一页"));
+            next.setItemMeta(m);
+            gui.setItem(52, next);
+        }
+        else if (page==(int)(ServerLevelManager.allLevels.size()/18+1)){
+            ItemStack last = new ItemStack(Material.ARROW);
+            ItemMeta m = last.getItemMeta();
+            m.setDisplayName(ChatColorCast.format("&a◂ &l上一页"));
+            last.setItemMeta(m);
+            gui.setItem(46, last);
+        }else{
+            ItemStack next = new ItemStack(Material.ARROW);
+            ItemMeta m = next.getItemMeta();
+            m.setDisplayName(ChatColorCast.format("&a▸ &l下一页"));
+            next.setItemMeta(m);
+            gui.setItem(52, next);
+            ItemStack last = new ItemStack(Material.ARROW);
+            ItemMeta m2 = last.getItemMeta();
+            m2.setDisplayName(ChatColorCast.format("&a◂ &l上一页"));
+            last.setItemMeta(m2);
+            gui.setItem(46, last);
+        }
+        ItemStack book = new ItemStack(Material.BOOK);
+        ItemMeta m = book.getItemMeta();
+        m.setDisplayName(ChatColorCast.format("&6&l嗜血生存玩家等级系统"));
+        List<String> bookLore = new ArrayList<>();
+        bookLore.add("");
+        bookLore.add(ChatColorCast.format("&7你可以通过完成下面这些等级需要"));
+        bookLore.add(ChatColorCast.format("&7的&d任务&7来获取奖励并&a解锁&7新的"));
+        bookLore.add(ChatColorCast.format("&7等级和权限"));
+        bookLore.add(ChatColorCast.format("&7 "));
+        bookLore.add(ChatColorCast.format("&7&o你可以通过购买&6&l等级+&7&o来获得"));
+        bookLore.add(ChatColorCast.format("&7更多奖励(具体内容请看PW商店)"));
+        m.setLore(bookLore);
+        book.setItemMeta(m);
+        gui.setItem(4, book);
+
         player.openInventory(gui);
     }
 
@@ -180,7 +222,7 @@ public class LevelMenu {
                 //没有领过
                 //可以领
                 if (PlayerLevelManager.playerLevelNumHashMap.get(player.getName())>level){
-                    item = new ItemStack(Material.CHEST_MINECART);
+                    item = new ItemStack(Material.TNT_MINECART);
                     lore.add(ChatColorCast.format("&7"));
                     lore.add(ChatColorCast.format("&a你当前可以点击领取该奖励"));
                 }else{
@@ -204,7 +246,9 @@ public class LevelMenu {
         itemMeta.setDisplayName(displayName);
         itemMeta.setLore(lore);
         item.setItemMeta(itemMeta);
-
+        NBTItem nbtItem = new NBTItem(item);
+        nbtItem.setInteger("level", level);
+        item = nbtItem.getItem();
         return item;
     }
 
