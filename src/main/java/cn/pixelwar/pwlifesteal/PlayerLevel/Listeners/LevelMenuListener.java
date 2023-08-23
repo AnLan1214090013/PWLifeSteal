@@ -51,6 +51,7 @@ public class LevelMenuListener implements Listener {
                     //先解锁下一级
                     int nowLevel = PlayerLevelManager.playerLevelNumHashMap.get(player.getName());
                     PlayerLevelManager.setNewLevelForPlayer(player, nowLevel+1);
+                    Bukkit.broadcastMessage(ChatColorCast.format("&d▸ &f玩家&b&l"+player.getName()+"已经达到&a&l等级 "+nowLevel));
                     //发放奖励
                     List<Reward> commonRewards = ServerLevelManager.allLevels.get(nowLevel).getCommonRewards();
                     player.playSound(player.getEyeLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE,1f,1f);
@@ -61,12 +62,13 @@ public class LevelMenuListener implements Listener {
                     for (Reward reward : commonRewards){
                         reward.giveReward(player);
                         player.sendMessage(ChatColorCast.format(" &d▸ "+reward.getDesc()));
-                        player.sendMessage(ChatColorCast.format(" "));
-                    }
 
+                    }
+                    player.sendMessage(ChatColorCast.format(" "));
                     //刷新一下按钮
                     LevelMenu levelMenu = new LevelMenu();
                     viewInventory.setItem(event.getSlot(), levelMenu.getCommonItem(nowLevel, player));
+                    viewInventory.setItem(event.getSlot()+9, levelMenu.getPremiumItem(nowLevel, player));
                     return;
                 }
                 //领取premium奖励
@@ -85,16 +87,27 @@ public class LevelMenuListener implements Listener {
                     for (Reward reward : Rewards){
                         reward.giveReward(player);
                         player.sendMessage(ChatColorCast.format(" &6▸ "+reward.getDesc()));
-                        player.sendMessage(ChatColorCast.format(" "));
                     }
-
+                    player.sendMessage(ChatColorCast.format(" "));
                     //刷新
                     LevelMenu levelMenu = new LevelMenu();
-                    viewInventory.setItem(event.getSlot(), levelMenu.getCommonItem(nowLevel, player));
+                    viewInventory.setItem(event.getSlot(), levelMenu.getPremiumItem(nowLevel, player));
                     return;
                 }
-
-
+                //下一页
+                if (event.getSlot() == 52 && event.getCurrentItem().getType().equals(Material.ARROW)){
+                    NBTItem nbtItem = new NBTItem(event.getCurrentItem());
+                    int page = nbtItem.getInteger("page");
+                    LevelMenu levelMenu = new LevelMenu();
+                    levelMenu.openLevelMenu(player, page+1);
+                }
+                //上一页
+                if (event.getSlot() == 46 && event.getCurrentItem().getType().equals(Material.ARROW)){
+                    NBTItem nbtItem = new NBTItem(event.getCurrentItem());
+                    int page = nbtItem.getInteger("page");
+                    LevelMenu levelMenu = new LevelMenu();
+                    levelMenu.openLevelMenu(player, page-1);
+                }
             }
         }
     }

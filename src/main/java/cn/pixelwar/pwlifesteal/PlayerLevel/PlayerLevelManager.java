@@ -25,6 +25,12 @@ public class PlayerLevelManager {
     public static HashMap<String , List<Integer>> premiumRewardGetMap = new HashMap<>();
 
     public static void setNewLevelForPlayer(Player player, int level){
+        //如果超出这个范围
+        if (!ServerLevelManager.allLevels.containsKey(level)){
+            playerLevelHashMap.remove(player.getName());
+            playerLevelNumHashMap.put(player.getName(), level);
+            return;
+        }
         Level l = ServerLevelManager.allLevels.get(level);
         playerLevelHashMap.put(player.getName(), l);
         playerLevelNumHashMap.put(player.getName(), level);
@@ -67,9 +73,6 @@ public class PlayerLevelManager {
         HashMap<Integer, Quest> questList = nowLevel.getQuests();
         boolean isDone = true;
         for (Quest quest : questList.values()){
-            Bukkit.broadcastMessage("quest: "+quest.getQuestName());
-            Bukkit.broadcastMessage("quest.getNeedProgress(): "+quest.getNeedProgress());
-            Bukkit.broadcastMessage("quest.getNowProgress(): "+quest.getNowProgress());
             if (quest.getNeedProgress() != quest.getNowProgress()){
                 isDone = false;
             }

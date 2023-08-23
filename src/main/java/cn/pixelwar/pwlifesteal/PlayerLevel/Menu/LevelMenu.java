@@ -64,29 +64,45 @@ public class LevelMenu {
         gui.setItem(18, zeroP);
 
         //箭头
-        if (page==1){
+        if (page==1 && ServerLevelManager.allLevels.size()>17){
             ItemStack next = new ItemStack(Material.ARROW);
             ItemMeta m = next.getItemMeta();
             m.setDisplayName(ChatColorCast.format("&a▸ &l下一页"));
             next.setItemMeta(m);
+            NBTItem nbtItem = new NBTItem(next);
+            nbtItem.setInteger("page", page);
+            next = nbtItem.getItem();
+
+
             gui.setItem(52, next);
         }
-        else if (page==(int)(ServerLevelManager.allLevels.size()/18+1)){
+        if (page==(int)(ServerLevelManager.allLevels.size()/18+1) && page!=1){
             ItemStack last = new ItemStack(Material.ARROW);
             ItemMeta m = last.getItemMeta();
             m.setDisplayName(ChatColorCast.format("&a◂ &l上一页"));
             last.setItemMeta(m);
+            NBTItem nbtItem2 = new NBTItem(last);
+            nbtItem2.setInteger("page", page);
+            last = nbtItem2.getItem();
             gui.setItem(46, last);
-        }else{
+        }
+        if ( page!=1 && page!=(int)(ServerLevelManager.allLevels.size()/18+1))
+        {
             ItemStack next = new ItemStack(Material.ARROW);
             ItemMeta m = next.getItemMeta();
             m.setDisplayName(ChatColorCast.format("&a▸ &l下一页"));
             next.setItemMeta(m);
+            NBTItem nbtItem = new NBTItem(next);
+            nbtItem.setInteger("page", page);
+            next = nbtItem.getItem();
             gui.setItem(52, next);
             ItemStack last = new ItemStack(Material.ARROW);
             ItemMeta m2 = last.getItemMeta();
             m2.setDisplayName(ChatColorCast.format("&a◂ &l上一页"));
             last.setItemMeta(m2);
+            NBTItem nbtItem2 = new NBTItem(last);
+            nbtItem2.setInteger("page", page);
+            last = nbtItem2.getItem();
             gui.setItem(46, last);
         }
         ItemStack book = new ItemStack(Material.BOOK);
@@ -99,6 +115,7 @@ public class LevelMenu {
         bookLore.add(ChatColorCast.format("&7等级和权限"));
         bookLore.add(ChatColorCast.format("&7 "));
         bookLore.add(ChatColorCast.format("&7&o你可以通过购买&6&l等级+&7&o来获得"));
+        bookLore.add(ChatColorCast.format(" "));
         bookLore.add(ChatColorCast.format("&7更多奖励(具体内容请看PW商店)"));
         m.setLore(bookLore);
         book.setItemMeta(m);

@@ -67,11 +67,13 @@ public class MenuListener implements Listener {
                         PlayerStatsManager.removePlayerRuby(player, cost);
                         player.playSound(player.getEyeLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1.0f, 1f);
                         player.sendMessage(ChatColorCast.format("&a▸ &f升级技能成功! &b&l"+skillType.getDisplayName()+"&7(等级"+PlayerStatsManager.playerStatMap.get(player.getName()).getSkillStat().get(skillType)+")"));
-                        player.closeInventory();
-                        Bukkit.getScheduler().runTaskLater(PWLifeSteal.getPlugin(),() -> {
-                            SkillTreeMenu skillTreeMenu = new SkillTreeMenu();
-                            skillTreeMenu.openSkillTreeMenu(player);
-                        }, 1l);
+                        SkillTreeMenu skillTreeMenu = new SkillTreeMenu();
+                        skillTreeMenu.openSkillTreeMenu(player);
+//                        player.closeInventory();
+//                        Bukkit.getScheduler().runTaskLater(PWLifeSteal.getPlugin(),() -> {
+//                            SkillTreeMenu skillTreeMenu = new SkillTreeMenu();
+//                            skillTreeMenu.openSkillTreeMenu(player);
+//                        }, 1l);
 
 
                     }

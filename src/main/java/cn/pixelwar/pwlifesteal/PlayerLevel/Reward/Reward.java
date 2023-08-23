@@ -67,9 +67,10 @@ public class Reward {
             case "MONEY":
                 Money.givePlayerMoney(player, this.amount);
             case  "RUBY":
-                PlayerStatsManager.givePlayerRuby(player, amount);
+                PlayerStatsManager.givePlayerRuby(player, this.amount);
             case "ITEM":
-                ItemStack itemStack = new ItemStack(Material.getMaterial(this.variable), amount);
+                ItemStack itemStack = new ItemStack(Material.getMaterial(this.variable));
+                itemStack.setAmount(this.amount-1);
                 GiveItem.giveItem(player, itemStack);
             case "CUSTOM_ITEM":
                 ItemStack itemStack2 = GetMythicMobsItem.getMMItem(this.variable);

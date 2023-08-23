@@ -144,13 +144,17 @@ public class YamlStorageForLevel {
 
         //加载level信息
         int levelNum = config.isSet("level.num") ? config.getInt("level.num") : 1;
-        PlayerLevelManager.playerLevelNumHashMap.put(playerName, levelNum);
+        //如果已经达到最高等级
+        if (levelNum>ServerLevelManager.allLevels.size()){
 
-        HashMap<Integer, Quest> quests = new HashMap<>();
-        Level level = ServerLevelManager.allLevels.get(levelNum);
+        }else {
+            PlayerLevelManager.playerLevelNumHashMap.put(playerName, levelNum);
 
-        Level serverLevel = ServerLevelManager.allLevels.get(levelNum);
-        if (config.contains("level.quests")) {
+            HashMap<Integer, Quest> quests = new HashMap<>();
+            Level level = ServerLevelManager.allLevels.get(levelNum);
+
+            Level serverLevel = ServerLevelManager.allLevels.get(levelNum);
+            if (config.contains("level.quests")) {
                 ConfigurationSection questsSection = config.getConfigurationSection("level.quests");
                 for (String questNum : questsSection.getKeys(false)) {
                     Quest quest = null;
@@ -168,11 +172,11 @@ public class YamlStorageForLevel {
                     }
                     quests.put(num, quest);
                 }
-            level = new Level(quests, serverLevel.getCommonRewards(), serverLevel.getPremiumRewards());
+                level = new Level(quests, serverLevel.getCommonRewards(), serverLevel.getPremiumRewards());
+            }
+
+            PlayerLevelManager.playerLevelHashMap.put(playerName, level);
         }
-
-        PlayerLevelManager.playerLevelHashMap.put(playerName, level);
-
 
 
     }
@@ -193,6 +197,7 @@ public class YamlStorageForLevel {
             config.set("premium.premiumRewardGetList", PlayerLevelManager.premiumRewardGetMap.get(playerName));
         }
         //保存level信息
+        config.set("level", null);
         if (PlayerLevelManager.playerLevelNumHashMap.containsKey(playerName)){
             config.set("level.num", PlayerLevelManager.playerLevelNumHashMap.get(playerName));
         }else{
