@@ -62,6 +62,8 @@ public class Reward {
 
     public void giveReward(Player player){
         switch (this.type){
+            case "NONE":
+                return;
             case "EXP":
                 player.giveExp(this.amount);
             case "MONEY":

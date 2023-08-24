@@ -36,9 +36,14 @@ public class LevelMenu {
         for(int level = (page-1)*18; level<(page-1)*18+17;level++){
 
             if (ServerLevelManager.allLevels.containsKey(level)){
-
-                    gui.setItem(commonSlot[count], getCommonItem(level, player));
-                    gui.setItem(commonSlot[count]+9, getPremiumItem(level, player));
+                ItemStack common = getCommonItem(level, player);
+                if(common != null){
+                    gui.setItem(commonSlot[count], common);
+                }
+                ItemStack premium = getPremiumItem(level, player);
+                if(premium != null){
+                    gui.setItem(premiumSlot[count], premium);
+                }
 
             }
             count+=1;
@@ -125,6 +130,10 @@ public class LevelMenu {
     }
 
     public ItemStack getCommonItem(int level, Player player){
+        if (level>ServerLevelManager.allLevels.size()){
+            return null;
+        }
+
         int nowLevelNum = PlayerLevelManager.playerLevelNumHashMap.get(player.getName());
         Level serverLevel = ServerLevelManager.allLevels.get(level);
         ItemStack item = null;
@@ -216,6 +225,9 @@ public class LevelMenu {
         return item;
     }
     public ItemStack getPremiumItem(int level, Player player){
+        if (level>ServerLevelManager.allLevels.size()){
+            return null;
+        }
         int nowLevelNum = PlayerLevelManager.playerLevelNumHashMap.get(player.getName());
         Level serverLevel = ServerLevelManager.allLevels.get(level);
         ItemStack item = null;

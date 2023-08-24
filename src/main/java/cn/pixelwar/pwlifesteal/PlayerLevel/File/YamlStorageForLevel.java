@@ -146,7 +146,7 @@ public class YamlStorageForLevel {
         int levelNum = config.isSet("level.num") ? config.getInt("level.num") : 1;
         //如果已经达到最高等级
         if (levelNum>ServerLevelManager.allLevels.size()){
-
+            PlayerLevelManager.playerLevelNumHashMap.put(playerName, levelNum);
         }else {
             PlayerLevelManager.playerLevelNumHashMap.put(playerName, levelNum);
 

@@ -88,41 +88,51 @@ public class Placeholders extends PlaceholderExpansion {
         }
         if (identifier.equals("levelformotted")) {
             int level = PlayerLevelManager.playerLevelNumHashMap.get(p.getName())-1;
+            String level2 = (PlayerLevelManager.playerLevelNumHashMap.get(p.getName())-1) + "";
+            if (PlayerLevelManager.isPremiumMap.get(p.getName())){
+                level2 = level2 +"+";
+            }
             if (level==0){
                 return ChatColorCast.format("&8<&70&8>");
             }
             if (level>0 && level<8){
-                return ChatColorCast.format("&7<&f"+level+"&7>");
+                return ChatColorCast.format("&7<&f"+level2+"&7>");
+            }
+            if (level>=8 && level<16){
+                return ChatColorCast.format("&7<&a"+level2+"&7>");
             }
             if (level>=16 && level<24){
-                return ChatColorCast.format("&7<&f"+level+"&7>");
+                return ChatColorCast.format("&7<&6"+level2+"&7>");
             }
             if (level>=24 && level<32){
-                return ChatColorCast.format("&f<&e"+level+"&f>");
+                return ChatColorCast.format("&f<&e"+level2+"&f>");
             }
             if (level>=32 && level<40){
-                return ChatColorCast.format("&f<&6"+level+"&f>");
+                return ChatColorCast.format("&f<&6"+level2+"&f>");
             }
             if (level>=40 && level<48){
-                return ChatColorCast.format("&e<&b"+level+"&e>");
+                return ChatColorCast.format("&e<&b"+level2+"&e>");
+            }
+            if (level>=48 && level<56){
+                return ChatColorCast.format("&e<&c"+level2+"&e>");
             }
             if (level>=56 && level<64){
-                return ChatColorCast.format("&6<&b"+level+"&6>");
+                return ChatColorCast.format("&6<&b"+level2+"&6>");
             }
             if (level>=64 && level<72){
-                return ChatColorCast.format("&d<&a"+level+"&d>");
+                return ChatColorCast.format("&d<&a"+level2+"&d>");
             }
             if (level>=72 && level<80){
-                return ChatColorCast.format("&e<&a&l"+level+"&e>");
+                return ChatColorCast.format("&e<&a&l"+level2+"&e>");
             }
             if (level>=80 && level<88){
-                return ChatColorCast.format("&b<&6&l"+level+"&b>");
+                return ChatColorCast.format("&b<&6&l"+level2+"&b>");
             }
             if (level>=88 && level<96){
-                return ChatColorCast.format("&f&l<&c&l"+level+"&f&l>");
+                return ChatColorCast.format("&f&l<&c&l"+level2+"&f&l>");
             }
             if (level>=96){
-                return ChatColorCast.format("&b&l<&d&l"+level+"&b&l>");
+                return ChatColorCast.format("&b&l<&d&l"+level2+"&b&l>");
             }
 
             return ChatColorCast.format("&8<&70&8>");
