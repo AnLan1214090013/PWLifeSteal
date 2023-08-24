@@ -9,6 +9,7 @@ import cn.pixelwar.pwlifesteal.Listeners.MenuListener;
 import cn.pixelwar.pwlifesteal.Listeners.SpawnListener;
 //import net.milkbowl.vault.economy.Economy;
 import cn.pixelwar.pwlifesteal.PlayerLevel.Listeners.LevelMenuListener;
+import cn.pixelwar.pwlifesteal.PlayerLevel.Listeners.QuestListeners;
 import cn.pixelwar.pwlifesteal.Utils.Teleport.Teleport;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -64,6 +65,7 @@ public final class PWLifeSteal extends JavaPlugin {
         getServer().getPluginManager().registerEvents((Listener) new LifeStealListener(), (Plugin)this);
         getServer().getPluginManager().registerEvents((Listener) new MenuListener(), (Plugin)this);
         getServer().getPluginManager().registerEvents((Listener) new LevelMenuListener(), (Plugin)this);
+        getServer().getPluginManager().registerEvents((Listener) new QuestListeners(), (Plugin)this);
     }
 
     public void setupConfig(){

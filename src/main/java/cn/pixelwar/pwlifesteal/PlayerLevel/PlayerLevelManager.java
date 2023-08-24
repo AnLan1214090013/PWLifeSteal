@@ -1,6 +1,7 @@
 package cn.pixelwar.pwlifesteal.PlayerLevel;
 
 import cn.pixelwar.pwlifesteal.PlayerLevel.CustomEvent.LevelDoneEvent;
+import cn.pixelwar.pwlifesteal.PlayerLevel.CustomEvent.QuestProgressEvent;
 import cn.pixelwar.pwlifesteal.PlayerLevel.Quest.Quest;
 import cn.pixelwar.pwlifesteal.PlayerLevel.Quest.QuestType;
 import org.bukkit.Bukkit;
@@ -24,6 +25,11 @@ public class PlayerLevelManager {
     //<玩家， 已经领过的等级>
     public static HashMap<String , List<Integer>> premiumRewardGetMap = new HashMap<>();
 
+    public static HashMap<Integer, Quest> getPlayerNowQuests(Player player){
+        HashMap<Integer, Quest> quests = PlayerLevelManager.playerLevelHashMap.containsKey(player.getName()) ? PlayerLevelManager.playerLevelHashMap.get(player.getName()).getQuests() : new HashMap<>();
+        return quests;
+    }
+
     public static void setNewLevelForPlayer(Player player, int level){
         //如果超出这个范围
         if (!ServerLevelManager.allLevels.containsKey(level)){
@@ -46,6 +52,8 @@ public class PlayerLevelManager {
             if (qt.equals(questType) && qv.equals(questVariable)){
                 if (quest.getNeedProgress() > quest.getNowProgress()) {
                     quest.setNowProgress(nowProgress);
+                    QuestProgressEvent questProgressEvent = new QuestProgressEvent(player, quest, false);
+                    Bukkit.getPluginManager().callEvent(questProgressEvent);
                     //如果这一等级已经完成
                     if (checkLevelIsDone(player, playerLevelNumHashMap.get(player.getName()))){
                         LevelDoneEvent event = new LevelDoneEvent(

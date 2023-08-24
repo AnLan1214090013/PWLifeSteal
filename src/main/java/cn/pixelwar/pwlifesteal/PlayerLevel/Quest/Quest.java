@@ -62,4 +62,9 @@ public class Quest {
     public void setQuestVariable(String questVariable) {
         this.questVariable = questVariable;
     }
+
+    @Override
+    public String toString(){
+        return "questName: "+questName+" questType: "+ questType.toString()+" nowProgress: "+nowProgress+" needProgress: "+needProgress;
+    }
 }

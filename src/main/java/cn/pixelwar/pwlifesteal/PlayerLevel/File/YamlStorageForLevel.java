@@ -76,7 +76,7 @@ public class YamlStorageForLevel {
                 int needProgress = levelConfig.getInt("levels."+levelNum+".quests."+questNum+".needProgress");
                 String variable = levelConfig.getString("levels."+levelNum+".quests."+questNum+".variable");
                 String name = levelConfig.getString("levels."+levelNum+".quests."+questNum+".name");
-                String questType = levelConfig.getString("levels."+levelNum+".quests."+questNum+".questType");
+                String questType = levelConfig.getString("levels."+levelNum+".quests."+questNum+".type");
 
                 if (variable!=null){
                     quest = new Quest(name, needProgress, 0, QuestType.getQuestTypeByName(questType), variable);
