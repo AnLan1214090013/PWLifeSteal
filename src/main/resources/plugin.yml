@@ -4,3 +4,4 @@ main: cn.pixelwar.pwlifesteal.PWLifeSteal
 api-version: 1.18
 authors: [ An_Lan ]
 depend: [WorldGuard, Skript, NBTAPI]
+softdepend: [ExecutableItems, SCore, MythicMobs]

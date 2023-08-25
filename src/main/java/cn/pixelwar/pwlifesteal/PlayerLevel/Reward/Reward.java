@@ -1,6 +1,7 @@
 package cn.pixelwar.pwlifesteal.PlayerLevel.Reward;
 
 import cn.pixelwar.pwlifesteal.PlayerStats.PlayerStatsManager;
+import cn.pixelwar.pwlifesteal.Utils.GetEIItems;
 import cn.pixelwar.pwlifesteal.Utils.GetMythicMobsItem;
 import cn.pixelwar.pwlifesteal.Utils.GiveItem;
 import cn.pixelwar.pwlifesteal.Utils.Money;
@@ -75,8 +76,10 @@ public class Reward {
                 itemStack.setAmount(this.amount-1);
                 GiveItem.giveItem(player, itemStack);
             case "CUSTOM_ITEM":
-                ItemStack itemStack2 = GetMythicMobsItem.getMMItem(this.variable);
+//                ItemStack itemStack2 = GetMythicMobsItem.getMMItem(this.variable);
+                ItemStack itemStack2 = GetEIItems.getExecutableItem(player, this.variable, this.amount);
                 GiveItem.giveItem(player, itemStack2);
+
             default:
                 return;
         }
