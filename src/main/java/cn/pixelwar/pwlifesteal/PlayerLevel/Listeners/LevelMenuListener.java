@@ -67,8 +67,7 @@ public class LevelMenuListener implements Listener {
                     player.sendMessage(ChatColorCast.format(" "));
                     //刷新一下按钮
                     LevelMenu levelMenu = new LevelMenu();
-                    viewInventory.setItem(event.getSlot(), levelMenu.getCommonItem(nowLevel, player));
-                    viewInventory.setItem(event.getSlot()+9, levelMenu.getPremiumItem(nowLevel, player));
+                    viewInventory.setItem(event.getSlot(), levelMenu.getPremiumItem(nowLevel, player));
                     return;
                 }
                 //领取premium奖励

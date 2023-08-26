@@ -73,13 +73,14 @@ public class Reward {
                 PlayerStatsManager.givePlayerRuby(player, this.amount);
             case "ITEM":
                 ItemStack itemStack = new ItemStack(Material.getMaterial(this.variable));
-                itemStack.setAmount(this.amount-1);
+                itemStack.setAmount(this.amount);
                 GiveItem.giveItem(player, itemStack);
             case "CUSTOM_ITEM":
 //                ItemStack itemStack2 = GetMythicMobsItem.getMMItem(this.variable);
-                ItemStack itemStack2 = GetEIItems.getExecutableItem(player, this.variable, this.amount);
-                GiveItem.giveItem(player, itemStack2);
+//                ItemStack itemStack2 = GetEIItems.getExecutableItem(player, this.variable, this.amount);
+//                GiveItem.giveItem(player, itemStack2);
 
+                GetEIItems.giveExecutableItem(player, this.variable, this.amount);
             default:
                 return;
         }

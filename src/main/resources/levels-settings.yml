@@ -1,54 +1,153 @@
 maxLevel: 100
 levels:
+  # 1:
+  # quests:
+  # 1:   # 破坏所有种类的木头
+  # type: BREAK
+  # name: "破坏12个任意种类的木头"
+  # variable: ANY_LOG
+  # needProgress: 12
+  # 2:    # 破坏一种方块
+  # type: BREAK
+  # name: "破坏12个石头"
+  # variable: STONE
+  # needProgress: 12
+  # 3:
+  # type: KILL_MOB
+  # name: "击杀10个僵尸"
+  # variable: ZOMBIE
+  # needProgress: 10
+  # #      - "PLACE;STONE;12"      # 放置一种方块
+  # #      - "CRAFT;WORKBENCH;1"      # 合成物品
+  # #      - "CONSUME;BEEF;1"      # 吃东西
+  # #      - "KILL_MOB;ZOMBIE;10"
+  # #      - "DAMAGE_MOB;ZOMBIE;10000"
+  # #      - "DAMAGE_PLAYER;10000"
+  # #      - "KILL_PLAYER;10"
+  # #      - "ENCHANT;10"
+  # #      - "SMELT;COAL;10"
+  # #      - "HONEY_EXTRACT;10"
+  # commonRewards:
+  # 1:
+  # desc: "&ex1,000 经验值"
+  # type: EXP
+  # amount: 1000
+  # 2:
+  # desc: "&fx1 初学者铁镐"
+  # type: ITEM
+  # amount: 1
+  # variable: IRON_PICKAXE
+  # premiumRewards:
+  # 1:
+  # desc: "&ex1,000 经验值"
+  # type: EXP
+  # amount: 1000
+  # 2:
+  # desc: "&fx1 初学者铁镐"
+  # type: ITEM
+  # amount: 1
+  # variable: IRON_PICKAXE
+  # #      - "EXP;1000"
+  # #      - "MONEY;1000"
+  # #      - "RUBY;1000"
+  # #      - "ITEM;WOODEN_PICKAXE;1"
+  # #      - "CUSTOM_ITEM;pwpickaxe;1"
   1:
     quests:
-      1:   # 破坏所有种类的木头
+      1:
         type: BREAK
-        name: "破坏12个任意种类的木头"
-        variable: ANY_LOG
-        needProgress: 12
-      2:    # 破坏一种方块
-        type: BREAK
-        name: "破坏12个石头"
-        variable: STONE
-        needProgress: 12
-      3:
-        type: KILL_MOB
-        name: "击杀10个僵尸"
-        variable: ZOMBIE
-        needProgress: 10
-    #      - "PLACE;STONE;12"      # 放置一种方块
-    #      - "CRAFT;WORKBENCH;1"      # 合成物品
-    #      - "CONSUME;BEEF;1"      # 吃东西
-    #      - "KILL_MOB;ZOMBIE;10"
-    #      - "DAMAGE_MOB;ZOMBIE;10000"
-    #      - "DAMAGE_PLAYER;10000"
-    #      - "KILL_PLAYER;10"
-    #      - "ENCHANT;10"
-    #      - "SMELT;COAL;10"
-    #      - "HONEY_EXTRACT;10"
+        name: "破坏15个任意种类的方块"
+        variable: ANY_BLOCK
+        needProgress: 15
     commonRewards:
       1:
-        desc: "&ex1,000 经验值"
-        type: EXP
-        amount: 1000
-      2:
-        desc: "&fx1 初学者铁镐"
+        desc: "&6x32 橡木"
         type: ITEM
+        variable: OAK_WOOD
+        amount: 32
+      2:
+        desc: "&6x16 牛排"
+        type: ITEM
+        variable: COOKED_BEEF
+        amount: 16
+      3:
+        desc: "&7x1 初学者石镐 &7(耐久 I)"
+        type: CUSTOM_ITEM
         amount: 1
-        variable: IRON_PICKAXE
+        variable: starter_stone_pickaxe
+      4:
+        desc: "&7解锁等级样式 &7<&f1&7>"
+        type: NONE
+        amount: 1
     premiumRewards:
       1:
-        desc: "&ex1,000 经验值"
-        type: EXP
-        amount: 1000
-      2:
-        desc: "&fx1 初学者铁镐"
-        type: ITEM
+        desc: "&fx1 初学者铁镐 &7(耐久 I)"
+        type: CUSTOM_ITEM
         amount: 1
-        variable: IRON_PICKAXE
-#      - "EXP;1000"
-#      - "MONEY;1000"
-#      - "RUBY;1000"
-#      - "ITEM;WOODEN_PICKAXE;1"
-#      - "CUSTOM_ITEM;pwpickaxe;1"
+        variable: starter_iron_pickaxe
+      2:
+        desc: "&7解锁等级样式 &7<&f1+&7>"
+        type: NONE
+        amount: 1
+  2:
+    quests:
+      1:
+        type: BREAK
+        name: "破坏16个煤矿"
+        variable: "COAL_ORE;DEEPSLATE_COAL_ORE"
+        needProgress: 16
+      2:
+        type: BREAK
+        name: "破坏8个铁矿"
+        variable: "IRON_ORE;DEEPSLATE_IRON_ORE"
+        needProgress: 8
+      3:
+        type: CRAFT
+        name: "制作1把石镐"
+        variable: STONE_PICKAXE
+        needProgress: 1
+      4:
+        type: CRAFT
+        name: "制作1把石镐"
+        variable: STONE_PICKAXE
+        needProgress: 1
+      5:
+        type: CRAFT
+        name: "制作1把石镐"
+        variable: STONE_PICKAXE
+        needProgress: 1
+      6:
+        type: CRAFT
+        name: "制作1把石镐"
+        variable: STONE_PICKAXE
+        needProgress: 1
+    commonRewards:
+      1:
+        desc: "&6x32 橡木"
+        type: ITEM
+        variable: OAK_WOOD
+        amount: 32
+      2:
+        desc: "&6x16 牛排"
+        type: ITEM
+        variable: COOKED_BEEF
+        amount: 16
+      3:
+        desc: "&7x1 初学者石镐 &7(耐久 I)"
+        type: CUSTOM_ITEM
+        amount: 1
+        variable: starter_stone_pickaxe
+      4:
+        desc: "&7解锁等级样式 &7<&f1&7>"
+        type: NONE
+        amount: 1
+    premiumRewards:
+      1:
+        desc: "&fx1 初学者铁镐 &7(耐久 I)"
+        type: CUSTOM_ITEM
+        amount: 1
+        variable: starter_iron_pickaxe
+      2:
+        desc: "&7解锁等级样式 &7<&f1+&7>"
+        type: NONE
+        amount: 1

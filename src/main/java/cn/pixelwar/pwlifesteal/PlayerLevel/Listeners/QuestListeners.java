@@ -9,6 +9,7 @@ import cn.pixelwar.pwlifesteal.Utils.ChatColorCast;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -18,6 +19,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -50,29 +52,77 @@ public class QuestListeners implements Listener {
     public void onBlockBreak(BlockBreakEvent event){
         Player player = event.getPlayer();
         Block block = event.getBlock();
-
+        Material material = block.getType();
         HashMap<Integer, Quest> quests = PlayerLevelManager.getPlayerNowQuests(player);
-        HashMap<Integer, Quest> newQuests = quests;
         for (Quest quest : quests.values()){
 
             QuestType questType = quest.getQuestType();
             if (questType.equals(QuestType.BREAK)){
                 String variable = quest.getQuestVariable();
                 int nowProgress = quest.getNowProgress();
-                int needProgress = quest.getNeedProgress();
                 //破坏任何方块
                 if (variable.equals("ANY_BLOCK")){
-                    PlayerLevelManager.setQuestProgressForPlayer(player, questType, "ANY_BLOCK", nowProgress+1);
+                    PlayerLevelManager.setQuestProgressForPlayer(player, questType, variable, nowProgress+1);
+                    return;
                 }
-
+                //如果指定多种方块
+                if (variable.contains(";")){
+                    String[] vs = variable.split(";");
+                    List<Material> materials = new ArrayList<>();
+                    for (String v : vs){
+                        materials.add(Material.getMaterial(v));
+                    }
+                    for (Material m : materials){
+                        if (m.equals(material)){
+                            PlayerLevelManager.setQuestProgressForPlayer(player, questType, variable, nowProgress+1);
+                            return;
+                        }
+                    }
+                }
+                //如果就是指定一种方块
+                Material m = Material.getMaterial(variable);
+                if (m==null){
+//                    Bukkit.getLogger().info("材料名称错误: "+variable);
+                    continue;
+                }
+                if (m.equals(material)){
+                    PlayerLevelManager.setQuestProgressForPlayer(player, questType, variable, nowProgress+1);
+                    return;
+                }
             }
         }
 
     }
 
     @EventHandler
-    public void onCraft(CraftItemEvent event){
+    public void onCraft(CraftItemEvent event) {
         ItemStack itemStack = event.getCurrentItem();
+        if (itemStack==null){
+            return;
+        }
+        Player player = (Player) event.getWhoClicked();
+        HashMap<Integer, Quest> quests = PlayerLevelManager.getPlayerNowQuests(player);
+        for (Quest quest : quests.values()) {
+            QuestType questType = quest.getQuestType();
+            if (questType.equals(QuestType.CRAFT)) {
+                String variable = quest.getQuestVariable();
+                int nowProgress = quest.getNowProgress();
+                Material m = Material.getMaterial(variable);
+                if (m==null){
+                    Bukkit.getLogger().info("合成任务材料名称错误: "+variable);
+                    continue;
+                }
+                if (m.equals(itemStack.getType())){
+                    PlayerLevelManager.setQuestProgressForPlayer(player, questType, variable, nowProgress+1);
+                    return;
+                }
+
+            }
+        }
+
 
     }
+
+
+
 }

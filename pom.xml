@@ -44,7 +44,16 @@
                 </executions>
             </plugin>
         </plugins>
+
         <resources>
+<!--            把所有依赖一起打包-->
+            <resource>
+                <directory>dependency</directory>
+                <targetPath>/BOOT-INF/dependency/</targetPath>
+                <includes>
+                    <include>**/*.jar</include>
+                </includes>
+            </resource>
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
@@ -92,9 +101,13 @@
 
     <dependencies>
         <dependency>
+<!--            mvn install:install-file -DgroupId=com.github.Ssomar-Developement -DartifactId=SCore -Dversion=4.23.8.19 -Dpackaging=jar -Dfile=dependency/SCore-4.23.8.19.jar-->
+
             <groupId>com.github.Ssomar-Developement</groupId>
             <artifactId>SCore</artifactId>
-            <version>3.9.59</version>
+            <version>4.23.8.19</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/dependency/SCore-4.23.8.19.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>io.lumine</groupId>
