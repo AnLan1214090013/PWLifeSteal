@@ -61,7 +61,7 @@ levels:
         needProgress: 15
     commonRewards:
       1:
-        desc: "&6x32 橡木"
+        desc: "&ax32 橡木"
         type: ITEM
         variable: OAK_WOOD
         amount: 32
@@ -108,46 +108,72 @@ levels:
         needProgress: 1
       4:
         type: CRAFT
-        name: "制作1把石镐"
-        variable: STONE_PICKAXE
+        name: "制作1把石剑"
+        variable: STONE_SWORD
         needProgress: 1
       5:
         type: CRAFT
-        name: "制作1把石镐"
-        variable: STONE_PICKAXE
+        name: "制作1把石斧"
+        variable: STONE_AXE
         needProgress: 1
       6:
         type: CRAFT
-        name: "制作1把石镐"
-        variable: STONE_PICKAXE
+        name: "制作1把石铲"
+        variable: STONE_SHOVEL
+        needProgress: 1
+      7:
+        type: CRAFT
+        name: "制作1把石锄"
+        variable: STONE_HOE
         needProgress: 1
     commonRewards:
       1:
-        desc: "&6x32 橡木"
+        desc: "&fx128 石头"
         type: ITEM
-        variable: OAK_WOOD
-        amount: 32
+        variable: STONE
+        amount: 128
       2:
-        desc: "&6x16 牛排"
-        type: ITEM
-        variable: COOKED_BEEF
-        amount: 16
-      3:
-        desc: "&7x1 初学者石镐 &7(耐久 I)"
+        desc: "&7x1 初学者石斧 &7(耐久 I)"
         type: CUSTOM_ITEM
         amount: 1
-        variable: starter_stone_pickaxe
-      4:
-        desc: "&7解锁等级样式 &7<&f1&7>"
-        type: NONE
-        amount: 1
+        variable: starter_stone_axe
     premiumRewards:
       1:
-        desc: "&fx1 初学者铁镐 &7(耐久 I)"
+        desc: "&fx1 初学者铁斧 &7(耐久 I)"
         type: CUSTOM_ITEM
         amount: 1
-        variable: starter_iron_pickaxe
+        variable: starter_iron_axe
+  3:
+    quests:
+      1:
+        type: BREAK
+        name: "破坏32个橡木"
+        variable: "OAK_WOOD;OAK_LOG"
+        needProgress: 32
       2:
-        desc: "&7解锁等级样式 &7<&f1+&7>"
-        type: NONE
+        type: BREAK
+        name: "破坏32个从林木"
+        variable: "JUNGLE_WOOD;JUNGLE_LOG"
+        needProgress: 32
+    commonRewards:
+      1:
+        desc: "&6x32 铁锭"
+        type: ITEM
+        variable: IRON_INGOT
+        amount: 32
+      2:
+        desc: "&7x1 初学者石剑 &7(耐久 I)"
+        type: CUSTOM_ITEM
         amount: 1
+        variable: starter_stone_sword
+    premiumRewards:
+      1:
+        desc: "&bx5 钻石"
+        type: ITEM
+        variable: DIAMOND
+        amount: 5
+      2:
+        desc: "&fx1 初学者铁剑 &7(耐久 I)"
+        type: CUSTOM_ITEM
+        amount: 1
+        variable: starter_iron_sword
