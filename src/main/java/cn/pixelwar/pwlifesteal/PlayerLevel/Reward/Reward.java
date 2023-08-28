@@ -67,20 +67,25 @@ public class Reward {
                 return;
             case "EXP":
                 player.giveExp(this.amount);
+                return;
             case "MONEY":
                 Money.givePlayerMoney(player, this.amount);
+                return;
             case  "RUBY":
                 PlayerStatsManager.givePlayerRuby(player, this.amount);
+                return;
             case "ITEM":
                 ItemStack itemStack = new ItemStack(Material.getMaterial(this.variable));
                 itemStack.setAmount(this.amount);
                 GiveItem.giveItem(player, itemStack);
+                return;
             case "CUSTOM_ITEM":
 //                ItemStack itemStack2 = GetMythicMobsItem.getMMItem(this.variable);
 //                ItemStack itemStack2 = GetEIItems.getExecutableItem(player, this.variable, this.amount);
 //                GiveItem.giveItem(player, itemStack2);
 
                 GetEIItems.giveExecutableItem(player, this.variable, this.amount);
+                return;
             default:
                 return;
         }

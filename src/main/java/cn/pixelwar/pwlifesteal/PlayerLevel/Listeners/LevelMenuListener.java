@@ -16,6 +16,7 @@ import de.tr7zw.nbtapi.NBTItem;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -67,7 +68,10 @@ public class LevelMenuListener implements Listener {
                     player.sendMessage(ChatColorCast.format(" "));
                     //刷新一下按钮
                     LevelMenu levelMenu = new LevelMenu();
-                    viewInventory.setItem(event.getSlot(), levelMenu.getPremiumItem(nowLevel, player));
+                    viewInventory.setItem(event.getSlot(), levelMenu.getCommonItem(nowLevel, player));
+                    ItemStack next = levelMenu.getCommonItem(nowLevel+1, player);
+                    if (next!=null) viewInventory.setItem(event.getSlot()+1, next);
+
                     return;
                 }
                 //领取premium奖励

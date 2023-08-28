@@ -10,6 +10,7 @@ import org.bukkit.event.HandlerList;
 public class QuestProgressEvent extends Event implements Cancellable {
     private Player player;
     private Quest quest;
+
     private boolean isCancelled;
     private static final HandlerList HANDLERS_LIST = new HandlerList();
 

@@ -61,9 +61,7 @@ public class QuestListeners implements Listener {
         Player player = event.getPlayer();
         Block block = event.getBlock();
         Material material = block.getType();
-        Bukkit.getScheduler().runTaskAsynchronously(PWLifeSteal.getPlugin(), new BukkitRunnable() {
-            @Override
-            public void run() {
+        Bukkit.getScheduler().runTaskAsynchronously(PWLifeSteal.getPlugin(), () -> {
                 HashMap<Integer, Quest> quests = PlayerLevelManager.getPlayerNowQuests(player);
                 for (Quest quest : quests.values()) {
 
@@ -102,7 +100,7 @@ public class QuestListeners implements Listener {
                         }
                     }
                 }
-            }
+
         });
     }
     @EventHandler
@@ -110,9 +108,7 @@ public class QuestListeners implements Listener {
         Player player = event.getPlayer();
         Block block = event.getBlock();
         Material material = block.getType();
-        Bukkit.getScheduler().runTaskAsynchronously(PWLifeSteal.getPlugin(), new BukkitRunnable() {
-            @Override
-            public void run() {
+        Bukkit.getScheduler().runTaskAsynchronously(PWLifeSteal.getPlugin(), () -> {
                 HashMap<Integer, Quest> quests = PlayerLevelManager.getPlayerNowQuests(player);
                 for (Quest quest : quests.values()) {
                     QuestType questType = quest.getQuestType();
@@ -149,7 +145,6 @@ public class QuestListeners implements Listener {
                             return;
                         }
                     }
-                }
             }
         });
     }
@@ -161,9 +156,7 @@ public class QuestListeners implements Listener {
             return;
         }
         Player player = (Player) event.getWhoClicked();
-        Bukkit.getScheduler().runTaskAsynchronously(PWLifeSteal.getPlugin(), new BukkitRunnable() {
-            @Override
-            public void run() {
+        Bukkit.getScheduler().runTaskAsynchronously(PWLifeSteal.getPlugin(), () -> {
                 HashMap<Integer, Quest> quests = PlayerLevelManager.getPlayerNowQuests(player);
                 for (Quest quest : quests.values()) {
                     QuestType questType = quest.getQuestType();
@@ -182,7 +175,7 @@ public class QuestListeners implements Listener {
 
                     }
                 }
-            }
+
         });
 
     }
@@ -196,9 +189,7 @@ public class QuestListeners implements Listener {
             Entity dead = event.getEntity();
             if (!dead.getType().equals(EntityType.PLAYER) && killer.getType().equals(EntityType.PLAYER)) {
                 Player attacker = (Player) killer;
-                Bukkit.getScheduler().runTaskAsynchronously(PWLifeSteal.getPlugin(), new BukkitRunnable() {
-                    @Override
-                    public void run() {
+                Bukkit.getScheduler().runTaskAsynchronously(PWLifeSteal.getPlugin(), () -> {
                         HashMap<Integer, Quest> quests = PlayerLevelManager.getPlayerNowQuests(attacker);
                         for (Quest quest : quests.values()) {
                             QuestType questType = quest.getQuestType();
@@ -213,7 +204,7 @@ public class QuestListeners implements Listener {
 
                             }
                         }
-                    }
+
                 });
             }
         }
@@ -228,9 +219,7 @@ public class QuestListeners implements Listener {
             if (killer.getType().equals(EntityType.PLAYER)) {
                 Player attacker = (Player) killer;
                 Player victim = event.getEntity();
-                Bukkit.getScheduler().runTaskAsynchronously(PWLifeSteal.getPlugin(), new BukkitRunnable() {
-                    @Override
-                    public void run() {
+                Bukkit.getScheduler().runTaskAsynchronously(PWLifeSteal.getPlugin(), () -> {
                         HashMap<Integer, Quest> quests = PlayerLevelManager.getPlayerNowQuests(attacker);
                         for (Quest quest : quests.values()) {
                             QuestType questType = quest.getQuestType();
@@ -243,7 +232,7 @@ public class QuestListeners implements Listener {
 
 
                         }
-                    }
+
                 });
 
             }

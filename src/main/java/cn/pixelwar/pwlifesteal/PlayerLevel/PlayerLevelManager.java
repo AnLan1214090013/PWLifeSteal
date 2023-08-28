@@ -1,5 +1,6 @@
 package cn.pixelwar.pwlifesteal.PlayerLevel;
 
+import cn.pixelwar.pwlifesteal.PWLifeSteal;
 import cn.pixelwar.pwlifesteal.PlayerLevel.CustomEvent.LevelDoneEvent;
 import cn.pixelwar.pwlifesteal.PlayerLevel.CustomEvent.QuestProgressEvent;
 import cn.pixelwar.pwlifesteal.PlayerLevel.Quest.Quest;
@@ -52,10 +53,13 @@ public class PlayerLevelManager {
             if (qt.equals(questType) && qv.equals(questVariable)){
                 if (quest.getNeedProgress() > quest.getNowProgress()) {
                     quest.setNowProgress(nowProgress);
-                    QuestProgressEvent questProgressEvent = new QuestProgressEvent(player, quest, false);
-                    Bukkit.getPluginManager().callEvent(questProgressEvent);
+                    Bukkit.getScheduler().runTask(PWLifeSteal.getPlugin(), ()->{
+                        QuestProgressEvent questProgressEvent = new QuestProgressEvent(player, quest, false);
+                        Bukkit.getPluginManager().callEvent(questProgressEvent);
+                    });
                     //如果这一等级已经完成
                     if (checkLevelIsDone(player, playerLevelNumHashMap.get(player.getName()))){
+                        Bukkit.getScheduler().runTask(PWLifeSteal.getPlugin(), ()->{
                         LevelDoneEvent event = new LevelDoneEvent(
                                 false,
                                 playerLevelNumHashMap.get(player.getName()),
@@ -64,6 +68,7 @@ public class PlayerLevelManager {
                                 false
                         );
                         Bukkit.getPluginManager().callEvent(event);
+                        });
                     }
                 }
             }
