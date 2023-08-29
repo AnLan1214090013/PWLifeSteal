@@ -249,3 +249,36 @@ levels:
         type: CUSTOM_ITEM
         amount: 1
         variable: starter_diamond_boots
+  5:
+    quests:
+      1:
+        type: KILL_PLAYER
+        name: "击杀5个玩家"
+        needProgress: 15
+    commonRewards:
+      1:
+        desc: "&5x30 紫宝石"
+        type: RUBY
+        amount: 30
+      2:
+        desc: "&ax1000 EXP"
+        type: EXP
+        amount: 1000
+      3:
+        desc: "&ex500 金钱"
+        type: MONEY
+        amount: 500
+    premiumRewards:
+      1:
+        desc: "&5x60 紫宝石"
+        type: RUBY
+        amount: 60
+      2:
+        desc: "&ax2000 EXP"
+        type: EXP
+        amount: 2000
+      3:
+        desc: "&ex1000 金钱"
+        type: MONEY
+        amount: 1000
+
