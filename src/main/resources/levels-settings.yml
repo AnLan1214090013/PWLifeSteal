@@ -177,3 +177,75 @@ levels:
         type: CUSTOM_ITEM
         amount: 1
         variable: starter_iron_sword
+  4:
+    quests:
+      1:
+        type: KILL_MOB
+        name: "击杀15个僵尸"
+        variable: "ZOMBIE"
+        needProgress: 15
+      2:
+        type: KILL_MOB
+        name: "击杀15个普通蜘蛛"
+        variable: "SPIDER"
+        needProgress: 15
+      3:
+        type: KILL_MOB
+        name: "击杀15个骷髅"
+        variable: "SKELETON"
+        needProgress: 15
+      4:
+        type: KILL_MOB
+        name: "击杀15个爬行者"
+        variable: "CREEPER"
+        needProgress: 15
+    commonRewards:
+      1:
+        desc: "&5x20 紫宝石"
+        type: RUBY
+        amount: 20
+      2:
+        desc: "&Fx1 初学者铁头盔 &7(耐久 II)"
+        type: CUSTOM_ITEM
+        amount: 1
+        variable: starter_iron_helmet
+      3:
+        desc: "&Fx1 初学者铁胸甲 &7(耐久 II)"
+        type: CUSTOM_ITEM
+        amount: 1
+        variable: starter_iron_chestplate
+      4:
+        desc: "&Fx1 初学者铁护腿 &7(耐久 II)"
+        type: CUSTOM_ITEM
+        amount: 1
+        variable: starter_iron_leggings
+      5:
+        desc: "&Fx1 初学者铁靴子 &7(耐久 II)"
+        type: CUSTOM_ITEM
+        amount: 1
+        variable: starter_iron_boots
+    premiumRewards:
+      1:
+        desc: "&5x40 紫宝石"
+        type: RUBY
+        amount: 40
+      2:
+        desc: "&bx1 初学者钻石头盔 &7(耐久 II 保护 I)"
+        type: CUSTOM_ITEM
+        amount: 1
+        variable: starter_diamond_helmet
+      3:
+        desc: "&bx1 初学者钻石胸甲 &7(耐久 II 保护 I)"
+        type: CUSTOM_ITEM
+        amount: 1
+        variable: starter_diamond_chestplate
+      4:
+        desc: "&bx1 初学者钻石护腿 &7(耐久 II 保护 I)"
+        type: CUSTOM_ITEM
+        amount: 1
+        variable: starter_diamond_leggings
+      5:
+        desc: "&bx1 初学者钻石靴子 &7(耐久 II 保护 I)"
+        type: CUSTOM_ITEM
+        amount: 1
+        variable: starter_diamond_boots
