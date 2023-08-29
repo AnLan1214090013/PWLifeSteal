@@ -78,6 +78,9 @@ public class PlayerLevelManager {
         playerLevelHashMap.put(player.getName(), nowLevel);
     }
 
+
+
+
     public static boolean checkLevelIsDone(Player player, int level){
         int nowLevelNum = playerLevelNumHashMap.get(player.getName());
         if (level!=nowLevelNum)return false;

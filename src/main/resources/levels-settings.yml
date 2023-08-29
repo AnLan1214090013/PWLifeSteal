@@ -254,7 +254,8 @@ levels:
       1:
         type: KILL_PLAYER
         name: "击杀5个玩家"
-        needProgress: 15
+        needProgress: 5
+        variable: kill_player
     commonRewards:
       1:
         desc: "&5x30 紫宝石"
