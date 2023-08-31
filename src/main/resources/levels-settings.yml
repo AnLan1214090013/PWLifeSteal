@@ -282,4 +282,29 @@ levels:
         desc: "&ex1000 金钱"
         type: MONEY
         amount: 1000
+  6:
+    quests:
+      1:
+        type: KILL_HUNTED_PLAYER
+        name: "击杀1个被悬赏的玩家"
+        needProgress: 1
+        variable: kill_hunted_player
+    commonRewards:
+      1:
+        desc: "&5x50 紫宝石"
+        type: RUBY
+        amount: 50
+      2:
+        desc: "&ex800 金钱"
+        type: MONEY
+        amount: 500
+    premiumRewards:
+      1:
+        desc: "&5x150 紫宝石"
+        type: RUBY
+        amount: 150
+      2:
+        desc: "&ex1400 金钱"
+        type: MONEY
+        amount: 1000
 
