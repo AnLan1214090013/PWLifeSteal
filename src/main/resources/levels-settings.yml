@@ -285,26 +285,51 @@ levels:
   6:
     quests:
       1:
-        type: KILL_HUNTED_PLAYER
-        name: "击杀1个被悬赏的玩家"
-        needProgress: 1
-        variable: kill_hunted_player
+        type: BREAK
+        name: "收获64个可可豆"
+        needProgress: 64
+        variable: COCOA
+      2:
+        type: BREAK
+        name: "收获64个小麦"
+        needProgress: 64
+        variable: WHEAT
+      3:
+        type: BREAK
+        name: "砍伐64个竹子"
+        needProgress: 32
+        variable: BAMBOO
+      4:
+        type: BREAK
+        name: "收获32个西瓜"
+        needProgress: 32
+        variable: MELON
     commonRewards:
       1:
-        desc: "&5x50 紫宝石"
+        desc: "&5x100 紫宝石"
         type: RUBY
-        amount: 50
+        amount: 100
       2:
-        desc: "&ex800 金钱"
+        desc: "&6x32 胡萝卜"
+        type: ITEM
+        variable: CARROT
+        amount: 32
+      3:
+        desc: "&ax32 土豆"
+        type: ITEM
+        variable: POTATO
+        amount: 32
+      4:
+        desc: "&ex250 金钱"
         type: MONEY
-        amount: 500
+        amount: 250
     premiumRewards:
       1:
-        desc: "&5x150 紫宝石"
+        desc: "&5x120 紫宝石"
         type: RUBY
-        amount: 150
-      2:
-        desc: "&ex1400 金钱"
+        amount: 120
+      4:
+        desc: "&ex500 金钱"
         type: MONEY
-        amount: 1000
+        amount: 500
 
