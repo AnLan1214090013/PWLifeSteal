@@ -187,6 +187,7 @@ public class QuestListeners implements Listener {
     @EventHandler
     public void onSmelt(FurnaceExtractEvent event) {
         Material material = event.getItemType();
+//        Bukkit.broadcastMessage(""+material.toString());
         if (material == null) {
             return;
         }
