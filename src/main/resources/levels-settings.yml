@@ -361,4 +361,41 @@ levels:
         type: ITEM
         variable: EXPERIENCE_BOTTLE
         amount: 64
-
+  8:
+    quests:
+      1:
+        type: BREAK
+        name: "破坏64个青金石矿"
+        variable: "LAPIS_ORE;DEEPSLATE_LAPIS_ORE"
+        needProgress: 64
+      2:
+        type: BREAK
+        name: "破坏64个金矿"
+        variable: "GOLD_ORE;DEEPSLATE_GOLD_ORE"
+        needProgress: 64
+      3:
+        type: BREAK
+        name: "破坏64个红石矿"
+        variable: "REDSTONE_ORE;DEEPSLATE_REDSTONE_ORE"
+        needProgress: 64
+      4:
+        type: BREAK
+        name: "破坏32个钻石矿"
+        variable: "DIAMOND_ORE;DEEPSLATE_DIAMOND_ORE"
+        needProgress: 32
+    commonRewards:
+      1:
+        desc: "&Ex1 矿工铁镐 &7(耐久 III, 效率III)"
+        type: CUSTOM_ITEM
+        amount: 1
+        variable: miner_iron_pickaxe
+    premiumRewards:
+      1:
+        desc: "&5x50 紫宝石"
+        type: RUBY
+        amount: 50
+      2:
+        desc: "&Ex1 矿工钻石镐 &7(耐久 IV, 效率IV)"
+        type: CUSTOM_ITEM
+        amount: 1
+        variable: miner_diamond_pickaxe
