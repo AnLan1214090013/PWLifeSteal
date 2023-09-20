@@ -12,15 +12,17 @@ import org.bukkit.event.Event;
 
 import javax.annotation.Nullable;
 
-public class EffectAddHome  extends Effect {
+public class EffectAddHome extends Effect {
 
     private Expression<Player> playerin;
     private Expression<String> namein;
+
     static {
-        Skript.registerEffect(EffectAddHome.class, new String[] {
+        Skript.registerEffect(EffectAddHome.class, new String[]{
                 "addhome %player% %string%",
         });
     }
+
     @SuppressWarnings("unchecked")
     @Override
     public boolean init(Expression<?>[] expressions, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parser) {

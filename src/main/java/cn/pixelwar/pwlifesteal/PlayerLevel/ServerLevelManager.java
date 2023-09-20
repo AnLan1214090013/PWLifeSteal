@@ -13,7 +13,6 @@ public class ServerLevelManager {
     public static HashMap<Integer, Level> allLevels = new HashMap<>();
 
 
-
 //    public static Level createLevel(List<Quest> quests, List<Reward> commonRewards, List<Reward> premiumRewards){
 //        Level level = new Level(quests, commonRewards, premiumRewards);
 //        return level;

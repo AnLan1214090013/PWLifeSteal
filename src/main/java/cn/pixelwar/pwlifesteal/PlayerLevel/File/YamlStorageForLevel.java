@@ -25,7 +25,7 @@ import java.util.*;
 public class YamlStorageForLevel {
 
     private final FileConfiguration config = new YamlConfiguration();
-    
+
     public boolean CheckYamlFile(Player player) {
 
         String playerName = player.getName();
@@ -43,7 +43,8 @@ public class YamlStorageForLevel {
                 dataFile.createNewFile();
                 isExist = false;
                 firstJoin = true;
-            } catch (IOException ex) {}
+            } catch (IOException ex) {
+            }
         }
         try (InputStreamReader Config = new InputStreamReader(new FileInputStream(dataFile), "UTF-8")) {
             config.load(Config);
@@ -51,90 +52,96 @@ public class YamlStorageForLevel {
 
         }
         config.set("Name", player.getName());
-        try{
-        config.save(dataFile);}catch (IOException ex){}
+        try {
+            config.save(dataFile);
+        } catch (IOException ex) {
+        }
         //如果是第一次加入就弄一个默认的data
-        if (firstJoin){
+        if (firstJoin) {
             PlayerLevelManager.setDefaultPlayerLevel(player);
         }
         return firstJoin;
     }
 
-    public void initLevelSystem(){
+    public void initLevelSystem() {
 //        File dataFile = new File("plugins/PWLifeSteal/levels-settings.yml");
         FileConfiguration levelConfig = PWLifeSteal.getInstance().getLevelConfig();
-        ConfigurationSection levelNumSection =  levelConfig.getConfigurationSection("levels");
-        for (String levelNum : levelNumSection.getKeys(false)){
+        ConfigurationSection levelNumSection = levelConfig.getConfigurationSection("levels");
+        for (String levelNum : levelNumSection.getKeys(false)) {
             Level level;
 //            Bukkit.getLogger().info("levelNum : "+levelNum);
-            ConfigurationSection questsSection =  levelConfig.getConfigurationSection("levels."+levelNum+".quests");
+            ConfigurationSection questsSection = levelConfig.getConfigurationSection("levels." + levelNum + ".quests");
 //            List<String> questsSection =  levelConfig.getStringList("levels."+levelNum+".quests");
             HashMap<Integer, Quest> quests = new HashMap<>();
-            for (String questNum : questsSection.getKeys(false)){
+            for (String questNum : questsSection.getKeys(false)) {
 //                Bukkit.getLogger().info("quest : "+questType);
                 Quest quest = null;
-                int needProgress = levelConfig.getInt("levels."+levelNum+".quests."+questNum+".needProgress");
-                String variable = levelConfig.getString("levels."+levelNum+".quests."+questNum+".variable");
-                String name = levelConfig.getString("levels."+levelNum+".quests."+questNum+".name");
-                String questType = levelConfig.getString("levels."+levelNum+".quests."+questNum+".type");
+                int needProgress = levelConfig.getInt("levels." + levelNum + ".quests." + questNum + ".needProgress");
+                String variable = levelConfig.getString("levels." + levelNum + ".quests." + questNum + ".variable");
+                String name = levelConfig.getString("levels." + levelNum + ".quests." + questNum + ".name");
+                String questType = levelConfig.getString("levels." + levelNum + ".quests." + questNum + ".type");
 
-                if (variable!=null){
+                if (variable != null) {
                     quest = new Quest(name, needProgress, 0, QuestType.getQuestTypeByName(questType), variable);
-                }else{
+                } else {
                     quest = new Quest(name, needProgress, 0, QuestType.getQuestTypeByName(questType));
                 }
                 quests.put(Integer.parseInt(questNum), quest);
             }
-            ConfigurationSection commonRewardsSection =  levelConfig.getConfigurationSection("levels."+levelNum+".commonRewards");
+            ConfigurationSection commonRewardsSection = levelConfig.getConfigurationSection("levels." + levelNum + ".commonRewards");
             List<Reward> commonRewardsList = new ArrayList<>();
-            for (String commonRewardNum : commonRewardsSection.getKeys(false)){
+            for (String commonRewardNum : commonRewardsSection.getKeys(false)) {
                 Reward commonReward = null;
-                String desc = levelConfig.getString("levels."+levelNum+".commonRewards."+commonRewardNum+".desc");
-                String type = levelConfig.getString("levels."+levelNum+".commonRewards."+commonRewardNum+".type");;
-                int amount = levelConfig.getInt("levels."+levelNum+".commonRewards."+commonRewardNum+".amount");;
-                String variable  = levelConfig.getString("levels."+levelNum+".commonRewards."+commonRewardNum+".variable");
+                String desc = levelConfig.getString("levels." + levelNum + ".commonRewards." + commonRewardNum + ".desc");
+                String type = levelConfig.getString("levels." + levelNum + ".commonRewards." + commonRewardNum + ".type");
+                ;
+                int amount = levelConfig.getInt("levels." + levelNum + ".commonRewards." + commonRewardNum + ".amount");
+                ;
+                String variable = levelConfig.getString("levels." + levelNum + ".commonRewards." + commonRewardNum + ".variable");
 
-                if (variable!=null){
+                if (variable != null) {
                     commonReward = new Reward(desc, type, amount, variable);
-                }else{
+                } else {
                     commonReward = new Reward(desc, type, amount);
                 }
                 commonRewardsList.add(commonReward);
             }
 
-            ConfigurationSection premiumRewardsSection =  levelConfig.getConfigurationSection("levels."+levelNum+".premiumRewards");
+            ConfigurationSection premiumRewardsSection = levelConfig.getConfigurationSection("levels." + levelNum + ".premiumRewards");
             List<Reward> premiumRewardsList = new ArrayList<>();
-            for (String premiumRewardNum : premiumRewardsSection.getKeys(false)){
+            for (String premiumRewardNum : premiumRewardsSection.getKeys(false)) {
                 Reward premiumReward = null;
-                String desc = levelConfig.getString("levels."+levelNum+".premiumRewards."+premiumRewardNum+".desc");
-                String type = levelConfig.getString("levels."+levelNum+".premiumRewards."+premiumRewardNum+".type");;
-                int amount = levelConfig.getInt("levels."+levelNum+".premiumRewards."+premiumRewardNum+".amount");;
-                String variable  = levelConfig.getString("levels."+levelNum+".premiumRewards."+premiumRewardNum+".variable");
+                String desc = levelConfig.getString("levels." + levelNum + ".premiumRewards." + premiumRewardNum + ".desc");
+                String type = levelConfig.getString("levels." + levelNum + ".premiumRewards." + premiumRewardNum + ".type");
+                ;
+                int amount = levelConfig.getInt("levels." + levelNum + ".premiumRewards." + premiumRewardNum + ".amount");
+                ;
+                String variable = levelConfig.getString("levels." + levelNum + ".premiumRewards." + premiumRewardNum + ".variable");
 
-                if (variable!=null){
+                if (variable != null) {
                     premiumReward = new Reward(desc, type, amount, variable);
-                }else{
+                } else {
                     premiumReward = new Reward(desc, type, amount);
                 }
                 premiumRewardsList.add(premiumReward);
             }
 
-            level= new Level(quests, commonRewardsList, premiumRewardsList);
-            ServerLevelManager.allLevels.put(Integer.parseInt(levelNum), level );
+            level = new Level(quests, commonRewardsList, premiumRewardsList);
+            ServerLevelManager.allLevels.put(Integer.parseInt(levelNum), level);
 
 
         }
 
 
-
     }
 
-    public void createPlayerLevelData(String playerName){
+    public void createPlayerLevelData(String playerName) {
         File dataFolder = new File("plugins/PWLifeSteal/PlayerLevels");
         File dataFile = new File("plugins/PWLifeSteal/PlayerLevels/" + playerName + ".yml");
         try (InputStreamReader Config = new InputStreamReader(new FileInputStream(dataFile), "UTF-8")) {
             config.load(Config);
-        } catch (IOException | InvalidConfigurationException ex) {}
+        } catch (IOException | InvalidConfigurationException ex) {
+        }
 
         //加载premium信息
         boolean isPremium = config.isSet("premium.isPremium") ? config.getBoolean("premium.isPremium") : false;
@@ -145,9 +152,9 @@ public class YamlStorageForLevel {
         //加载level信息
         int levelNum = config.isSet("level.num") ? config.getInt("level.num") : 1;
         //如果已经达到最高等级
-        if (levelNum>ServerLevelManager.allLevels.size()){
+        if (levelNum > ServerLevelManager.allLevels.size()) {
             PlayerLevelManager.playerLevelNumHashMap.put(playerName, levelNum);
-        }else {
+        } else {
             PlayerLevelManager.playerLevelNumHashMap.put(playerName, levelNum);
 
             HashMap<Integer, Quest> quests = new HashMap<>();
@@ -181,12 +188,13 @@ public class YamlStorageForLevel {
 
     }
 
-    public void savePlayerLevelData(String playerName){
+    public void savePlayerLevelData(String playerName) {
         File dataFolder = new File("plugins/PWLifeSteal/PlayerLevels");
         File dataFile = new File("plugins/PWLifeSteal/PlayerLevels/" + playerName + ".yml");
         try (InputStreamReader Config = new InputStreamReader(new FileInputStream(dataFile), "UTF-8")) {
             config.load(Config);
-        } catch (IOException | InvalidConfigurationException ex) {}
+        } catch (IOException | InvalidConfigurationException ex) {
+        }
 
         //保存premium信息
         config.set("premium", null);
@@ -198,21 +206,22 @@ public class YamlStorageForLevel {
         }
         //保存level信息
         config.set("level", null);
-        if (PlayerLevelManager.playerLevelNumHashMap.containsKey(playerName)){
+        if (PlayerLevelManager.playerLevelNumHashMap.containsKey(playerName)) {
             config.set("level.num", PlayerLevelManager.playerLevelNumHashMap.get(playerName));
-        }else{
-            config.set("level.num",1);
+        } else {
+            config.set("level.num", 1);
         }
-        if (PlayerLevelManager.playerLevelHashMap.containsKey(playerName)){
+        if (PlayerLevelManager.playerLevelHashMap.containsKey(playerName)) {
             Level level = PlayerLevelManager.playerLevelHashMap.get(playerName);
             HashMap<Integer, Quest> quests = level.getQuests();
-            quests.forEach((num, quest)->{
-                config.set("level.quests."+num+".progress", quest.getNowProgress());
+            quests.forEach((num, quest) -> {
+                config.set("level.quests." + num + ".progress", quest.getNowProgress());
             });
         }
-        try{
-            config.save(dataFile);}catch (IOException ex){
-            System.out.println("玩家"+playerName+"的信息保存出错");
+        try {
+            config.save(dataFile);
+        } catch (IOException ex) {
+            System.out.println("玩家" + playerName + "的信息保存出错");
         }
     }
 

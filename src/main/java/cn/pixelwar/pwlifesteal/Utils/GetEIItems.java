@@ -16,11 +16,11 @@ public class GetEIItems {
 //        return item;
 //    }
 
-    public static void giveExecutableItem(Player player, String executableItemId, int amount){
+    public static void giveExecutableItem(Player player, String executableItemId, int amount) {
         ItemStack item = null;
         Optional<ExecutableItemInterface> eiOpt = ExecutableItemsAPI.getExecutableItemsManager().getExecutableItem(executableItemId);
-        if(eiOpt.isPresent()) item = eiOpt.get().buildItem(amount, Optional.empty(), Optional.of(player));
-        if(item != null)
+        if (eiOpt.isPresent()) item = eiOpt.get().buildItem(amount, Optional.empty(), Optional.of(player));
+        if (item != null)
             GiveItem.giveItem(player, item);
     /* else
          Your error message here */

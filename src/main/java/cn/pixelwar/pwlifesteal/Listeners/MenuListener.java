@@ -45,20 +45,20 @@ public class MenuListener implements Listener {
             if (event.getClickedInventory().equals(viewInventory)) {
                 event.setCancelled(true);
                 ItemStack click = event.getCurrentItem();
-                if (click==null){
+                if (click == null) {
                     return;
                 }
                 //如果已经满级
-                if (click.getType().equals(Material.ORANGE_DYE)){
+                if (click.getType().equals(Material.ORANGE_DYE)) {
                     return;
                 }
-                if (click.getType().equals(Material.GRAY_DYE) || click.getType().equals(Material.LIME_DYE)){
+                if (click.getType().equals(Material.GRAY_DYE) || click.getType().equals(Material.LIME_DYE)) {
                     NBTItem nbtItem = new NBTItem(click);
-                    if (nbtItem.hasTag("skill")){
+                    if (nbtItem.hasTag("skill")) {
                         SkillType skillType = SkillType.getSkillType(nbtItem.getString("skill"));
                         int cost = nbtItem.getInteger("cost");
                         int playerRuby = PlayerStatsManager.playerStatMap.get(player.getName()).getRuby();
-                        if (cost>playerRuby){
+                        if (cost > playerRuby) {
                             player.playSound(player.getEyeLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 0.1f);
                             player.sendMessage(ChatColorCast.format("&d▸ &f你没有足够的&d&l紫宝石&f来升级技能!"));
                             return;
@@ -66,7 +66,7 @@ public class MenuListener implements Listener {
                         PlayerStatsManager.levelUpSkill(player, skillType);
                         PlayerStatsManager.removePlayerRuby(player, cost);
                         player.playSound(player.getEyeLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1.0f, 1f);
-                        player.sendMessage(ChatColorCast.format("&a▸ &f升级技能成功! &b&l"+skillType.getDisplayName()+"&7(等级"+PlayerStatsManager.playerStatMap.get(player.getName()).getSkillStat().get(skillType)+")"));
+                        player.sendMessage(ChatColorCast.format("&a▸ &f升级技能成功! &b&l" + skillType.getDisplayName() + "&7(等级" + PlayerStatsManager.playerStatMap.get(player.getName()).getSkillStat().get(skillType) + ")"));
                         SkillTreeMenu skillTreeMenu = new SkillTreeMenu();
                         skillTreeMenu.openSkillTreeMenu(player);
 //                        player.closeInventory();
@@ -85,24 +85,22 @@ public class MenuListener implements Listener {
 
 
     @EventHandler
-    public void onRegionEnter(RegionEnterEvent e)
-    {
-        if (e.getRegion().getId().equals("spawn")){
+    public void onRegionEnter(RegionEnterEvent e) {
+        if (e.getRegion().getId().equals("spawn")) {
             e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 99999, 1, false, false, false));
         }
     }
 
     @EventHandler
-    public void onRegionLeave(RegionLeaveEvent e)
-    {
-        if (e.getRegion().getId().equals("spawn")){
+    public void onRegionLeave(RegionLeaveEvent e) {
+        if (e.getRegion().getId().equals("spawn")) {
             e.getPlayer().removePotionEffect(PotionEffectType.NIGHT_VISION);
         }
     }
+
     @EventHandler
-    public void onRegionLeft(RegionLeftEvent e)
-    {
-        if (e.getRegion().getId().equals("spawn")){
+    public void onRegionLeft(RegionLeftEvent e) {
+        if (e.getRegion().getId().equals("spawn")) {
             e.getPlayer().removePotionEffect(PotionEffectType.NIGHT_VISION);
         }
     }

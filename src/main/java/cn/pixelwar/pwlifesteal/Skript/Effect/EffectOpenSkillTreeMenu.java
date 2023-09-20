@@ -14,11 +14,13 @@ import javax.annotation.Nullable;
 public class EffectOpenSkillTreeMenu extends Effect {
 
     private Expression<Player> playerin;
+
     static {
-        Skript.registerEffect(EffectOpenSkillTreeMenu.class, new String[] {
+        Skript.registerEffect(EffectOpenSkillTreeMenu.class, new String[]{
                 "skilltree %player%",
         });
     }
+
     @SuppressWarnings("unchecked")
     @Override
     public boolean init(Expression<?>[] expressions, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parser) {

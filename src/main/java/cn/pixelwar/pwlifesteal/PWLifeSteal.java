@@ -26,13 +26,14 @@ import java.io.InputStreamReader;
 
 public final class PWLifeSteal extends JavaPlugin {
     static PWLifeSteal instance;
-//    private static Economy econ = null;
+    //    private static Economy econ = null;
     SkriptAddon addon;
     private File levelConfigFile;
     private FileConfiguration levelConfig;
     private static Plugin plugin;
     public static int totalPlayerAmount;
     public static FileConfiguration config;
+
     @Override
     public void onEnable() {
         plugin = this;
@@ -50,29 +51,32 @@ public final class PWLifeSteal extends JavaPlugin {
 
     @Override
     public void onDisable() {
-       updateConfig();
-       YamlStorage yamlStorage = new YamlStorage();
-       yamlStorage.saveAllPlayerData();
+        updateConfig();
+        YamlStorage yamlStorage = new YamlStorage();
+        yamlStorage.saveAllPlayerData();
     }
+
     public static PWLifeSteal getInstance() {
         return instance;
     }
+
     public static Plugin getPlugin() {
         return plugin;
     }
-    public void registerEvents(){
-        getServer().getPluginManager().registerEvents((Listener) new SpawnListener(), (Plugin)this);
-        getServer().getPluginManager().registerEvents((Listener) new LifeStealListener(), (Plugin)this);
-        getServer().getPluginManager().registerEvents((Listener) new MenuListener(), (Plugin)this);
-        getServer().getPluginManager().registerEvents((Listener) new LevelMenuListener(), (Plugin)this);
-        getServer().getPluginManager().registerEvents((Listener) new QuestListeners(), (Plugin)this);
+
+    public void registerEvents() {
+        getServer().getPluginManager().registerEvents((Listener) new SpawnListener(), (Plugin) this);
+        getServer().getPluginManager().registerEvents((Listener) new LifeStealListener(), (Plugin) this);
+        getServer().getPluginManager().registerEvents((Listener) new MenuListener(), (Plugin) this);
+        getServer().getPluginManager().registerEvents((Listener) new LevelMenuListener(), (Plugin) this);
+        getServer().getPluginManager().registerEvents((Listener) new QuestListeners(), (Plugin) this);
     }
 
-    public void setupConfig(){
+    public void setupConfig() {
         saveDefaultConfig();
         reloadConfig();
         config = getConfig();
-        totalPlayerAmount=PWLifeSteal.config.getInt("players");
+        totalPlayerAmount = PWLifeSteal.config.getInt("players");
         YamlStorage yamlStorage = new YamlStorage();
         yamlStorage.loadWarps();
         YamlStorageForLevel yamlStorageForLevel = new YamlStorageForLevel();
@@ -81,19 +85,22 @@ public final class PWLifeSteal extends JavaPlugin {
         yamlStorageForLevel.initLevelSystem();
     }
 
-    private void updateConfig(){
+    private void updateConfig() {
         final FileConfiguration config2 = new YamlConfiguration();
         File configFile = new File("plugins/PWLifeSteal/config.yml");
         try (InputStreamReader Config = new InputStreamReader(new FileInputStream(configFile), "UTF-8")) {
             config2.load(Config);
-        } catch (IOException | InvalidConfigurationException ex) {}
+        } catch (IOException | InvalidConfigurationException ex) {
+        }
         config2.set("players", totalPlayerAmount);
-        try{
-            config2.save(configFile);}catch (IOException ex){
+        try {
+            config2.save(configFile);
+        } catch (IOException ex) {
             System.out.println("config信息保存出错");
         }
     }
-    public void setupSK(){
+
+    public void setupSK() {
         this.addon = Skript.registerAddon(this);
         try {
             addon.loadClasses("cn.pixelwar.pwlifesteal");
@@ -103,7 +110,7 @@ public final class PWLifeSteal extends JavaPlugin {
         Bukkit.getLogger().info("[PWLifeSteal-skript] 已经成功启动!");
     }
 
-    private void setupTimer(){
+    private void setupTimer() {
         Teleport teleport = new Teleport();
         teleport.tpaTimer();
     }
@@ -126,7 +133,6 @@ public final class PWLifeSteal extends JavaPlugin {
             e.printStackTrace();
         }
     }
-
 
 
 }

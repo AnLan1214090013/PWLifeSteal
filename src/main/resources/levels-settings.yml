@@ -332,4 +332,33 @@ levels:
         desc: "&ex500 金钱"
         type: MONEY
         amount: 500
+  7:
+    quests:
+      1:
+        type: SMELT
+        name: "烧制32个煤"
+        needProgress: 32
+        variable: COAL
+      2:
+        type: BREAK
+        name: "烧制32个铁锭"
+        needProgress: 32
+        variable: IRON_INGOT
+      3:
+        type: BREAK
+        name: "烧制32个金锭"
+        needProgress: 32
+        variable: GOLD_INGOT
+    commonRewards:
+      1:
+        desc: "&ax32 经验瓶"
+        type: ITEM
+        variable: EXPERIENCE_BOTTLE
+        amount: 32
+    premiumRewards:
+      1:
+        desc: "&ax64 经验瓶"
+        type: ITEM
+        variable: EXPERIENCE_BOTTLE
+        amount: 64
 

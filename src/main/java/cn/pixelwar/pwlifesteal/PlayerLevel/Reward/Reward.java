@@ -61,8 +61,8 @@ public class Reward {
         this.amount = amount;
     }
 
-    public void giveReward(Player player){
-        switch (this.type){
+    public void giveReward(Player player) {
+        switch (this.type) {
             case "NONE":
                 return;
             case "EXP":
@@ -71,7 +71,7 @@ public class Reward {
             case "MONEY":
                 Money.givePlayerMoney(player, this.amount);
                 return;
-            case  "RUBY":
+            case "RUBY":
                 PlayerStatsManager.givePlayerRuby(player, this.amount);
                 return;
             case "ITEM":
@@ -91,9 +91,7 @@ public class Reward {
         }
 
 
-
     }
-
 
 
 }

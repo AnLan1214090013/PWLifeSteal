@@ -17,11 +17,13 @@ public class EffectLevelUpSkill extends Effect {
 
     private Expression<String> skillin;
     private Expression<Player> playerin;
+
     static {
-        Skript.registerEffect(EffectLevelUpSkill.class, new String[] {
+        Skript.registerEffect(EffectLevelUpSkill.class, new String[]{
                 "skilllevelup %player% %string%",
         });
     }
+
     @SuppressWarnings("unchecked")
     @Override
     public boolean init(Expression<?>[] expressions, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parser) {
@@ -38,7 +40,7 @@ public class EffectLevelUpSkill extends Effect {
     @Override
     protected void execute(Event event) {
         Player player = playerin.getSingle(event);
-        SkillType skill = SkillType.getSkillType(skillin.getSingle(event)) ;
+        SkillType skill = SkillType.getSkillType(skillin.getSingle(event));
         PlayerStatsManager.levelUpSkill(player, skill);
     }
 

@@ -16,11 +16,13 @@ public class EffectGiveRuby extends Effect {
 
     private Expression<Number> numberin;
     private Expression<Player> playerin;
+
     static {
-        Skript.registerEffect(EffectGiveRuby.class, new String[] {
+        Skript.registerEffect(EffectGiveRuby.class, new String[]{
                 "giveruby %player% %number%",
         });
     }
+
     @SuppressWarnings("unchecked")
     @Override
     public boolean init(Expression<?>[] expressions, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parser) {

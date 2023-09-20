@@ -6,16 +6,15 @@ import org.bukkit.inventory.ItemStack;
 
 public class GiveItem {
 
-    public static void giveItem(Player player, ItemStack itemStack){
+    public static void giveItem(Player player, ItemStack itemStack) {
 
-        if (player.getInventory().firstEmpty()==-1){
+        if (player.getInventory().firstEmpty() == -1) {
 
             player.getWorld().dropItem(player.getLocation(), itemStack);
 
-        }else {
+        } else {
             player.getInventory().addItem(itemStack);
         }
-
 
 
     }

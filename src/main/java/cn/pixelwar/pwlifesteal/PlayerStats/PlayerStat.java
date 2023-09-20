@@ -44,9 +44,10 @@ public class PlayerStat {
         this.skillStat = skillStat;
     }
 
-    public PlayerStat(){}
+    public PlayerStat() {
+    }
 
-    public void setDefaultStat(Player player){
+    public void setDefaultStat(Player player) {
         this.uuid = player.getUniqueId();
         this.hearts = 20;
         this.maxHearts = 20;
@@ -97,16 +98,17 @@ public class PlayerStat {
         return skillStat;
     }
 
-    public void addMaxHome(Player player, int amount){
+    public void addMaxHome(Player player, int amount) {
         this.maxHome += amount;
     }
 
-    public void removeTPTime(Player player, int amount){
+    public void removeTPTime(Player player, int amount) {
         this.tpTime = this.tpTime - amount;
-        if (this.tpTime<3){
+        if (this.tpTime < 3) {
             this.tpTime = 3;
         }
     }
+
     public UUID getUUID() {
         return uuid;
     }

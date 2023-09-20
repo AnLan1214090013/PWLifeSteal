@@ -24,6 +24,8 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.event.inventory.FurnaceExtractEvent;
+import org.bukkit.event.inventory.FurnaceSmeltEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -39,112 +41,114 @@ import java.util.List;
 public class QuestListeners implements Listener {
 
     @EventHandler
-    public void onQuestProgress(QuestProgressEvent event){
+    public void onQuestProgress(QuestProgressEvent event) {
         Player player = event.getPlayer();
         Quest quest = event.getQuest();
-        String msg = ChatColorCast.format("&f玩家等级 &d▸ &f"+quest.getQuestName()+" &f(&a"+ quest.getNowProgress()+"/"+quest.getNeedProgress()+"&f)");
-        player.spigot().sendMessage(ChatMessageType.ACTION_BAR,new TextComponent(msg));
+        String msg = ChatColorCast.format("&f玩家等级 &d▸ &f" + quest.getQuestName() + " &f(&a" + quest.getNowProgress() + "/" + quest.getNeedProgress() + "&f)");
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(msg));
         player.playSound(player.getEyeLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1F, 2F);
     }
+
     @EventHandler
-    public void onLevelDone(LevelDoneEvent event){
+    public void onLevelDone(LevelDoneEvent event) {
         Player player = event.getPlayer();
         String title = ChatColorCast.format("&a&l已完成所有任务");
-        String subtitle = ChatColorCast.format("&f等级 &d▸ &b&l" + event.getOldLevel()+" &7(/level查看并领取奖励)");
+        String subtitle = ChatColorCast.format("&f等级 &d▸ &b&l" + event.getOldLevel() + " &7(/level查看并领取奖励)");
         player.sendTitle(title, subtitle, 40, 120, 40);
         player.playSound(player.getEyeLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1F, 1F);
     }
 
 
     @EventHandler
-    public void onBlockBreak(BlockBreakEvent event){
+    public void onBlockBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
         Block block = event.getBlock();
         Material material = block.getType();
         Bukkit.getScheduler().runTaskAsynchronously(PWLifeSteal.getPlugin(), () -> {
-                HashMap<Integer, Quest> quests = PlayerLevelManager.getPlayerNowQuests(player);
-                for (Quest quest : quests.values()) {
+            HashMap<Integer, Quest> quests = PlayerLevelManager.getPlayerNowQuests(player);
+            for (Quest quest : quests.values()) {
 
-                    QuestType questType = quest.getQuestType();
-                    if (questType.equals(QuestType.BREAK)) {
-                        String variable = quest.getQuestVariable();
-                        int nowProgress = quest.getNowProgress();
-                        //破坏任何方块
-                        if (variable.equals("ANY_BLOCK")) {
-                            PlayerLevelManager.setQuestProgressForPlayer(player, questType, variable, nowProgress + 1);
-                            return;
+                QuestType questType = quest.getQuestType();
+                if (questType.equals(QuestType.BREAK)) {
+                    String variable = quest.getQuestVariable();
+                    int nowProgress = quest.getNowProgress();
+                    //破坏任何方块
+                    if (variable.equals("ANY_BLOCK")) {
+                        PlayerLevelManager.setQuestProgressForPlayer(player, questType, variable, nowProgress + 1);
+                        return;
+                    }
+                    //如果指定多种方块
+                    if (variable.contains(";")) {
+                        String[] vs = variable.split(";");
+                        List<Material> materials = new ArrayList<>();
+                        for (String v : vs) {
+                            materials.add(Material.getMaterial(v));
                         }
-                        //如果指定多种方块
-                        if (variable.contains(";")) {
-                            String[] vs = variable.split(";");
-                            List<Material> materials = new ArrayList<>();
-                            for (String v : vs) {
-                                materials.add(Material.getMaterial(v));
+                        for (Material m : materials) {
+                            if (m.equals(material)) {
+                                PlayerLevelManager.setQuestProgressForPlayer(player, questType, variable, nowProgress + 1);
+                                return;
                             }
-                            for (Material m : materials) {
-                                if (m.equals(material)) {
-                                    PlayerLevelManager.setQuestProgressForPlayer(player, questType, variable, nowProgress + 1);
-                                    return;
-                                }
-                            }
-                        }
-                        //如果就是指定一种方块
-                        Material m = Material.getMaterial(variable);
-                        if (m == null) {
-//                    Bukkit.getLogger().info("材料名称错误: "+variable);
-                            continue;
-                        }
-                        if (m.equals(material)) {
-                            PlayerLevelManager.setQuestProgressForPlayer(player, questType, variable, nowProgress + 1);
-                            return;
                         }
                     }
+                    //如果就是指定一种方块
+                    Material m = Material.getMaterial(variable);
+                    if (m == null) {
+//                    Bukkit.getLogger().info("材料名称错误: "+variable);
+                        continue;
+                    }
+                    if (m.equals(material)) {
+                        PlayerLevelManager.setQuestProgressForPlayer(player, questType, variable, nowProgress + 1);
+                        return;
+                    }
                 }
+            }
 
         });
     }
+
     @EventHandler
-    public void onBlockPlace(BlockPlaceEvent event){
+    public void onBlockPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
         Block block = event.getBlock();
         Material material = block.getType();
         Bukkit.getScheduler().runTaskAsynchronously(PWLifeSteal.getPlugin(), () -> {
-                HashMap<Integer, Quest> quests = PlayerLevelManager.getPlayerNowQuests(player);
-                for (Quest quest : quests.values()) {
-                    QuestType questType = quest.getQuestType();
-                    if (questType.equals(QuestType.PLACE)) {
-                        String variable = quest.getQuestVariable();
-                        int nowProgress = quest.getNowProgress();
-                        //放置任何方块
-                        if (variable.equals("ANY_BLOCK")) {
-                            PlayerLevelManager.setQuestProgressForPlayer(player, questType, variable, nowProgress + 1);
-                            return;
+            HashMap<Integer, Quest> quests = PlayerLevelManager.getPlayerNowQuests(player);
+            for (Quest quest : quests.values()) {
+                QuestType questType = quest.getQuestType();
+                if (questType.equals(QuestType.PLACE)) {
+                    String variable = quest.getQuestVariable();
+                    int nowProgress = quest.getNowProgress();
+                    //放置任何方块
+                    if (variable.equals("ANY_BLOCK")) {
+                        PlayerLevelManager.setQuestProgressForPlayer(player, questType, variable, nowProgress + 1);
+                        return;
+                    }
+                    //如果指定多种方块
+                    if (variable.contains(";")) {
+                        String[] vs = variable.split(";");
+                        List<Material> materials = new ArrayList<>();
+                        for (String v : vs) {
+                            materials.add(Material.getMaterial(v));
                         }
-                        //如果指定多种方块
-                        if (variable.contains(";")) {
-                            String[] vs = variable.split(";");
-                            List<Material> materials = new ArrayList<>();
-                            for (String v : vs) {
-                                materials.add(Material.getMaterial(v));
+                        for (Material m : materials) {
+                            if (m.equals(material)) {
+                                PlayerLevelManager.setQuestProgressForPlayer(player, questType, variable, nowProgress + 1);
+                                return;
                             }
-                            for (Material m : materials) {
-                                if (m.equals(material)) {
-                                    PlayerLevelManager.setQuestProgressForPlayer(player, questType, variable, nowProgress + 1);
-                                    return;
-                                }
-                            }
-                        }
-                        //如果就是指定一种方块
-                        Material m = Material.getMaterial(variable);
-                        if (m == null) {
-//                    Bukkit.getLogger().info("材料名称错误: "+variable);
-                            continue;
-                        }
-                        if (m.equals(material)) {
-                            PlayerLevelManager.setQuestProgressForPlayer(player, questType, variable, nowProgress + 1);
-                            return;
                         }
                     }
+                    //如果就是指定一种方块
+                    Material m = Material.getMaterial(variable);
+                    if (m == null) {
+//                    Bukkit.getLogger().info("材料名称错误: "+variable);
+                        continue;
+                    }
+                    if (m.equals(material)) {
+                        PlayerLevelManager.setQuestProgressForPlayer(player, questType, variable, nowProgress + 1);
+                        return;
+                    }
+                }
             }
         });
     }
@@ -152,29 +156,59 @@ public class QuestListeners implements Listener {
     @EventHandler
     public void onCraft(CraftItemEvent event) {
         ItemStack itemStack = event.getCurrentItem();
-        if (itemStack==null){
+        if (itemStack == null) {
             return;
         }
         Player player = (Player) event.getWhoClicked();
         Bukkit.getScheduler().runTaskAsynchronously(PWLifeSteal.getPlugin(), () -> {
-                HashMap<Integer, Quest> quests = PlayerLevelManager.getPlayerNowQuests(player);
-                for (Quest quest : quests.values()) {
-                    QuestType questType = quest.getQuestType();
-                    if (questType.equals(QuestType.CRAFT)) {
-                        String variable = quest.getQuestVariable();
-                        int nowProgress = quest.getNowProgress();
-                        Material m = Material.getMaterial(variable);
-                        if (m == null) {
-                            Bukkit.getLogger().info("合成任务材料名称错误: " + variable);
-                            continue;
-                        }
-                        if (m.equals(itemStack.getType())) {
-                            PlayerLevelManager.setQuestProgressForPlayer(player, questType, variable, nowProgress + 1);
-                            return;
-                        }
+            HashMap<Integer, Quest> quests = PlayerLevelManager.getPlayerNowQuests(player);
+            for (Quest quest : quests.values()) {
+                QuestType questType = quest.getQuestType();
+                if (questType.equals(QuestType.CRAFT)) {
+                    String variable = quest.getQuestVariable();
+                    int nowProgress = quest.getNowProgress();
+                    Material m = Material.getMaterial(variable);
+                    if (m == null) {
+                        Bukkit.getLogger().info("合成任务材料名称错误: " + variable);
+                        continue;
+                    }
+                    if (m.equals(itemStack.getType())) {
+                        PlayerLevelManager.setQuestProgressForPlayer(player, questType, variable, nowProgress + 1);
+                        return;
+                    }
 
+                }
+            }
+
+        });
+
+    }
+
+    @EventHandler
+    public void onSmelt(FurnaceExtractEvent event) {
+        Material material = event.getItemType();
+        if (material == null) {
+            return;
+        }
+        Player player = event.getPlayer();
+        Bukkit.getScheduler().runTaskAsynchronously(PWLifeSteal.getPlugin(), () -> {
+            HashMap<Integer, Quest> quests = PlayerLevelManager.getPlayerNowQuests(player);
+            for (Quest quest : quests.values()) {
+                QuestType questType = quest.getQuestType();
+                if (questType.equals(QuestType.SMELT)) {
+                    String variable = quest.getQuestVariable();
+                    int nowProgress = quest.getNowProgress();
+                    Material m = Material.getMaterial(variable);
+                    if (m == null) {
+                        Bukkit.getLogger().info("烧制任务材料名称错误: " + variable);
+                        continue;
+                    }
+                    if (m.equals(material)) {
+                        PlayerLevelManager.setQuestProgressForPlayer(player, questType, variable, nowProgress + event.getItemAmount());
+                        return;
                     }
                 }
+            }
 
         });
 
@@ -190,20 +224,20 @@ public class QuestListeners implements Listener {
             if (!dead.getType().equals(EntityType.PLAYER) && killer.getType().equals(EntityType.PLAYER)) {
                 Player attacker = (Player) killer;
                 Bukkit.getScheduler().runTaskAsynchronously(PWLifeSteal.getPlugin(), () -> {
-                        HashMap<Integer, Quest> quests = PlayerLevelManager.getPlayerNowQuests(attacker);
-                        for (Quest quest : quests.values()) {
-                            QuestType questType = quest.getQuestType();
-                            if (questType.equals(QuestType.KILL_MOB)) {
-                                String variable = quest.getQuestVariable();
-                                int nowProgress = quest.getNowProgress();
-                                EntityType entityType = EntityType.valueOf(variable);
-                                if (entityType.equals(dead.getType())) {
-                                    PlayerLevelManager.setQuestProgressForPlayer(attacker, questType, variable, nowProgress + 1);
-                                    return;
-                                }
-
+                    HashMap<Integer, Quest> quests = PlayerLevelManager.getPlayerNowQuests(attacker);
+                    for (Quest quest : quests.values()) {
+                        QuestType questType = quest.getQuestType();
+                        if (questType.equals(QuestType.KILL_MOB)) {
+                            String variable = quest.getQuestVariable();
+                            int nowProgress = quest.getNowProgress();
+                            EntityType entityType = EntityType.valueOf(variable);
+                            if (entityType.equals(dead.getType())) {
+                                PlayerLevelManager.setQuestProgressForPlayer(attacker, questType, variable, nowProgress + 1);
+                                return;
                             }
+
                         }
+                    }
 
                 });
             }
@@ -211,27 +245,27 @@ public class QuestListeners implements Listener {
     }
 
     @EventHandler
-    public void onPlayerDeath(PlayerDeathEvent event){
+    public void onPlayerDeath(PlayerDeathEvent event) {
 
         Entity killer = getKiller(event);
         //玩家杀死玩家
-        if (killer!=null) {
+        if (killer != null) {
             if (killer.getType().equals(EntityType.PLAYER)) {
                 Player attacker = (Player) killer;
                 Player victim = event.getEntity();
                 Bukkit.getScheduler().runTaskAsynchronously(PWLifeSteal.getPlugin(), () -> {
-                        HashMap<Integer, Quest> quests = PlayerLevelManager.getPlayerNowQuests(attacker);
-                        for (Quest quest : quests.values()) {
-                            QuestType questType = quest.getQuestType();
-                            if (questType.equals(QuestType.KILL_PLAYER)) {
-                                String variable = quest.getQuestVariable();
-                                int nowProgress = quest.getNowProgress();
-                                PlayerLevelManager.setQuestProgressForPlayer(attacker, questType, variable, nowProgress + 1);
-                                return;
-                            }
-
-
+                    HashMap<Integer, Quest> quests = PlayerLevelManager.getPlayerNowQuests(attacker);
+                    for (Quest quest : quests.values()) {
+                        QuestType questType = quest.getQuestType();
+                        if (questType.equals(QuestType.KILL_PLAYER)) {
+                            String variable = quest.getQuestVariable();
+                            int nowProgress = quest.getNowProgress();
+                            PlayerLevelManager.setQuestProgressForPlayer(attacker, questType, variable, nowProgress + 1);
+                            return;
                         }
+
+
+                    }
 
                 });
 
@@ -253,6 +287,7 @@ public class QuestListeners implements Listener {
         }
         return null;
     }
+
     public Entity getKiller(PlayerDeathEvent event) {
         EntityDamageEvent entityDamageEvent = event.getEntity().getLastDamageCause();
         if ((entityDamageEvent != null) && !entityDamageEvent.isCancelled() && (entityDamageEvent instanceof EntityDamageByEntityEvent)) {

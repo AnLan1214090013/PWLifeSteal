@@ -15,6 +15,7 @@ public class Quest {
         this.questType = questType;
         this.questVariable = questVariable;
     }
+
     public Quest(String questName, int needProgress, int nowProgress, QuestType questType) {
         this.questName = questName;
         this.needProgress = needProgress;
@@ -64,7 +65,7 @@ public class Quest {
     }
 
     @Override
-    public String toString(){
-        return "questName: "+questName+" questType: "+ questType.toString()+" nowProgress: "+nowProgress+" needProgress: "+needProgress;
+    public String toString() {
+        return "questName: " + questName + " questType: " + questType.toString() + " nowProgress: " + nowProgress + " needProgress: " + needProgress;
     }
 }

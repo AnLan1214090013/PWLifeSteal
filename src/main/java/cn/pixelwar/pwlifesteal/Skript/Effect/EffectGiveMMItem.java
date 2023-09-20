@@ -18,11 +18,13 @@ public class EffectGiveMMItem extends Effect {
     private Expression<Number> numberin;
     private Expression<String> itemnamein;
     private Expression<Player> playerin;
+
     static {
-        Skript.registerEffect(EffectGiveMMItem.class, new String[] {
+        Skript.registerEffect(EffectGiveMMItem.class, new String[]{
                 "givemmitem %player% %string% %number%",
         });
     }
+
     @SuppressWarnings("unchecked")
     @Override
     public boolean init(Expression<?>[] expressions, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parser) {
@@ -42,7 +44,7 @@ public class EffectGiveMMItem extends Effect {
         Player player = playerin.getSingle(event);
         String name = itemnamein.getSingle(event);
         int amount = (numberin.getSingle(event)).intValue();
-        ItemStack itemStack =  GetMythicMobsItem.getMMItem(name);
+        ItemStack itemStack = GetMythicMobsItem.getMMItem(name);
         itemStack.setAmount(amount);
         player.getInventory().addItem(itemStack);
     }

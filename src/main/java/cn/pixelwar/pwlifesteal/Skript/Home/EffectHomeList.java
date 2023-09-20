@@ -15,11 +15,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class EffectHomeList extends Effect {
 
     private Expression<Player> playerin;
+
     static {
-        Skript.registerEffect(EffectHomeList.class, new String[] {
+        Skript.registerEffect(EffectHomeList.class, new String[]{
                 "homelist %player%",
         });
     }
+
     @SuppressWarnings("unchecked")
     @Override
     public boolean init(Expression<?>[] expressions, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parser) {

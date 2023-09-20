@@ -18,10 +18,11 @@ public class EffectWarp extends Effect {
     private Expression<String> locin;
 
     static {
-        Skript.registerEffect(EffectWarp.class, new String[] {
+        Skript.registerEffect(EffectWarp.class, new String[]{
                 "pwwarp %player% %string%",
         });
     }
+
     @SuppressWarnings("unchecked")
     @Override
     public boolean init(Expression<?>[] expressions, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parser) {
@@ -41,7 +42,7 @@ public class EffectWarp extends Effect {
         Player player = playerin.getSingle(event);
         String loc = locin.getSingle(event);
         Teleport teleport = new Teleport();
-        if (!(Teleport.warpsMap.containsKey(loc))){
+        if (!(Teleport.warpsMap.containsKey(loc))) {
             return;
         }
         Location location = Teleport.warpsMap.get(loc);

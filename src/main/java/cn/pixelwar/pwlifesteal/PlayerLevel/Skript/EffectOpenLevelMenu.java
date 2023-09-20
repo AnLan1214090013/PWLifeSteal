@@ -15,11 +15,13 @@ public class EffectOpenLevelMenu extends Effect {
 
     private Expression<Player> playerin;
     private Expression<Number> pagein;
+
     static {
-        Skript.registerEffect(EffectOpenLevelMenu.class, new String[] {
+        Skript.registerEffect(EffectOpenLevelMenu.class, new String[]{
                 "level %player% %number%",
         });
     }
+
     @SuppressWarnings("unchecked")
     @Override
     public boolean init(Expression<?>[] expressions, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parser) {

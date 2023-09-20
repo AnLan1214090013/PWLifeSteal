@@ -15,11 +15,13 @@ import javax.annotation.Nullable;
 public class EffectSetPremium extends Effect {
 
     private Expression<Player> playerin;
+
     static {
-        Skript.registerEffect(EffectSetPremium.class, new String[] {
+        Skript.registerEffect(EffectSetPremium.class, new String[]{
                 "setlevelpremium %player%",
         });
     }
+
     @SuppressWarnings("unchecked")
     @Override
     public boolean init(Expression<?>[] expressions, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parser) {

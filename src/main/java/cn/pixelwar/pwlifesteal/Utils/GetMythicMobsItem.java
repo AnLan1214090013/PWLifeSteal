@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public class GetMythicMobsItem {
 
-    public static ItemStack getMMItem(String itemName){
+    public static ItemStack getMMItem(String itemName) {
         return MythicBukkit.inst().getItemManager().getItemStack(itemName);
     }
 

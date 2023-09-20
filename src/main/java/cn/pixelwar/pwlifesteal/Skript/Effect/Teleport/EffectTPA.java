@@ -15,11 +15,13 @@ public class EffectTPA extends Effect {
 
     private Expression<Player> senderin;
     private Expression<Player> receiverin;
+
     static {
-        Skript.registerEffect(EffectTPA.class, new String[] {
+        Skript.registerEffect(EffectTPA.class, new String[]{
                 "tpa %player% %player%",
         });
     }
+
     @SuppressWarnings("unchecked")
     @Override
     public boolean init(Expression<?>[] expressions, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parser) {

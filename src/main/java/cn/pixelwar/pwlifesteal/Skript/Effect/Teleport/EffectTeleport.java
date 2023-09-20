@@ -16,12 +16,14 @@ public class EffectTeleport extends Effect {
 
     private Expression<Player> playerin;
     private Expression<Location> locin;
-//    private Expression<String> bypassin;
+
+    //    private Expression<String> bypassin;
     static {
-        Skript.registerEffect(EffectTeleport.class, new String[] {
+        Skript.registerEffect(EffectTeleport.class, new String[]{
                 "pwtp %player% %string%",
         });
     }
+
     @SuppressWarnings("unchecked")
     @Override
     public boolean init(Expression<?>[] expressions, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parser) {
@@ -41,7 +43,7 @@ public class EffectTeleport extends Effect {
         Player player = playerin.getSingle(event);
         Location loc = locin.getSingle(event);
         Teleport teleport = new Teleport();
-        if (!(Teleport.warpsMap.containsKey(loc))){
+        if (!(Teleport.warpsMap.containsKey(loc))) {
             return;
         }
         Location location = Teleport.warpsMap.get(loc);

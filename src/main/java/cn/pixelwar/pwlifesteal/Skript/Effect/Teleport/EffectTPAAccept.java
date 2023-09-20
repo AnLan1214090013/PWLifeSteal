@@ -14,11 +14,13 @@ import javax.annotation.Nullable;
 public class EffectTPAAccept extends Effect {
 
     private Expression<Player> receiverin;
+
     static {
-        Skript.registerEffect(EffectTPAAccept.class, new String[] {
+        Skript.registerEffect(EffectTPAAccept.class, new String[]{
                 "tpaccept %player%",
         });
     }
+
     @SuppressWarnings("unchecked")
     @Override
     public boolean init(Expression<?>[] expressions, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parser) {

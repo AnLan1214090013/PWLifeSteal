@@ -13,26 +13,26 @@ import org.bukkit.entity.Player;
 
 public class GetWGRegion {
 
-    public static ApplicableRegionSet getWGRegion(Location location){
+    public static ApplicableRegionSet getWGRegion(Location location) {
         RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
         RegionManager rgm = container.get(BukkitAdapter.adapt(location.getWorld()));
         RegionQuery query = container.createQuery();
         return query.getApplicableRegions(BukkitAdapter.adapt(location));
     }
 
-    public static ApplicableRegionSet getWGRegion(Entity entity){
+    public static ApplicableRegionSet getWGRegion(Entity entity) {
         Location location = entity.getLocation();
         return getWGRegion(location);
     }
 
-    public static ApplicableRegionSet getWGRegion(Player player){
+    public static ApplicableRegionSet getWGRegion(Player player) {
         Location location = player.getLocation();
         return getWGRegion(location);
     }
 
-    public static boolean checkIfInRegion(ApplicableRegionSet regionSet, String regionName){
-        for (ProtectedRegion region : regionSet){
-            if (region.getId().equals(regionName)){
+    public static boolean checkIfInRegion(ApplicableRegionSet regionSet, String regionName) {
+        for (ProtectedRegion region : regionSet) {
+            if (region.getId().equals(regionName)) {
                 return true;
             }
         }

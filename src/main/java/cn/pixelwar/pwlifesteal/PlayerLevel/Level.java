@@ -13,9 +13,11 @@ public class Level {
     private HashMap<Integer, Quest> quests;
     private List<Reward> commonRewards;
     private List<Reward> premiumRewards;
-    public Level(){
+
+    public Level() {
 
     }
+
     public Level(HashMap<Integer, Quest> quests, List<Reward> commonRewards, List<Reward> premiumRewards) {
         this.quests = quests;
         this.commonRewards = commonRewards;

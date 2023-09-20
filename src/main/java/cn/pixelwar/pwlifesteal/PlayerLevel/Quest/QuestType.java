@@ -6,13 +6,12 @@ public enum QuestType {
     CRAFT,
     PLACE,
     KILL_PLAYER,
+    SMELT;
 
-    ;
 
-
-    public static QuestType getQuestTypeByName(String name){
-        for (QuestType questType : QuestType.values()){
-            if (questType.toString().equals(name)){
+    public static QuestType getQuestTypeByName(String name) {
+        for (QuestType questType : QuestType.values()) {
+            if (questType.toString().equals(name)) {
                 return questType;
             }
         }

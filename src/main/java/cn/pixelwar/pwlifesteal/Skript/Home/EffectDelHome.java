@@ -15,11 +15,13 @@ public class EffectDelHome extends Effect {
 
     private Expression<Player> playerin;
     private Expression<String> namein;
+
     static {
-        Skript.registerEffect(EffectDelHome.class, new String[] {
+        Skript.registerEffect(EffectDelHome.class, new String[]{
                 "delhome %player% %string%",
         });
     }
+
     @SuppressWarnings("unchecked")
     @Override
     public boolean init(Expression<?>[] expressions, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parser) {

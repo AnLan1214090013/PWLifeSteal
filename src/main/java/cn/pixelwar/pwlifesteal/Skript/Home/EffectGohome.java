@@ -16,11 +16,13 @@ public class EffectGohome extends Effect {
 
     private Expression<Player> playerin;
     private Expression<String> namein;
+
     static {
-        Skript.registerEffect(EffectGohome.class, new String[] {
+        Skript.registerEffect(EffectGohome.class, new String[]{
                 "gohome %player% %string%",
         });
     }
+
     @SuppressWarnings("unchecked")
     @Override
     public boolean init(Expression<?>[] expressions, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parser) {

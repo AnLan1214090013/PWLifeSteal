@@ -388,9 +388,9 @@ public enum SkillType {
         return eachLevelAddPrize;
     }
 
-    public static SkillType getSkillType(String s){
-        for(SkillType skillType : SkillType.values()){
-            if (skillType.toString().equals(s)){
+    public static SkillType getSkillType(String s) {
+        for (SkillType skillType : SkillType.values()) {
+            if (skillType.toString().equals(s)) {
                 return skillType;
             }
         }

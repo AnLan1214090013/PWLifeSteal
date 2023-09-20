@@ -16,7 +16,6 @@ import org.bukkit.inventory.ItemStack;
 /**
  * This class will automatically register as a placeholder expansion
  * when a jar including this class is added to the /plugins/placeholderapi/expansions/ folder
- *
  */
 public class Placeholders extends PlaceholderExpansion {
 
@@ -78,102 +77,102 @@ public class Placeholders extends PlaceholderExpansion {
 
         // %pwlf_kill%
         if (identifier.equals("kill")) {
-            if (!PlayerStatsManager.playerStatMap.containsKey(p.getName())){
+            if (!PlayerStatsManager.playerStatMap.containsKey(p.getName())) {
                 return "0";
             }
             return numberFormat.getIntFormat(PlayerStatsManager.playerStatMap.get(p.getName()).getKill());
         }
         if (identifier.equals("level")) {
-            return (PlayerLevelManager.playerLevelNumHashMap.get(p.getName()) - 1)+"";
+            return (PlayerLevelManager.playerLevelNumHashMap.get(p.getName()) - 1) + "";
         }
         if (identifier.equals("levelformotted")) {
-            int level = PlayerLevelManager.playerLevelNumHashMap.get(p.getName())-1;
-            String level2 = (PlayerLevelManager.playerLevelNumHashMap.get(p.getName())-1) + "";
-            if (PlayerLevelManager.isPremiumMap.get(p.getName())){
-                level2 = level2 +"+";
+            int level = PlayerLevelManager.playerLevelNumHashMap.get(p.getName()) - 1;
+            String level2 = (PlayerLevelManager.playerLevelNumHashMap.get(p.getName()) - 1) + "";
+            if (PlayerLevelManager.isPremiumMap.get(p.getName())) {
+                level2 = level2 + "+";
             }
-            if (level==0){
+            if (level == 0) {
                 return ChatColorCast.format("&8<&70&8>");
             }
-            if (level>0 && level<8){
-                return ChatColorCast.format("&7<&f"+level2+"&7>");
+            if (level > 0 && level < 8) {
+                return ChatColorCast.format("&7<&f" + level2 + "&7>");
             }
-            if (level>=8 && level<16){
-                return ChatColorCast.format("&7<&a"+level2+"&7>");
+            if (level >= 8 && level < 16) {
+                return ChatColorCast.format("&7<&a" + level2 + "&7>");
             }
-            if (level>=16 && level<24){
-                return ChatColorCast.format("&7<&6"+level2+"&7>");
+            if (level >= 16 && level < 24) {
+                return ChatColorCast.format("&7<&6" + level2 + "&7>");
             }
-            if (level>=24 && level<32){
-                return ChatColorCast.format("&f<&e"+level2+"&f>");
+            if (level >= 24 && level < 32) {
+                return ChatColorCast.format("&f<&e" + level2 + "&f>");
             }
-            if (level>=32 && level<40){
-                return ChatColorCast.format("&f<&6"+level2+"&f>");
+            if (level >= 32 && level < 40) {
+                return ChatColorCast.format("&f<&6" + level2 + "&f>");
             }
-            if (level>=40 && level<48){
-                return ChatColorCast.format("&e<&b"+level2+"&e>");
+            if (level >= 40 && level < 48) {
+                return ChatColorCast.format("&e<&b" + level2 + "&e>");
             }
-            if (level>=48 && level<56){
-                return ChatColorCast.format("&e<&c"+level2+"&e>");
+            if (level >= 48 && level < 56) {
+                return ChatColorCast.format("&e<&c" + level2 + "&e>");
             }
-            if (level>=56 && level<64){
-                return ChatColorCast.format("&6<&b"+level2+"&6>");
+            if (level >= 56 && level < 64) {
+                return ChatColorCast.format("&6<&b" + level2 + "&6>");
             }
-            if (level>=64 && level<72){
-                return ChatColorCast.format("&d<&a"+level2+"&d>");
+            if (level >= 64 && level < 72) {
+                return ChatColorCast.format("&d<&a" + level2 + "&d>");
             }
-            if (level>=72 && level<80){
-                return ChatColorCast.format("&e<&a&l"+level2+"&e>");
+            if (level >= 72 && level < 80) {
+                return ChatColorCast.format("&e<&a&l" + level2 + "&e>");
             }
-            if (level>=80 && level<88){
-                return ChatColorCast.format("&b<&6&l"+level2+"&b>");
+            if (level >= 80 && level < 88) {
+                return ChatColorCast.format("&b<&6&l" + level2 + "&b>");
             }
-            if (level>=88 && level<96){
-                return ChatColorCast.format("&f&l<&c&l"+level2+"&f&l>");
+            if (level >= 88 && level < 96) {
+                return ChatColorCast.format("&f&l<&c&l" + level2 + "&f&l>");
             }
-            if (level>=96){
-                return ChatColorCast.format("&b&l<&d&l"+level2+"&b&l>");
+            if (level >= 96) {
+                return ChatColorCast.format("&b&l<&d&l" + level2 + "&b&l>");
             }
 
             return ChatColorCast.format("&8<&70&8>");
 
         }
         if (identifier.equals("maxhearts")) {
-            if (!PlayerStatsManager.playerStatMap.containsKey(p.getName())){
+            if (!PlayerStatsManager.playerStatMap.containsKey(p.getName())) {
                 return "20";
             }
-            return numberFormat.getIntFormat((int)PlayerStatsManager.playerStatMap.get(p.getName()).getMaxHearts());
+            return numberFormat.getIntFormat((int) PlayerStatsManager.playerStatMap.get(p.getName()).getMaxHearts());
         }
         if (identifier.equals("death")) {
-            if (!PlayerStatsManager.playerStatMap.containsKey(p.getName())){
+            if (!PlayerStatsManager.playerStatMap.containsKey(p.getName())) {
                 return "0";
             }
             return numberFormat.getIntFormat(PlayerStatsManager.playerStatMap.get(p.getName()).getDeath());
         }
         if (identifier.equals("killstreak")) {
-            if (!PlayerStatsManager.playerStatMap.containsKey(p.getName())){
+            if (!PlayerStatsManager.playerStatMap.containsKey(p.getName())) {
                 return "0";
             }
             return numberFormat.getIntFormat(PlayerStatsManager.playerStatMap.get(p.getName()).getKillStreak());
         }
         if (identifier.equals("ruby")) {
-            if (!PlayerStatsManager.playerStatMap.containsKey(p.getName())){
+            if (!PlayerStatsManager.playerStatMap.containsKey(p.getName())) {
                 return "0";
             }
             return numberFormat.getIntFormat(PlayerStatsManager.playerStatMap.get(p.getName()).getRuby());
         }
         if (identifier.equals("lastkill")) {
-            if (!PlayerStatsManager.playerStatMap.containsKey(p.getName())){
+            if (!PlayerStatsManager.playerStatMap.containsKey(p.getName())) {
                 return "无";
             }
             return PlayerStatsManager.playerStatMap.get(p.getName()).getLastKillPlayerName();
         }
         if (identifier.equals("lastkillstr")) {
-            if (!PlayerStatsManager.playerStatMap.containsKey(p.getName())){
+            if (!PlayerStatsManager.playerStatMap.containsKey(p.getName())) {
                 return "";
             }
             String name = PlayerStatsManager.playerStatMap.get(p.getName()).getLastKillPlayerName();
-            return ChatColorCast.format("&8[&4☠&c"+name+"&8]") ;
+            return ChatColorCast.format("&8[&4☠&c" + name + "&8]");
         }
 
         return null;
