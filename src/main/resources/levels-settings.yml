@@ -335,16 +335,11 @@ levels:
   7:
     quests:
       1:
-        type: SMELT
-        name: "烧制32个煤"
-        needProgress: 32
-        variable: COAL
-      2:
         type: BREAK
         name: "烧制32个铁锭"
         needProgress: 32
         variable: IRON_INGOT
-      3:
+      2:
         type: BREAK
         name: "烧制32个金锭"
         needProgress: 32
