@@ -12,6 +12,7 @@ import cn.pixelwar.pwlifesteal.PlayerLevel.Listeners.LevelMenuListener;
 import cn.pixelwar.pwlifesteal.PlayerLevel.Listeners.QuestListeners;
 import cn.pixelwar.pwlifesteal.Utils.Teleport.Teleport;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -37,6 +38,7 @@ public final class PWLifeSteal extends JavaPlugin {
     @Override
     public void onEnable() {
         plugin = this;
+
         instance = this;
         registerEvents();
         setupConfig();

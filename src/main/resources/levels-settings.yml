@@ -394,3 +394,41 @@ levels:
         type: CUSTOM_ITEM
         amount: 1
         variable: miner_diamond_pickaxe
+  9:
+    quests:
+      1:
+        type: BREAK
+        name: "破坏64个洞穴藤曼"
+        variable: "CAVE_VINES;CAVE_VINES_PLANT"
+        needProgress: 64
+      2:
+        type: BREAK
+        name: "破坏64个杜鹃花从"
+        variable: "FLOWERING_AZALEA_LEAVES;AZALEA;AZALEA_LEAVES"
+        needProgress: 64
+      3:
+        type: BREAK
+        name: "破坏32个孢子花"
+        variable: "SPORE_BLOSSOM"
+        needProgress: 32
+      4:
+        type: BREAK
+        name: "破坏32个大型垂滴叶"
+        variable: "BIG_DRIPLEAF;BIG_DRIPLEAF_STEM"
+        needProgress: 32
+    commonRewards:
+      1:
+        desc: "&Ex1 伐木工铁斧 &7(耐久 III, 效率III)"
+        type: CUSTOM_ITEM
+        amount: 1
+        variable: famu_iron_axe
+    premiumRewards:
+      1:
+        desc: "&5x50 紫宝石"
+        type: RUBY
+        amount: 50
+      2:
+        desc: "&Ex1 伐木工钻石斧 &7(耐久 IV, 效率IV)"
+        type: CUSTOM_ITEM
+        amount: 1
+        variable: famu_diamond_axe
